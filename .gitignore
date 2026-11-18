@@ -1,0 +1,28 @@
+# ============ Python（photos_sqlite_export）============
+__pycache__/
+*.py[cod]
+
+# ============ Node（photos_viewer）============
+node_modules/
+.vite/
+
+# ============ 构建产物（npm run build 可重建）============
+dist/
+
+# ============ 数据库与导出产物：防真实证据误提交 ============
+# 任何 Photos.sqlite / 伴生文件 / 导出目录一律不入库（含未来放进来的真实库）
+*.sqlite
+*.sqlite-shm
+*.sqlite-wal
+*.sqlite-journal
+*.db
+out/
+photos_export/
+# 白名单：程序合成的样本数据（见 photos_sqlite_export/samples/README.md，可复核再生成）
+!photos_sqlite_export/samples/*.sqlite
+
+# ============ 待清理区（含移出的敏感原件，绝不入库）============
+/trashbin/
+
+# ============ reference/ 中的第三方只读素材 ============
+/reference/

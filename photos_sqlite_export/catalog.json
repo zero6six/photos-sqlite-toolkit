@@ -1,0 +1,8202 @@
+{
+ "meta": {
+  "generated": "2026-11-14T05:28:50.211196+00:00",
+  "sources": [
+   "ileapp-Ph001",
+   "ileapp-Ph002",
+   "repo-Basic",
+   "repo-Very-Basic"
+  ],
+  "notes": "Columns merged from the archived iOS 11-17 repo and the iLEAPP Ph001/Ph002 artifacts (iOS 11-26). Where the same logical column has different expressions across versions the newest source wins. Placeholders {{AA_*}}/{{AL_*}} are resolved against the actual database at run time."
+ },
+ "base_table": [
+  "ZASSET",
+  "ZGENERICASSET"
+ ],
+ "order_by": [
+  "zAsset.ZADDEDDATE",
+  "zAsset.ZDATECREATED",
+  "zAsset.Z_PK"
+ ],
+ "columns": [
+  {
+   "name": "zAsset-zPK",
+   "expr": "zAsset.Z_PK",
+   "refs": [
+    [
+     "zAsset",
+     "Z_PK"
+    ]
+   ],
+   "joins": [
+    "zAsset"
+   ],
+   "shape": "col",
+   "sources": [
+    "repo-Very-Basic",
+    "repo-Basic",
+    "ileapp-Ph001",
+    "ileapp-Ph002"
+   ],
+   "versions": [
+    "11",
+    "12",
+    "13",
+    "14",
+    "15",
+    "16",
+    "17",
+    "11-14",
+    "14-15",
+    "15-16",
+    "16-18",
+    "18-27",
+    "11-12",
+    "12-13",
+    "13-14",
+    "16-17",
+    "17-17.6",
+    "17.6-18",
+    "18-26",
+    "26-27"
+   ],
+   "first_source": "repo-Very-Basic",
+   "newest_source": "ileapp-Ph002",
+   "first_version": "11",
+   "newest_version": "26-27"
+  },
+  {
+   "name": "zAddAssetAttr-zPK",
+   "expr": "zAddAssetAttr.Z_PK",
+   "refs": [
+    [
+     "zAddAssetAttr",
+     "Z_PK"
+    ]
+   ],
+   "joins": [
+    "zAddAssetAttr"
+   ],
+   "shape": "col",
+   "sources": [
+    "repo-Very-Basic",
+    "repo-Basic",
+    "ileapp-Ph001",
+    "ileapp-Ph002"
+   ],
+   "versions": [
+    "11",
+    "12",
+    "13",
+    "14",
+    "15",
+    "16",
+    "17",
+    "11-14",
+    "14-15",
+    "15-16",
+    "16-18",
+    "18-27",
+    "11-12",
+    "12-13",
+    "13-14",
+    "16-17",
+    "17-17.6",
+    "17.6-18",
+    "18-26",
+    "26-27"
+   ],
+   "first_source": "repo-Very-Basic",
+   "newest_source": "ileapp-Ph002",
+   "first_version": "11",
+   "newest_version": "26-27"
+  },
+  {
+   "name": "zAsset-UUID",
+   "expr": "zAsset.ZUUID",
+   "refs": [
+    [
+     "zAsset",
+     "ZUUID"
+    ]
+   ],
+   "joins": [
+    "zAsset"
+   ],
+   "shape": "col",
+   "sources": [
+    "repo-Very-Basic",
+    "repo-Basic",
+    "ileapp-Ph001",
+    "ileapp-Ph002"
+   ],
+   "versions": [
+    "11",
+    "12",
+    "13",
+    "14",
+    "15",
+    "16",
+    "17",
+    "11-14",
+    "14-15",
+    "15-16",
+    "16-18",
+    "18-27",
+    "11-12",
+    "12-13",
+    "13-14",
+    "16-17",
+    "17-17.6",
+    "17.6-18",
+    "18-26",
+    "26-27"
+   ],
+   "first_source": "repo-Very-Basic",
+   "newest_source": "ileapp-Ph002",
+   "first_version": "11",
+   "newest_version": "26-27"
+  },
+  {
+   "name": "zAsset-Cloud_Asset_GUID = store.cloudphotodb",
+   "expr": "zAsset.ZCLOUDASSETGUID",
+   "refs": [
+    [
+     "zAsset",
+     "ZCLOUDASSETGUID"
+    ]
+   ],
+   "joins": [
+    "zAsset"
+   ],
+   "shape": "col",
+   "sources": [
+    "repo-Very-Basic",
+    "repo-Basic"
+   ],
+   "versions": [
+    "11",
+    "12",
+    "13",
+    "14",
+    "15",
+    "16",
+    "17"
+   ],
+   "first_source": "repo-Very-Basic",
+   "newest_source": "repo-Basic",
+   "first_version": "11",
+   "newest_version": "17"
+  },
+  {
+   "name": "zCldMast-Cloud_Master_GUID = store.cloudphotodb",
+   "expr": "zCldMast.ZCLOUDMASTERGUID",
+   "refs": [
+    [
+     "zCldMast",
+     "ZCLOUDMASTERGUID"
+    ]
+   ],
+   "joins": [
+    "zCldMast"
+   ],
+   "shape": "col",
+   "sources": [
+    "repo-Very-Basic",
+    "repo-Basic"
+   ],
+   "versions": [
+    "11",
+    "12",
+    "13",
+    "14",
+    "15",
+    "16",
+    "17"
+   ],
+   "first_source": "repo-Very-Basic",
+   "newest_source": "repo-Basic",
+   "first_version": "11",
+   "newest_version": "17"
+  },
+  {
+   "name": "zGenAlbum-Cloud GUID",
+   "expr": "zGenAlbum.ZCLOUDGUID",
+   "refs": [
+    [
+     "zGenAlbum",
+     "ZCLOUDGUID"
+    ]
+   ],
+   "joins": [
+    "zGenAlbum"
+   ],
+   "shape": "col",
+   "sources": [
+    "repo-Very-Basic",
+    "repo-Basic",
+    "ileapp-Ph002"
+   ],
+   "versions": [
+    "11",
+    "12",
+    "13",
+    "14",
+    "15",
+    "16",
+    "17",
+    "11-12",
+    "12-13",
+    "13-14",
+    "14-15",
+    "15-16",
+    "16-17",
+    "17-17.6",
+    "17.6-18",
+    "18-26",
+    "26-27"
+   ],
+   "first_source": "repo-Very-Basic",
+   "newest_source": "ileapp-Ph002",
+   "first_version": "11",
+   "newest_version": "26-27"
+  },
+  {
+   "name": "zAsset-Cloud_Local_State",
+   "expr": "CASE zAsset.ZCLOUDLOCALSTATE\n    WHEN 0 THEN 'iCldPhotos ON=Asset_In_Shared-or-OtherAlbum/iCldPhotos_OFF=Not_Synced-0'\n    WHEN 1 THEN 'iCldPhotos ON=Asset_Can-Be-or-Has-Been_Synced_with_iCloud-1'\n    ELSE 'Unknown-New-Value!: ' || zAsset.ZCLOUDLOCALSTATE || ''\n  END",
+   "refs": [
+    [
+     "zAsset",
+     "ZCLOUDLOCALSTATE"
+    ]
+   ],
+   "joins": [
+    "zAsset"
+   ],
+   "shape": "case",
+   "sources": [
+    "repo-Very-Basic",
+    "repo-Basic"
+   ],
+   "versions": [
+    "11",
+    "12",
+    "13",
+    "14",
+    "15",
+    "16",
+    "17"
+   ],
+   "first_source": "repo-Very-Basic",
+   "newest_source": "repo-Very-Basic",
+   "first_version": "11",
+   "newest_version": "17"
+  },
+  {
+   "name": "zAddAssetAttr-Imported by",
+   "expr": "CASE zAddAssetAttr.ZIMPORTEDBY\n            WHEN 0 THEN '0-Cloud-Other-0'\n            WHEN 1 THEN '1-Native-Back-Camera-1'\n            WHEN 2 THEN '2-Native-Front-Camera-2'\n            WHEN 3 THEN '3-Third-Party-App-3'\n            WHEN 4 THEN '4-StillTesting-4'\n            WHEN 5 THEN '5-PhotoBooth_PL-Asset-5'\n            WHEN 6 THEN '6-Third-Party-App-6'\n            WHEN 7 THEN '7-iCloud_Share_Link-CMMAsset-7'\n            WHEN 8 THEN '8-System-Package-App-8'\n            WHEN 9 THEN '9-Native-App-9'\n            WHEN 10 THEN '10-StillTesting-10'\n            WHEN 11 THEN '11-StillTesting-11'\n            WHEN 12 THEN '12-SWY_Syndication_PL-12'\n            ELSE 'Unknown-New-Value!: ' || zAddAssetAttr.ZIMPORTEDBY || ''\n        END",
+   "refs": [
+    [
+     "zAddAssetAttr",
+     "ZIMPORTEDBY"
+    ]
+   ],
+   "joins": [
+    "zAddAssetAttr"
+   ],
+   "shape": "case",
+   "sources": [
+    "repo-Very-Basic",
+    "repo-Basic",
+    "ileapp-Ph002"
+   ],
+   "versions": [
+    "11",
+    "12",
+    "13",
+    "14",
+    "15",
+    "16",
+    "17",
+    "11-12",
+    "12-13",
+    "13-14",
+    "14-15",
+    "15-16",
+    "16-17",
+    "17-17.6",
+    "17.6-18",
+    "18-26",
+    "26-27"
+   ],
+   "first_source": "repo-Very-Basic",
+   "newest_source": "ileapp-Ph002",
+   "first_version": "11",
+   "newest_version": "26-27"
+  },
+  {
+   "name": "zAddAssetAttr-Creator Bundle ID",
+   "expr": "zAddAssetAttr.ZCREATORBUNDLEID",
+   "refs": [
+    [
+     "zAddAssetAttr",
+     "ZCREATORBUNDLEID"
+    ]
+   ],
+   "joins": [
+    "zAddAssetAttr"
+   ],
+   "shape": "col",
+   "sources": [
+    "repo-Very-Basic",
+    "repo-Basic",
+    "ileapp-Ph001",
+    "ileapp-Ph002"
+   ],
+   "versions": [
+    "11",
+    "12",
+    "13",
+    "14",
+    "11-14",
+    "14-15",
+    "11-12",
+    "12-13",
+    "13-14"
+   ],
+   "first_source": "repo-Very-Basic",
+   "newest_source": "ileapp-Ph002",
+   "first_version": "11",
+   "newest_version": "14-15"
+  },
+  {
+   "name": "zAsset-Visibility State",
+   "expr": "CASE zAsset.ZVISIBILITYSTATE\n            WHEN 0 THEN '0-Visible-PL-CameraRoll-0'\n            WHEN 2 THEN '2-Not-Visible-PL-CameraRoll-2'\n            ELSE 'Unknown-New-Value!: ' || zAsset.ZVISIBILITYSTATE || ''\n        END",
+   "refs": [
+    [
+     "zAsset",
+     "ZVISIBILITYSTATE"
+    ]
+   ],
+   "joins": [
+    "zAsset"
+   ],
+   "shape": "case",
+   "sources": [
+    "repo-Very-Basic",
+    "repo-Basic",
+    "ileapp-Ph001",
+    "ileapp-Ph002"
+   ],
+   "versions": [
+    "11",
+    "12",
+    "13",
+    "14",
+    "15",
+    "16",
+    "17",
+    "11-14",
+    "14-15",
+    "15-16",
+    "16-18",
+    "18-27",
+    "11-12",
+    "12-13",
+    "13-14",
+    "16-17",
+    "17-17.6",
+    "17.6-18",
+    "18-26",
+    "26-27"
+   ],
+   "first_source": "repo-Very-Basic",
+   "newest_source": "ileapp-Ph002",
+   "first_version": "11",
+   "newest_version": "26-27"
+  },
+  {
+   "name": "zAsset-Directory-Path",
+   "expr": "zAsset.ZDIRECTORY",
+   "refs": [
+    [
+     "zAsset",
+     "ZDIRECTORY"
+    ]
+   ],
+   "joins": [
+    "zAsset"
+   ],
+   "shape": "col",
+   "sources": [
+    "repo-Very-Basic",
+    "repo-Basic",
+    "ileapp-Ph001",
+    "ileapp-Ph002"
+   ],
+   "versions": [
+    "11",
+    "12",
+    "13",
+    "14",
+    "15",
+    "16",
+    "17",
+    "11-14",
+    "14-15",
+    "15-16",
+    "16-18",
+    "18-27",
+    "11-12",
+    "12-13",
+    "13-14",
+    "16-17",
+    "17-17.6",
+    "17.6-18",
+    "18-26",
+    "26-27"
+   ],
+   "first_source": "repo-Very-Basic",
+   "newest_source": "ileapp-Ph002",
+   "first_version": "11",
+   "newest_version": "26-27"
+  },
+  {
+   "name": "zAsset-Saved Asset Type",
+   "expr": "CASE zAsset.ZSAVEDASSETTYPE\n            WHEN 0 THEN '0-Saved-via-other-source-0'\n            WHEN 1 THEN '1-StillTesting-1'\n            WHEN 2 THEN '2-StillTesting-2'\n            WHEN 3 THEN '3-PhDaPs-Asset_or_SyndPs-Asset_NoAuto-Display-3'\n            WHEN 4 THEN '4-Photo-Cloud-Sharing-Data-Asset-4'\n            WHEN 5 THEN '5-PhotoBooth_Photo-Library-Asset-5'\n            WHEN 6 THEN '6-Cloud-Photo-Library-Asset-6'\n            WHEN 7 THEN '7-StillTesting-7'\n            WHEN 8 THEN '8-iCloudLink_CloudMasterMomentAsset-8'\n            WHEN 12 THEN '12-SyndPs-SWY-Asset_Auto-Display_In_CameraRoll-12'\n            ELSE 'Unknown-New-Value!: ' || zAsset.ZSAVEDASSETTYPE || ''\n        END",
+   "refs": [
+    [
+     "zAsset",
+     "ZSAVEDASSETTYPE"
+    ]
+   ],
+   "joins": [
+    "zAsset"
+   ],
+   "shape": "case",
+   "sources": [
+    "repo-Very-Basic",
+    "repo-Basic",
+    "ileapp-Ph001",
+    "ileapp-Ph002"
+   ],
+   "versions": [
+    "11",
+    "12",
+    "13",
+    "14",
+    "15",
+    "16",
+    "17",
+    "11-14",
+    "14-15",
+    "15-16",
+    "16-18",
+    "18-27",
+    "11-12",
+    "12-13",
+    "13-14",
+    "16-17",
+    "17-17.6",
+    "17.6-18",
+    "18-26",
+    "26-27"
+   ],
+   "first_source": "repo-Very-Basic",
+   "newest_source": "ileapp-Ph002",
+   "first_version": "11",
+   "newest_version": "26-27"
+  },
+  {
+   "name": "zAsset-Filename",
+   "expr": "zAsset.ZFILENAME",
+   "refs": [
+    [
+     "zAsset",
+     "ZFILENAME"
+    ]
+   ],
+   "joins": [
+    "zAsset"
+   ],
+   "shape": "col",
+   "sources": [
+    "repo-Very-Basic",
+    "repo-Basic",
+    "ileapp-Ph001",
+    "ileapp-Ph002"
+   ],
+   "versions": [
+    "11",
+    "12",
+    "13",
+    "14",
+    "15",
+    "16",
+    "17",
+    "11-14",
+    "14-15",
+    "15-16",
+    "16-18",
+    "18-27",
+    "11-12",
+    "12-13",
+    "13-14",
+    "16-17",
+    "17-17.6",
+    "17.6-18",
+    "18-26",
+    "26-27"
+   ],
+   "first_source": "repo-Very-Basic",
+   "newest_source": "ileapp-Ph002",
+   "first_version": "11",
+   "newest_version": "26-27"
+  },
+  {
+   "name": "zAddAssetAttr- Original Filename",
+   "expr": "zAddAssetAttr.ZORIGINALFILENAME",
+   "refs": [
+    [
+     "zAddAssetAttr",
+     "ZORIGINALFILENAME"
+    ]
+   ],
+   "joins": [
+    "zAddAssetAttr"
+   ],
+   "shape": "col",
+   "sources": [
+    "repo-Very-Basic",
+    "repo-Basic",
+    "ileapp-Ph001",
+    "ileapp-Ph002"
+   ],
+   "versions": [
+    "11",
+    "12",
+    "13",
+    "14",
+    "15",
+    "16",
+    "17",
+    "11-14",
+    "14-15",
+    "15-16",
+    "16-18",
+    "18-27",
+    "11-12",
+    "12-13",
+    "13-14",
+    "16-17",
+    "17-17.6",
+    "17.6-18",
+    "18-26",
+    "26-27"
+   ],
+   "first_source": "repo-Very-Basic",
+   "newest_source": "ileapp-Ph002",
+   "first_version": "11",
+   "newest_version": "26-27"
+  },
+  {
+   "name": "zCldMast- Original Filename",
+   "expr": "zCldMast.ZORIGINALFILENAME",
+   "refs": [
+    [
+     "zCldMast",
+     "ZORIGINALFILENAME"
+    ]
+   ],
+   "joins": [
+    "zCldMast"
+   ],
+   "shape": "col",
+   "sources": [
+    "repo-Very-Basic",
+    "repo-Basic",
+    "ileapp-Ph001",
+    "ileapp-Ph002"
+   ],
+   "versions": [
+    "11",
+    "12",
+    "13",
+    "14",
+    "15",
+    "16",
+    "17",
+    "11-14",
+    "14-15",
+    "15-16",
+    "16-18",
+    "18-27",
+    "11-12",
+    "12-13",
+    "13-14",
+    "16-17",
+    "17-17.6",
+    "17.6-18",
+    "18-26",
+    "26-27"
+   ],
+   "first_source": "repo-Very-Basic",
+   "newest_source": "ileapp-Ph002",
+   "first_version": "11",
+   "newest_version": "26-27"
+  },
+  {
+   "name": "zSideCarFile-Filename",
+   "expr": "zSideCarFile.ZFILENAME",
+   "refs": [
+    [
+     "zSideCarFile",
+     "ZFILENAME"
+    ]
+   ],
+   "joins": [
+    "zSideCarFile"
+   ],
+   "shape": "col",
+   "sources": [
+    "repo-Very-Basic"
+   ],
+   "versions": [
+    "11",
+    "12"
+   ],
+   "first_source": "repo-Very-Basic",
+   "newest_source": "repo-Very-Basic",
+   "first_version": "11",
+   "newest_version": "12"
+  },
+  {
+   "name": "zSideCarFile-Original Filename",
+   "expr": "zSideCarFile.ZORIGINALFILENAME",
+   "refs": [
+    [
+     "zSideCarFile",
+     "ZORIGINALFILENAME"
+    ]
+   ],
+   "joins": [
+    "zSideCarFile"
+   ],
+   "shape": "col",
+   "sources": [
+    "repo-Very-Basic"
+   ],
+   "versions": [
+    "11",
+    "12"
+   ],
+   "first_source": "repo-Very-Basic",
+   "newest_source": "repo-Very-Basic",
+   "first_version": "11",
+   "newest_version": "12"
+  },
+  {
+   "name": "zAsset-Date Created",
+   "expr": "DateTime(zAsset.ZDATECREATED + 978307200, 'UNIXEPOCH')",
+   "refs": [
+    [
+     "zAsset",
+     "ZDATECREATED"
+    ]
+   ],
+   "joins": [
+    "zAsset"
+   ],
+   "shape": "datetime",
+   "sources": [
+    "repo-Very-Basic",
+    "repo-Basic",
+    "ileapp-Ph001",
+    "ileapp-Ph002"
+   ],
+   "versions": [
+    "11",
+    "12",
+    "13",
+    "14",
+    "15",
+    "16",
+    "17",
+    "11-14",
+    "14-15",
+    "15-16",
+    "16-18",
+    "18-27",
+    "11-12",
+    "12-13",
+    "13-14",
+    "16-17",
+    "17-17.6",
+    "17.6-18",
+    "18-26",
+    "26-27"
+   ],
+   "first_source": "repo-Very-Basic",
+   "newest_source": "ileapp-Ph002",
+   "first_version": "11",
+   "newest_version": "26-27"
+  },
+  {
+   "name": "zSideCarFile-Capture Date",
+   "expr": "DateTime(zSideCarFile.ZCAPTUREDATE + 978307200, 'UNIXEPOCH')",
+   "refs": [
+    [
+     "zSideCarFile",
+     "ZCAPTUREDATE"
+    ]
+   ],
+   "joins": [
+    "zSideCarFile"
+   ],
+   "shape": "datetime",
+   "sources": [
+    "repo-Very-Basic"
+   ],
+   "versions": [
+    "11",
+    "12"
+   ],
+   "first_source": "repo-Very-Basic",
+   "newest_source": "repo-Very-Basic",
+   "first_version": "11",
+   "newest_version": "12"
+  },
+  {
+   "name": "zCldMast-Creation Date",
+   "expr": "DateTime(zCldMast.ZCREATIONDATE + 978307200, 'UNIXEPOCH')",
+   "refs": [
+    [
+     "zCldMast",
+     "ZCREATIONDATE"
+    ]
+   ],
+   "joins": [
+    "zCldMast"
+   ],
+   "shape": "datetime",
+   "sources": [
+    "repo-Very-Basic",
+    "repo-Basic",
+    "ileapp-Ph001",
+    "ileapp-Ph002"
+   ],
+   "versions": [
+    "11",
+    "12",
+    "13",
+    "14",
+    "15",
+    "16",
+    "17",
+    "11-14",
+    "14-15",
+    "15-16",
+    "16-18",
+    "18-27",
+    "11-12",
+    "12-13",
+    "13-14",
+    "16-17",
+    "17-17.6",
+    "17.6-18",
+    "18-26",
+    "26-27"
+   ],
+   "first_source": "repo-Very-Basic",
+   "newest_source": "ileapp-Ph002",
+   "first_version": "11",
+   "newest_version": "26-27"
+  },
+  {
+   "name": "zAddAssetAttr-EXIF-String",
+   "expr": "zAddAssetAttr.ZEXIFTIMESTAMPSTRING",
+   "refs": [
+    [
+     "zAddAssetAttr",
+     "ZEXIFTIMESTAMPSTRING"
+    ]
+   ],
+   "joins": [
+    "zAddAssetAttr"
+   ],
+   "shape": "col",
+   "sources": [
+    "repo-Very-Basic",
+    "repo-Basic",
+    "ileapp-Ph001",
+    "ileapp-Ph002"
+   ],
+   "versions": [
+    "11",
+    "12",
+    "13",
+    "14",
+    "15",
+    "16",
+    "17",
+    "11-14",
+    "14-15",
+    "15-16",
+    "16-18",
+    "18-27",
+    "13-14",
+    "16-17",
+    "17-17.6",
+    "17.6-18",
+    "18-26",
+    "26-27"
+   ],
+   "first_source": "repo-Very-Basic",
+   "newest_source": "ileapp-Ph002",
+   "first_version": "11",
+   "newest_version": "26-27"
+  },
+  {
+   "name": "zCldMast-Import Date",
+   "expr": "DateTime(zCldMast.ZIMPORTDATE + 978307200, 'UNIXEPOCH')",
+   "refs": [
+    [
+     "zCldMast",
+     "ZIMPORTDATE"
+    ]
+   ],
+   "joins": [
+    "zCldMast"
+   ],
+   "shape": "datetime",
+   "sources": [
+    "repo-Very-Basic",
+    "repo-Basic",
+    "ileapp-Ph002"
+   ],
+   "versions": [
+    "11",
+    "12",
+    "13",
+    "14",
+    "15",
+    "16",
+    "17",
+    "11-12",
+    "12-13",
+    "13-14",
+    "14-15",
+    "15-16",
+    "16-17",
+    "17-17.6",
+    "17.6-18",
+    "18-26",
+    "26-27"
+   ],
+   "first_source": "repo-Very-Basic",
+   "newest_source": "ileapp-Ph002",
+   "first_version": "11",
+   "newest_version": "26-27"
+  },
+  {
+   "name": "zAsset-Added Date",
+   "expr": "DateTime(zAsset.ZADDEDDATE + 978307200, 'UNIXEPOCH')",
+   "refs": [
+    [
+     "zAsset",
+     "ZADDEDDATE"
+    ]
+   ],
+   "joins": [
+    "zAsset"
+   ],
+   "shape": "datetime",
+   "sources": [
+    "repo-Very-Basic",
+    "repo-Basic",
+    "ileapp-Ph001",
+    "ileapp-Ph002"
+   ],
+   "versions": [
+    "11",
+    "12",
+    "13",
+    "14",
+    "15",
+    "16",
+    "17",
+    "11-14",
+    "14-15",
+    "15-16",
+    "16-18",
+    "18-27",
+    "11-12",
+    "12-13",
+    "13-14",
+    "16-17",
+    "17-17.6",
+    "17.6-18",
+    "18-26",
+    "26-27"
+   ],
+   "first_source": "repo-Very-Basic",
+   "newest_source": "ileapp-Ph002",
+   "first_version": "11",
+   "newest_version": "26-27"
+  },
+  {
+   "name": "zAsset-Modification Date",
+   "expr": "DateTime(zAsset.ZMODIFICATIONDATE + 978307200, 'UNIXEPOCH')",
+   "refs": [
+    [
+     "zAsset",
+     "ZMODIFICATIONDATE"
+    ]
+   ],
+   "joins": [
+    "zAsset"
+   ],
+   "shape": "datetime",
+   "sources": [
+    "repo-Very-Basic",
+    "repo-Basic",
+    "ileapp-Ph001",
+    "ileapp-Ph002"
+   ],
+   "versions": [
+    "11",
+    "12",
+    "13",
+    "14",
+    "15",
+    "16",
+    "17",
+    "11-14",
+    "14-15",
+    "15-16",
+    "16-18",
+    "18-27",
+    "11-12",
+    "12-13",
+    "13-14",
+    "16-17",
+    "17-17.6",
+    "17.6-18",
+    "18-26",
+    "26-27"
+   ],
+   "first_source": "repo-Very-Basic",
+   "newest_source": "ileapp-Ph002",
+   "first_version": "11",
+   "newest_version": "26-27"
+  },
+  {
+   "name": "zSideCarFile-Modification Date",
+   "expr": "DateTime(zSideCarFile.ZMODIFICATIONDATE + 978307200, 'UNIXEPOCH')",
+   "refs": [
+    [
+     "zSideCarFile",
+     "ZMODIFICATIONDATE"
+    ]
+   ],
+   "joins": [
+    "zSideCarFile"
+   ],
+   "shape": "datetime",
+   "sources": [
+    "repo-Very-Basic"
+   ],
+   "versions": [
+    "11",
+    "12"
+   ],
+   "first_source": "repo-Very-Basic",
+   "newest_source": "repo-Very-Basic",
+   "first_version": "11",
+   "newest_version": "12"
+  },
+  {
+   "name": "zAsset-Last Shared Date",
+   "expr": "DateTime(zAsset.ZLASTSHAREDDATE + 978307200, 'UNIXEPOCH')",
+   "refs": [
+    [
+     "zAsset",
+     "ZLASTSHAREDDATE"
+    ]
+   ],
+   "joins": [
+    "zAsset"
+   ],
+   "shape": "datetime",
+   "sources": [
+    "repo-Very-Basic",
+    "repo-Basic",
+    "ileapp-Ph001",
+    "ileapp-Ph002"
+   ],
+   "versions": [
+    "11",
+    "12",
+    "13",
+    "14",
+    "15",
+    "16",
+    "17",
+    "11-14",
+    "14-15",
+    "15-16",
+    "16-18",
+    "18-27",
+    "11-12",
+    "12-13",
+    "13-14",
+    "16-17",
+    "17-17.6",
+    "17.6-18",
+    "18-26",
+    "26-27"
+   ],
+   "first_source": "repo-Very-Basic",
+   "newest_source": "ileapp-Ph002",
+   "first_version": "11",
+   "newest_version": "26-27"
+  },
+  {
+   "name": "zAddAssetAttr-Scene Analysis Timestamp",
+   "expr": "DateTime(zAddAssetAttr.ZSCENEANALYSISTIMESTAMP + 978307200, 'UNIXEPOCH')",
+   "refs": [
+    [
+     "zAddAssetAttr",
+     "ZSCENEANALYSISTIMESTAMP"
+    ]
+   ],
+   "joins": [
+    "zAddAssetAttr"
+   ],
+   "shape": "datetime",
+   "sources": [
+    "repo-Very-Basic",
+    "repo-Basic"
+   ],
+   "versions": [
+    "11",
+    "12",
+    "13",
+    "14",
+    "15",
+    "16",
+    "17"
+   ],
+   "first_source": "repo-Very-Basic",
+   "newest_source": "repo-Basic",
+   "first_version": "11",
+   "newest_version": "17"
+  },
+  {
+   "name": "zAsset-Cloud Batch Publish Date",
+   "expr": "DateTime(zAsset.ZCLOUDBATCHPUBLISHDATE + 978307200, 'UNIXEPOCH')",
+   "refs": [
+    [
+     "zAsset",
+     "ZCLOUDBATCHPUBLISHDATE"
+    ]
+   ],
+   "joins": [
+    "zAsset"
+   ],
+   "shape": "datetime",
+   "sources": [
+    "repo-Very-Basic",
+    "repo-Basic",
+    "ileapp-Ph002"
+   ],
+   "versions": [
+    "11",
+    "12",
+    "13",
+    "14",
+    "15",
+    "16",
+    "17",
+    "11-12",
+    "12-13",
+    "13-14",
+    "14-15",
+    "15-16",
+    "16-17",
+    "17-17.6",
+    "17.6-18",
+    "18-26",
+    "26-27"
+   ],
+   "first_source": "repo-Very-Basic",
+   "newest_source": "ileapp-Ph002",
+   "first_version": "11",
+   "newest_version": "26-27"
+  },
+  {
+   "name": "zAsset-Cloud Server Publish Date",
+   "expr": "DateTime(zAsset.ZCLOUDSERVERPUBLISHDATE + 978307200, 'UNIXEPOCH')",
+   "refs": [
+    [
+     "zAsset",
+     "ZCLOUDSERVERPUBLISHDATE"
+    ]
+   ],
+   "joins": [
+    "zAsset"
+   ],
+   "shape": "datetime",
+   "sources": [
+    "repo-Very-Basic",
+    "repo-Basic",
+    "ileapp-Ph002"
+   ],
+   "versions": [
+    "11",
+    "12",
+    "13",
+    "14",
+    "15",
+    "16",
+    "17",
+    "11-12",
+    "12-13",
+    "13-14",
+    "14-15",
+    "15-16",
+    "16-17",
+    "17-17.6",
+    "17.6-18",
+    "18-26",
+    "26-27"
+   ],
+   "first_source": "repo-Very-Basic",
+   "newest_source": "ileapp-Ph002",
+   "first_version": "11",
+   "newest_version": "26-27"
+  },
+  {
+   "name": "zAddAssetAttr-Camera Captured Device",
+   "expr": "CASE zAddAssetAttr.ZCAMERACAPTUREDEVICE\n            WHEN 0 THEN '0-Back-Camera-Other-0'\n            WHEN 1 THEN '1-Front-Camera-1'\n            ELSE 'Unknown-New-Value!: ' || zAddAssetAttr.ZCAMERACAPTUREDEVICE || ''\n        END",
+   "refs": [
+    [
+     "zAddAssetAttr",
+     "ZCAMERACAPTUREDEVICE"
+    ]
+   ],
+   "joins": [
+    "zAddAssetAttr"
+   ],
+   "shape": "case",
+   "sources": [
+    "repo-Very-Basic",
+    "repo-Basic",
+    "ileapp-Ph002"
+   ],
+   "versions": [
+    "11",
+    "12",
+    "13",
+    "14",
+    "15",
+    "16",
+    "17",
+    "11-12",
+    "12-13",
+    "13-14",
+    "14-15",
+    "15-16",
+    "16-17",
+    "17-17.6",
+    "17.6-18",
+    "18-26",
+    "26-27"
+   ],
+   "first_source": "repo-Very-Basic",
+   "newest_source": "ileapp-Ph002",
+   "first_version": "11",
+   "newest_version": "26-27"
+  },
+  {
+   "name": "zAsset-Kind",
+   "expr": "CASE zAsset.ZKIND\n    WHEN 0 THEN '0-Photo-0'\n    WHEN 1 THEN '1-Video-1'\n  END",
+   "refs": [
+    [
+     "zAsset",
+     "ZKIND"
+    ]
+   ],
+   "joins": [
+    "zAsset"
+   ],
+   "shape": "case",
+   "sources": [
+    "repo-Very-Basic",
+    "repo-Basic"
+   ],
+   "versions": [
+    "11",
+    "12",
+    "13",
+    "14",
+    "15",
+    "16",
+    "17"
+   ],
+   "first_source": "repo-Very-Basic",
+   "newest_source": "repo-Very-Basic",
+   "first_version": "11",
+   "newest_version": "17"
+  },
+  {
+   "name": "zAsset-Kind-Sub-Type",
+   "expr": "CASE zAsset.ZKINDSUBTYPE\n    WHEN 0 THEN '0-Still-Photo-0'\n    WHEN 2 THEN '2-Live-Photo-2'\n    WHEN 10 THEN '10-SpringBoard-Screenshot-10'\n    WHEN 100 THEN '100-Video-100'\n    WHEN 101 THEN '101-Slow-Mo-Video-101'\n    WHEN 102 THEN '102-Time-lapse-Video-102'\n    WHEN 103 THEN '103-Replay_Screen_Recording-103'\n    ELSE 'Unknown-New-Value!: ' || zAsset.ZKINDSUBTYPE || ''\n  END",
+   "refs": [
+    [
+     "zAsset",
+     "ZKINDSUBTYPE"
+    ]
+   ],
+   "joins": [
+    "zAsset"
+   ],
+   "shape": "case",
+   "sources": [
+    "repo-Very-Basic",
+    "repo-Basic"
+   ],
+   "versions": [
+    "11",
+    "12",
+    "13",
+    "14",
+    "15",
+    "16",
+    "17"
+   ],
+   "first_source": "repo-Very-Basic",
+   "newest_source": "repo-Very-Basic",
+   "first_version": "11",
+   "newest_version": "17"
+  },
+  {
+   "name": "zAsset-Video Duration",
+   "expr": "zAsset.ZDURATION",
+   "refs": [
+    [
+     "zAsset",
+     "ZDURATION"
+    ]
+   ],
+   "joins": [
+    "zAsset"
+   ],
+   "shape": "col",
+   "sources": [
+    "repo-Very-Basic",
+    "repo-Basic"
+   ],
+   "versions": [
+    "11",
+    "12",
+    "13",
+    "14",
+    "15",
+    "16",
+    "17"
+   ],
+   "first_source": "repo-Very-Basic",
+   "newest_source": "repo-Very-Basic",
+   "first_version": "11",
+   "newest_version": "17"
+  },
+  {
+   "name": "zAsset-Video CP Duration",
+   "expr": "zAsset.ZVIDEOCPDURATIONVALUE",
+   "refs": [
+    [
+     "zAsset",
+     "ZVIDEOCPDURATIONVALUE"
+    ]
+   ],
+   "joins": [
+    "zAsset"
+   ],
+   "shape": "col",
+   "sources": [
+    "repo-Very-Basic",
+    "repo-Basic"
+   ],
+   "versions": [
+    "11",
+    "12",
+    "13",
+    "14",
+    "15",
+    "16",
+    "17"
+   ],
+   "first_source": "repo-Very-Basic",
+   "newest_source": "repo-Very-Basic",
+   "first_version": "11",
+   "newest_version": "17"
+  },
+  {
+   "name": "zAddAssetAttr-Video CP Display Value",
+   "expr": "zAddAssetAttr.ZVIDEOCPDISPLAYVALUE",
+   "refs": [
+    [
+     "zAddAssetAttr",
+     "ZVIDEOCPDISPLAYVALUE"
+    ]
+   ],
+   "joins": [
+    "zAddAssetAttr"
+   ],
+   "shape": "col",
+   "sources": [
+    "repo-Very-Basic",
+    "repo-Basic"
+   ],
+   "versions": [
+    "11",
+    "12",
+    "13",
+    "14",
+    "15",
+    "16",
+    "17"
+   ],
+   "first_source": "repo-Very-Basic",
+   "newest_source": "repo-Very-Basic",
+   "first_version": "11",
+   "newest_version": "17"
+  },
+  {
+   "name": "zAsset-Uniform Type ID",
+   "expr": "zAsset.ZUNIFORMTYPEIDENTIFIER",
+   "refs": [
+    [
+     "zAsset",
+     "ZUNIFORMTYPEIDENTIFIER"
+    ]
+   ],
+   "joins": [
+    "zAsset"
+   ],
+   "shape": "col",
+   "sources": [
+    "repo-Very-Basic",
+    "repo-Basic"
+   ],
+   "versions": [
+    "11",
+    "12",
+    "13",
+    "14",
+    "15",
+    "16",
+    "17"
+   ],
+   "first_source": "repo-Very-Basic",
+   "newest_source": "repo-Basic",
+   "first_version": "11",
+   "newest_version": "17"
+  },
+  {
+   "name": "zSideCarFile-Uniform Type Identifier",
+   "expr": "zSideCarFile.ZUNIFORMTYPEIDENTIFIER",
+   "refs": [
+    [
+     "zSideCarFile",
+     "ZUNIFORMTYPEIDENTIFIER"
+    ]
+   ],
+   "joins": [
+    "zSideCarFile"
+   ],
+   "shape": "col",
+   "sources": [
+    "repo-Very-Basic"
+   ],
+   "versions": [
+    "11",
+    "12"
+   ],
+   "first_source": "repo-Very-Basic",
+   "newest_source": "repo-Very-Basic",
+   "first_version": "11",
+   "newest_version": "12"
+  },
+  {
+   "name": "zAsset-Playback Style",
+   "expr": "CASE zAsset.ZPLAYBACKSTYLE\n    WHEN 1 THEN '1-Image-1'\n    WHEN 2 THEN '2-Image-Animated-2'\n    WHEN 3 THEN '3-Live-Photo-3'\n    WHEN 4 THEN '4-Video-4'\n    WHEN 5 THEN '5-Video-Looping-5'\n    ELSE 'Unknown-New-Value!: ' || zAsset.ZPLAYBACKSTYLE || ''\n  END",
+   "refs": [
+    [
+     "zAsset",
+     "ZPLAYBACKSTYLE"
+    ]
+   ],
+   "joins": [
+    "zAsset"
+   ],
+   "shape": "case",
+   "sources": [
+    "repo-Very-Basic",
+    "repo-Basic"
+   ],
+   "versions": [
+    "11",
+    "12",
+    "13",
+    "14",
+    "15",
+    "16",
+    "17"
+   ],
+   "first_source": "repo-Very-Basic",
+   "newest_source": "repo-Very-Basic",
+   "first_version": "11",
+   "newest_version": "17"
+  },
+  {
+   "name": "zAsset-Location Data/HEX",
+   "expr": "zAsset.ZLOCATIONDATA",
+   "refs": [
+    [
+     "zAsset",
+     "ZLOCATIONDATA"
+    ]
+   ],
+   "joins": [
+    "zAsset"
+   ],
+   "shape": "col",
+   "sources": [
+    "repo-Very-Basic",
+    "repo-Basic"
+   ],
+   "versions": [
+    "11",
+    "12",
+    "13",
+    "14",
+    "15",
+    "16",
+    "17"
+   ],
+   "first_source": "repo-Very-Basic",
+   "newest_source": "repo-Basic",
+   "first_version": "11",
+   "newest_version": "17"
+  },
+  {
+   "name": "zAsset-Latitude",
+   "expr": "CASE zAsset.ZLATITUDE\n            WHEN -180.0 THEN '-180.0'\n            ELSE zAsset.ZLATITUDE\n        END",
+   "refs": [
+    [
+     "zAsset",
+     "ZLATITUDE"
+    ]
+   ],
+   "joins": [
+    "zAsset"
+   ],
+   "shape": "case",
+   "sources": [
+    "repo-Very-Basic",
+    "repo-Basic",
+    "ileapp-Ph002"
+   ],
+   "versions": [
+    "11",
+    "12",
+    "13",
+    "14",
+    "15",
+    "16",
+    "17",
+    "11-12",
+    "12-13",
+    "13-14",
+    "14-15",
+    "15-16",
+    "16-17",
+    "17-17.6",
+    "17.6-18",
+    "18-26",
+    "26-27"
+   ],
+   "first_source": "repo-Very-Basic",
+   "newest_source": "ileapp-Ph002",
+   "first_version": "11",
+   "newest_version": "26-27"
+  },
+  {
+   "name": "zAsset-Longitude",
+   "expr": "CASE zAsset.ZLONGITUDE\n            WHEN -180.0 THEN '-180.0'\n            ELSE zAsset.ZLONGITUDE\n        END",
+   "refs": [
+    [
+     "zAsset",
+     "ZLONGITUDE"
+    ]
+   ],
+   "joins": [
+    "zAsset"
+   ],
+   "shape": "case",
+   "sources": [
+    "repo-Very-Basic",
+    "repo-Basic",
+    "ileapp-Ph002"
+   ],
+   "versions": [
+    "11",
+    "12",
+    "13",
+    "14",
+    "15",
+    "16",
+    "17",
+    "11-12",
+    "12-13",
+    "13-14",
+    "14-15",
+    "15-16",
+    "16-17",
+    "17-17.6",
+    "17.6-18",
+    "18-26",
+    "26-27"
+   ],
+   "first_source": "repo-Very-Basic",
+   "newest_source": "ileapp-Ph002",
+   "first_version": "11",
+   "newest_version": "26-27"
+  },
+  {
+   "name": "zAddAssetAttr-Reverse Location Is Valid",
+   "expr": "CASE zAddAssetAttr.ZREVERSELOCATIONDATAISVALID\n            WHEN 0 THEN '0-Reverse Location Not Valid-0'\n            WHEN 1 THEN '1-Reverse Location Valid-1'\n            ELSE 'Unknown-New-Value!: ' || zAddAssetAttr.ZREVERSELOCATIONDATAISVALID || ''\n        END",
+   "refs": [
+    [
+     "zAddAssetAttr",
+     "ZREVERSELOCATIONDATAISVALID"
+    ]
+   ],
+   "joins": [
+    "zAddAssetAttr"
+   ],
+   "shape": "case",
+   "sources": [
+    "repo-Very-Basic",
+    "ileapp-Ph002"
+   ],
+   "versions": [
+    "11",
+    "12",
+    "11-12",
+    "12-13",
+    "13-14",
+    "14-15",
+    "15-16",
+    "16-17",
+    "17-17.6",
+    "17.6-18",
+    "18-26",
+    "26-27"
+   ],
+   "first_source": "repo-Very-Basic",
+   "newest_source": "ileapp-Ph002",
+   "first_version": "11",
+   "newest_version": "26-27"
+  },
+  {
+   "name": "zAddAssetAttr-Reverse Location Data/Orig-Asset/HEX NSKeyed Plist",
+   "expr": "zAddAssetAttr.ZREVERSELOCATIONDATA",
+   "refs": [
+    [
+     "zAddAssetAttr",
+     "ZREVERSELOCATIONDATA"
+    ]
+   ],
+   "joins": [
+    "zAddAssetAttr"
+   ],
+   "shape": "col",
+   "sources": [
+    "repo-Very-Basic",
+    "repo-Basic"
+   ],
+   "versions": [
+    "11",
+    "12",
+    "13",
+    "14",
+    "15",
+    "16",
+    "17"
+   ],
+   "first_source": "repo-Very-Basic",
+   "newest_source": "repo-Basic",
+   "first_version": "11",
+   "newest_version": "17"
+  },
+  {
+   "name": "zAddAssetAttr-Shifted Location Valid",
+   "expr": "CASE zAddAssetAttr.ZSHIFTEDLOCATIONISVALID\n            WHEN 0 THEN '0-Shifted Location Not Valid-0'\n            WHEN 1 THEN '1-Shifted Location Valid-1'\n            ELSE 'Unknown-New-Value!: ' || zAddAssetAttr.ZSHIFTEDLOCATIONISVALID || ''\n        END",
+   "refs": [
+    [
+     "zAddAssetAttr",
+     "ZSHIFTEDLOCATIONISVALID"
+    ]
+   ],
+   "joins": [
+    "zAddAssetAttr"
+   ],
+   "shape": "case",
+   "sources": [
+    "repo-Very-Basic",
+    "repo-Basic",
+    "ileapp-Ph002"
+   ],
+   "versions": [
+    "11",
+    "12",
+    "13",
+    "14",
+    "15",
+    "16",
+    "17",
+    "11-12",
+    "12-13",
+    "13-14",
+    "14-15",
+    "15-16",
+    "16-17",
+    "17-17.6",
+    "17.6-18",
+    "18-26",
+    "26-27"
+   ],
+   "first_source": "repo-Very-Basic",
+   "newest_source": "ileapp-Ph002",
+   "first_version": "11",
+   "newest_version": "26-27"
+  },
+  {
+   "name": "zAddAssetAttr-Shifted Location Data",
+   "expr": "zAddAssetAttr.ZSHIFTEDLOCATIONDATA",
+   "refs": [
+    [
+     "zAddAssetAttr",
+     "ZSHIFTEDLOCATIONDATA"
+    ]
+   ],
+   "joins": [
+    "zAddAssetAttr"
+   ],
+   "shape": "col",
+   "sources": [
+    "repo-Very-Basic",
+    "repo-Basic"
+   ],
+   "versions": [
+    "11",
+    "12",
+    "13",
+    "14",
+    "15",
+    "16",
+    "17"
+   ],
+   "first_source": "repo-Very-Basic",
+   "newest_source": "repo-Basic",
+   "first_version": "11",
+   "newest_version": "17"
+  },
+  {
+   "name": "zAddAssetAttr-Location Hash",
+   "expr": "zAddAssetAttr.ZLOCATIONHASH",
+   "refs": [
+    [
+     "zAddAssetAttr",
+     "ZLOCATIONHASH"
+    ]
+   ],
+   "joins": [
+    "zAddAssetAttr"
+   ],
+   "shape": "col",
+   "sources": [
+    "repo-Very-Basic",
+    "repo-Basic",
+    "ileapp-Ph002"
+   ],
+   "versions": [
+    "11",
+    "12",
+    "13",
+    "14",
+    "15",
+    "16",
+    "17",
+    "11-12",
+    "12-13",
+    "13-14",
+    "14-15",
+    "15-16",
+    "16-17",
+    "17-17.6",
+    "17.6-18",
+    "18-26",
+    "26-27"
+   ],
+   "first_source": "repo-Very-Basic",
+   "newest_source": "ileapp-Ph002",
+   "first_version": "11",
+   "newest_version": "26-27"
+  },
+  {
+   "name": "zAsset-Hidden",
+   "expr": "CASE zAsset.ZHIDDEN\n    WHEN 0 THEN '0-Asset Not Hidden-0'\n    WHEN 1 THEN '1-Asset Hidden-1'\n    ELSE 'Unknown-New-Value!: ' || zAsset.ZHIDDEN || ''\n  END",
+   "refs": [
+    [
+     "zAsset",
+     "ZHIDDEN"
+    ]
+   ],
+   "joins": [
+    "zAsset"
+   ],
+   "shape": "case",
+   "sources": [
+    "repo-Very-Basic",
+    "repo-Basic"
+   ],
+   "versions": [
+    "11",
+    "12",
+    "13",
+    "14",
+    "15",
+    "16",
+    "17"
+   ],
+   "first_source": "repo-Very-Basic",
+   "newest_source": "repo-Basic",
+   "first_version": "11",
+   "newest_version": "17"
+  },
+  {
+   "name": "zAsset-Trashed State-LocalAssetRecentlyDeleted",
+   "expr": "CASE zAsset.ZTRASHEDSTATE\n            WHEN 0 THEN '0-Asset Not In Trash-Recently Deleted-0'\n            WHEN 1 THEN '1-Asset In Trash-Recently Deleted-1'\n            ELSE 'Unknown-New-Value!: ' || zAsset.ZTRASHEDSTATE || ''\n        END",
+   "refs": [
+    [
+     "zAsset",
+     "ZTRASHEDSTATE"
+    ]
+   ],
+   "joins": [
+    "zAsset"
+   ],
+   "shape": "case",
+   "sources": [
+    "repo-Very-Basic",
+    "repo-Basic",
+    "ileapp-Ph002"
+   ],
+   "versions": [
+    "11",
+    "12",
+    "13",
+    "14",
+    "15",
+    "16",
+    "17",
+    "11-12",
+    "12-13",
+    "13-14",
+    "14-15",
+    "15-16",
+    "16-17",
+    "17-17.6",
+    "17.6-18",
+    "18-26",
+    "26-27"
+   ],
+   "first_source": "repo-Very-Basic",
+   "newest_source": "ileapp-Ph002",
+   "first_version": "11",
+   "newest_version": "26-27"
+  },
+  {
+   "name": "zAsset-Trashed Date",
+   "expr": "DateTime(zAsset.ZTRASHEDDATE + 978307200, 'UNIXEPOCH')",
+   "refs": [
+    [
+     "zAsset",
+     "ZTRASHEDDATE"
+    ]
+   ],
+   "joins": [
+    "zAsset"
+   ],
+   "shape": "datetime",
+   "sources": [
+    "repo-Very-Basic",
+    "repo-Basic",
+    "ileapp-Ph001",
+    "ileapp-Ph002"
+   ],
+   "versions": [
+    "11",
+    "12",
+    "13",
+    "14",
+    "15",
+    "16",
+    "17",
+    "11-14",
+    "14-15",
+    "15-16",
+    "16-18",
+    "18-27",
+    "11-12",
+    "12-13",
+    "13-14",
+    "16-17",
+    "17-17.6",
+    "17.6-18",
+    "18-26",
+    "26-27"
+   ],
+   "first_source": "repo-Very-Basic",
+   "newest_source": "ileapp-Ph002",
+   "first_version": "11",
+   "newest_version": "26-27"
+  },
+  {
+   "name": "ParentzGenAlbum-Cloud-Local-State-4Start",
+   "expr": "CASE ParentzGenAlbum.ZCLOUDLOCALSTATE\n    WHEN 0 THEN '0-iCldPhotos-ON=Asset_In_Shared/Other-Album/iCldPhotos-OFF=Generic_Album-0'\n    WHEN 1 THEN '1-iCldPhotos-ON=Asset_In_Generic Album-1'\n    ELSE 'Unknown-New-Value!: ' || ParentzGenAlbum.ZCLOUDLOCALSTATE || ''\n  END",
+   "refs": [
+    [
+     "ParentzGenAlbum",
+     "ZCLOUDLOCALSTATE"
+    ]
+   ],
+   "joins": [
+    "ParentzGenAlbum"
+   ],
+   "shape": "case",
+   "sources": [
+    "repo-Very-Basic",
+    "repo-Basic"
+   ],
+   "versions": [
+    "11",
+    "12",
+    "13",
+    "14",
+    "15",
+    "16",
+    "17"
+   ],
+   "first_source": "repo-Very-Basic",
+   "newest_source": "repo-Basic",
+   "first_version": "11",
+   "newest_version": "17"
+  },
+  {
+   "name": "ParentzGenAlbum-Title-4Start",
+   "expr": "ParentzGenAlbum.ZTITLE",
+   "refs": [
+    [
+     "ParentzGenAlbum",
+     "ZTITLE"
+    ]
+   ],
+   "joins": [
+    "ParentzGenAlbum"
+   ],
+   "shape": "col",
+   "sources": [
+    "repo-Very-Basic",
+    "repo-Basic"
+   ],
+   "versions": [
+    "11",
+    "12",
+    "13",
+    "14",
+    "15",
+    "16",
+    "17"
+   ],
+   "first_source": "repo-Very-Basic",
+   "newest_source": "repo-Basic",
+   "first_version": "11",
+   "newest_version": "17"
+  },
+  {
+   "name": "zGenAlbum-Cloud_Local_State-4Start",
+   "expr": "CASE zGenAlbum.ZCLOUDLOCALSTATE\n    WHEN 0 THEN '0-iCldPhotos-ON=Asset_In_Shared/Other-Album/iCldPhotos-OFF=Generic_Album-0'\n    WHEN 1 THEN '1-iCldPhotos-ON=Asset_In_Generic_ Album-1'\n    ELSE 'Unknown-New-Value!: ' || zGenAlbum.ZCLOUDLOCALSTATE || ''\n  END",
+   "refs": [
+    [
+     "zGenAlbum",
+     "ZCLOUDLOCALSTATE"
+    ]
+   ],
+   "joins": [
+    "zGenAlbum"
+   ],
+   "shape": "case",
+   "sources": [
+    "repo-Very-Basic",
+    "repo-Basic"
+   ],
+   "versions": [
+    "11",
+    "12",
+    "13",
+    "14",
+    "15",
+    "16",
+    "17"
+   ],
+   "first_source": "repo-Very-Basic",
+   "newest_source": "repo-Basic",
+   "first_version": "11",
+   "newest_version": "17"
+  },
+  {
+   "name": "zGenAlbum-Title-User&System Applied",
+   "expr": "zGenAlbum.ZTITLE",
+   "refs": [
+    [
+     "zGenAlbum",
+     "ZTITLE"
+    ]
+   ],
+   "joins": [
+    "zGenAlbum"
+   ],
+   "shape": "col",
+   "sources": [
+    "repo-Very-Basic",
+    "repo-Basic",
+    "ileapp-Ph002"
+   ],
+   "versions": [
+    "11",
+    "12",
+    "13",
+    "14",
+    "15",
+    "16",
+    "17",
+    "11-12",
+    "12-13",
+    "13-14",
+    "14-15",
+    "15-16",
+    "16-17",
+    "17-17.6",
+    "17.6-18",
+    "18-26",
+    "26-27"
+   ],
+   "first_source": "repo-Very-Basic",
+   "newest_source": "ileapp-Ph002",
+   "first_version": "11",
+   "newest_version": "26-27"
+  },
+  {
+   "name": "zAddAssetAttr-Time Zone Name",
+   "expr": "zAddAssetAttr.ZTIMEZONENAME",
+   "refs": [
+    [
+     "zAddAssetAttr",
+     "ZTIMEZONENAME"
+    ]
+   ],
+   "joins": [
+    "zAddAssetAttr"
+   ],
+   "shape": "col",
+   "sources": [
+    "repo-Very-Basic",
+    "repo-Basic",
+    "ileapp-Ph001",
+    "ileapp-Ph002"
+   ],
+   "versions": [
+    "11",
+    "12",
+    "13",
+    "14",
+    "15",
+    "16",
+    "17",
+    "11-14",
+    "14-15",
+    "15-16",
+    "16-18",
+    "18-27",
+    "11-12",
+    "12-13",
+    "13-14",
+    "16-17",
+    "17-17.6",
+    "17.6-18",
+    "18-26",
+    "26-27"
+   ],
+   "first_source": "repo-Very-Basic",
+   "newest_source": "ileapp-Ph002",
+   "first_version": "11",
+   "newest_version": "26-27"
+  },
+  {
+   "name": "zAddAssetAttr-Time Zone Offset",
+   "expr": "zAddAssetAttr.ZTIMEZONEOFFSET",
+   "refs": [
+    [
+     "zAddAssetAttr",
+     "ZTIMEZONEOFFSET"
+    ]
+   ],
+   "joins": [
+    "zAddAssetAttr"
+   ],
+   "shape": "col",
+   "sources": [
+    "repo-Very-Basic",
+    "repo-Basic",
+    "ileapp-Ph002"
+   ],
+   "versions": [
+    "11",
+    "12",
+    "13",
+    "14",
+    "15",
+    "16",
+    "17",
+    "13-14",
+    "14-15",
+    "15-16",
+    "16-17",
+    "17-17.6",
+    "17.6-18",
+    "18-26",
+    "26-27"
+   ],
+   "first_source": "repo-Very-Basic",
+   "newest_source": "ileapp-Ph002",
+   "first_version": "11",
+   "newest_version": "26-27"
+  },
+  {
+   "name": "zAsset-ImageRequestHints/HEX-Path",
+   "expr": "zAsset.ZIMAGEREQUESTHINTS",
+   "refs": [
+    [
+     "zAsset",
+     "ZIMAGEREQUESTHINTS"
+    ]
+   ],
+   "joins": [
+    "zAsset"
+   ],
+   "shape": "col",
+   "sources": [
+    "repo-Very-Basic",
+    "repo-Basic"
+   ],
+   "versions": [
+    "12",
+    "13",
+    "14",
+    "15",
+    "16",
+    "17"
+   ],
+   "first_source": "repo-Very-Basic",
+   "newest_source": "repo-Very-Basic",
+   "first_version": "12",
+   "newest_version": "17"
+  },
+  {
+   "name": "zAddAssetAttr-Share Originator",
+   "expr": "zAddAssetAttr.ZSHAREORIGINATOR",
+   "refs": [
+    [
+     "zAddAssetAttr",
+     "ZSHAREORIGINATOR"
+    ]
+   ],
+   "joins": [
+    "zAddAssetAttr"
+   ],
+   "shape": "col",
+   "sources": [
+    "repo-Very-Basic",
+    "repo-Basic"
+   ],
+   "versions": [
+    "12",
+    "13",
+    "14",
+    "15",
+    "16",
+    "17"
+   ],
+   "first_source": "repo-Very-Basic",
+   "newest_source": "repo-Basic",
+   "first_version": "12",
+   "newest_version": "17"
+  },
+  {
+   "name": "zAddAssetAttr-Last Upload Attempt Date-SWY_Files",
+   "expr": "DateTime(zAddAssetAttr.ZLASTUPLOADATTEMPTDATE + 978307200, 'UNIXEPOCH')",
+   "refs": [
+    [
+     "zAddAssetAttr",
+     "ZLASTUPLOADATTEMPTDATE"
+    ]
+   ],
+   "joins": [
+    "zAddAssetAttr"
+   ],
+   "shape": "datetime",
+   "sources": [
+    "repo-Very-Basic",
+    "repo-Basic",
+    "ileapp-Ph002"
+   ],
+   "versions": [
+    "12",
+    "13",
+    "14",
+    "15",
+    "16",
+    "17",
+    "13-14",
+    "14-15",
+    "15-16",
+    "16-17",
+    "17-17.6",
+    "17.6-18",
+    "18-26",
+    "26-27"
+   ],
+   "first_source": "repo-Very-Basic",
+   "newest_source": "ileapp-Ph002",
+   "first_version": "12",
+   "newest_version": "26-27"
+  },
+  {
+   "name": "zAsset-Adjustment Timestamp",
+   "expr": "DateTime(zAsset.ZADJUSTMENTTIMESTAMP + 978307200, 'UNIXEPOCH')",
+   "refs": [
+    [
+     "zAsset",
+     "ZADJUSTMENTTIMESTAMP"
+    ]
+   ],
+   "joins": [
+    "zAsset"
+   ],
+   "shape": "datetime",
+   "sources": [
+    "repo-Very-Basic",
+    "repo-Basic"
+   ],
+   "versions": [
+    "12",
+    "13",
+    "14",
+    "15",
+    "16",
+    "17"
+   ],
+   "first_source": "repo-Very-Basic",
+   "newest_source": "repo-Basic",
+   "first_version": "12",
+   "newest_version": "17"
+  },
+  {
+   "name": "zAddAssetAttr-Alt Import Image Date",
+   "expr": "DateTime(zAddAssetAttr.ZALTERNATEIMPORTIMAGEDATE + 978307200, 'UNIXEPOCH')",
+   "refs": [
+    [
+     "zAddAssetAttr",
+     "ZALTERNATEIMPORTIMAGEDATE"
+    ]
+   ],
+   "joins": [
+    "zAddAssetAttr"
+   ],
+   "shape": "datetime",
+   "sources": [
+    "repo-Very-Basic",
+    "repo-Basic",
+    "ileapp-Ph002"
+   ],
+   "versions": [
+    "12",
+    "13",
+    "14",
+    "15",
+    "16",
+    "17",
+    "13-14",
+    "14-15",
+    "15-16",
+    "16-17",
+    "17-17.6",
+    "17.6-18",
+    "18-26",
+    "26-27"
+   ],
+   "first_source": "repo-Very-Basic",
+   "newest_source": "ileapp-Ph002",
+   "first_version": "12",
+   "newest_version": "26-27"
+  },
+  {
+   "name": "zAsset-Sort Token",
+   "expr": "zAsset.ZSORTTOKEN",
+   "refs": [
+    [
+     "zAsset",
+     "ZSORTTOKEN"
+    ]
+   ],
+   "joins": [
+    "zAsset"
+   ],
+   "shape": "col",
+   "sources": [
+    "repo-Basic"
+   ],
+   "versions": [
+    "13",
+    "14",
+    "15",
+    "16",
+    "17"
+   ],
+   "first_source": "repo-Basic",
+   "newest_source": "repo-Basic",
+   "first_version": "13",
+   "newest_version": "17"
+  },
+  {
+   "name": "zAsset-Promotion Score",
+   "expr": "zAsset.ZPROMOTIONSCORE",
+   "refs": [
+    [
+     "zAsset",
+     "ZPROMOTIONSCORE"
+    ]
+   ],
+   "joins": [
+    "zAsset"
+   ],
+   "shape": "col",
+   "sources": [
+    "repo-Basic"
+   ],
+   "versions": [
+    "13",
+    "14",
+    "15",
+    "16",
+    "17"
+   ],
+   "first_source": "repo-Basic",
+   "newest_source": "repo-Basic",
+   "first_version": "13",
+   "newest_version": "17"
+  },
+  {
+   "name": "zAsset Complete",
+   "expr": "CASE zAsset.ZCOMPLETE\n    WHEN 1 THEN '1-Yes-1'\n  END",
+   "refs": [
+    [
+     "zAsset",
+     "ZCOMPLETE"
+    ]
+   ],
+   "joins": [
+    "zAsset"
+   ],
+   "shape": "case",
+   "sources": [
+    "repo-Basic"
+   ],
+   "versions": [
+    "13",
+    "14",
+    "15",
+    "16",
+    "17"
+   ],
+   "first_source": "repo-Basic",
+   "newest_source": "repo-Basic",
+   "first_version": "13",
+   "newest_version": "17"
+  },
+  {
+   "name": "zCldMast-zPK=zAsset-Master",
+   "expr": "zCldMast.Z_PK",
+   "refs": [
+    [
+     "zCldMast",
+     "Z_PK"
+    ]
+   ],
+   "joins": [
+    "zCldMast"
+   ],
+   "shape": "col",
+   "sources": [
+    "repo-Basic"
+   ],
+   "versions": [
+    "13",
+    "14",
+    "15",
+    "16",
+    "17"
+   ],
+   "first_source": "repo-Basic",
+   "newest_source": "repo-Basic",
+   "first_version": "13",
+   "newest_version": "17"
+  },
+  {
+   "name": "zAsset-Master=zCldMast-zPK",
+   "expr": "zAsset.ZMASTER",
+   "refs": [
+    [
+     "zAsset",
+     "ZMASTER"
+    ]
+   ],
+   "joins": [
+    "zAsset"
+   ],
+   "shape": "col",
+   "sources": [
+    "repo-Basic"
+   ],
+   "versions": [
+    "13",
+    "14",
+    "15",
+    "16",
+    "17"
+   ],
+   "first_source": "repo-Basic",
+   "newest_source": "repo-Basic",
+   "first_version": "13",
+   "newest_version": "17"
+  },
+  {
+   "name": "zAsset-Extended Attributes=zExtAttr-zPK",
+   "expr": "zAsset.ZEXTENDEDATTRIBUTES",
+   "refs": [
+    [
+     "zAsset",
+     "ZEXTENDEDATTRIBUTES"
+    ]
+   ],
+   "joins": [
+    "zAsset"
+   ],
+   "shape": "col",
+   "sources": [
+    "repo-Basic"
+   ],
+   "versions": [
+    "13",
+    "14",
+    "15",
+    "16",
+    "17"
+   ],
+   "first_source": "repo-Basic",
+   "newest_source": "repo-Basic",
+   "first_version": "13",
+   "newest_version": "17"
+  },
+  {
+   "name": "zExtAttr-zPK=zAsset-zExtendedAttributes",
+   "expr": "zExtAttr.Z_PK",
+   "refs": [
+    [
+     "zExtAttr",
+     "Z_PK"
+    ]
+   ],
+   "joins": [
+    "zExtAttr"
+   ],
+   "shape": "col",
+   "sources": [
+    "repo-Basic"
+   ],
+   "versions": [
+    "13",
+    "14",
+    "15",
+    "16",
+    "17"
+   ],
+   "first_source": "repo-Basic",
+   "newest_source": "repo-Basic",
+   "first_version": "13",
+   "newest_version": "17"
+  },
+  {
+   "name": "CMzCldMastMedData-CldMast=zCldMast-zPK",
+   "expr": "CMzCldMastMedData.ZCLOUDMASTER",
+   "refs": [
+    [
+     "CMzCldMastMedData",
+     "ZCLOUDMASTER"
+    ]
+   ],
+   "joins": [
+    "CMzCldMastMedData"
+   ],
+   "shape": "col",
+   "sources": [
+    "repo-Basic"
+   ],
+   "versions": [
+    "13",
+    "14",
+    "15",
+    "16",
+    "17"
+   ],
+   "first_source": "repo-Basic",
+   "newest_source": "repo-Basic",
+   "first_version": "13",
+   "newest_version": "17"
+  },
+  {
+   "name": "zCldMast-Media Metadata Key=zCldMastMedData.zPK",
+   "expr": "zCldMast.ZMEDIAMETADATA",
+   "refs": [
+    [
+     "zCldMast",
+     "ZMEDIAMETADATA"
+    ]
+   ],
+   "joins": [
+    "zCldMast"
+   ],
+   "shape": "col",
+   "sources": [
+    "repo-Basic"
+   ],
+   "versions": [
+    "13",
+    "14",
+    "15",
+    "16",
+    "17"
+   ],
+   "first_source": "repo-Basic",
+   "newest_source": "repo-Basic",
+   "first_version": "13",
+   "newest_version": "17"
+  },
+  {
+   "name": "CMzCldMastMedData-zPK=zAddAssetAttr&zCldMast-MediaMetaData Key",
+   "expr": "CMzCldMastMedData.Z_PK",
+   "refs": [
+    [
+     "CMzCldMastMedData",
+     "Z_PK"
+    ]
+   ],
+   "joins": [
+    "CMzCldMastMedData"
+   ],
+   "shape": "col",
+   "sources": [
+    "repo-Basic"
+   ],
+   "versions": [
+    "13",
+    "14",
+    "15",
+    "16",
+    "17"
+   ],
+   "first_source": "repo-Basic",
+   "newest_source": "repo-Basic",
+   "first_version": "13",
+   "newest_version": "17"
+  },
+  {
+   "name": "CMzCldMastMedData-zENT",
+   "expr": "CMzCldMastMedData.Z_ENT",
+   "refs": [
+    [
+     "CMzCldMastMedData",
+     "Z_ENT"
+    ]
+   ],
+   "joins": [
+    "CMzCldMastMedData"
+   ],
+   "shape": "col",
+   "sources": [
+    "repo-Basic"
+   ],
+   "versions": [
+    "13",
+    "14",
+    "15",
+    "16",
+    "17"
+   ],
+   "first_source": "repo-Basic",
+   "newest_source": "repo-Basic",
+   "first_version": "13",
+   "newest_version": "17"
+  },
+  {
+   "name": "zAsset.Cloud Collection GUID",
+   "expr": "zAsset.ZCLOUDCOLLECTIONGUID",
+   "refs": [
+    [
+     "zAsset",
+     "ZCLOUDCOLLECTIONGUID"
+    ]
+   ],
+   "joins": [
+    "zAsset"
+   ],
+   "shape": "col",
+   "sources": [
+    "repo-Basic"
+   ],
+   "versions": [
+    "13",
+    "14",
+    "15",
+    "16",
+    "17"
+   ],
+   "first_source": "repo-Basic",
+   "newest_source": "repo-Basic",
+   "first_version": "13",
+   "newest_version": "17"
+  },
+  {
+   "name": "zShare-Scope ID = store.cloudphotodb",
+   "expr": "zShare.ZSCOPEIDENTIFIER",
+   "refs": [
+    [
+     "zShare",
+     "ZSCOPEIDENTIFIER"
+    ]
+   ],
+   "joins": [
+    "zShare"
+   ],
+   "shape": "col",
+   "sources": [
+    "repo-Basic"
+   ],
+   "versions": [
+    "13",
+    "14",
+    "15",
+    "16",
+    "17"
+   ],
+   "first_source": "repo-Basic",
+   "newest_source": "repo-Basic",
+   "first_version": "13",
+   "newest_version": "17"
+  },
+  {
+   "name": "zAddAssetAttr-Original Assets UUID",
+   "expr": "zAddAssetAttr.ZORIGINALASSETSUUID",
+   "refs": [
+    [
+     "zAddAssetAttr",
+     "ZORIGINALASSETSUUID"
+    ]
+   ],
+   "joins": [
+    "zAddAssetAttr"
+   ],
+   "shape": "col",
+   "sources": [
+    "repo-Basic"
+   ],
+   "versions": [
+    "13",
+    "14",
+    "15",
+    "16",
+    "17"
+   ],
+   "first_source": "repo-Basic",
+   "newest_source": "repo-Basic",
+   "first_version": "13",
+   "newest_version": "17"
+  },
+  {
+   "name": "zAddAssetAttr-Public Global UUID",
+   "expr": "zAddAssetAttr.ZPUBLICGLOBALUUID",
+   "refs": [
+    [
+     "zAddAssetAttr",
+     "ZPUBLICGLOBALUUID"
+    ]
+   ],
+   "joins": [
+    "zAddAssetAttr"
+   ],
+   "shape": "col",
+   "sources": [
+    "repo-Basic"
+   ],
+   "versions": [
+    "13",
+    "14",
+    "15",
+    "16",
+    "17"
+   ],
+   "first_source": "repo-Basic",
+   "newest_source": "repo-Basic",
+   "first_version": "13",
+   "newest_version": "17"
+  },
+  {
+   "name": "zAddAssetAttr-Master Fingerprint",
+   "expr": "zAddAssetAttr.ZMASTERFINGERPRINT",
+   "refs": [
+    [
+     "zAddAssetAttr",
+     "ZMASTERFINGERPRINT"
+    ]
+   ],
+   "joins": [
+    "zAddAssetAttr"
+   ],
+   "shape": "col",
+   "sources": [
+    "repo-Basic",
+    "ileapp-Ph001",
+    "ileapp-Ph002"
+   ],
+   "versions": [
+    "13",
+    "14",
+    "15",
+    "16",
+    "17",
+    "11-14",
+    "14-15",
+    "15-16",
+    "16-18",
+    "11-12",
+    "12-13",
+    "13-14",
+    "16-17",
+    "17-17.6",
+    "17.6-18"
+   ],
+   "first_source": "repo-Basic",
+   "newest_source": "ileapp-Ph002",
+   "first_version": "13",
+   "newest_version": "17.6-18"
+  },
+  {
+   "name": "zAddAssetAttr-Originating Asset Identifier",
+   "expr": "zAddAssetAttr.ZORIGINATINGASSETIDENTIFIER",
+   "refs": [
+    [
+     "zAddAssetAttr",
+     "ZORIGINATINGASSETIDENTIFIER"
+    ]
+   ],
+   "joins": [
+    "zAddAssetAttr"
+   ],
+   "shape": "col",
+   "sources": [
+    "repo-Basic"
+   ],
+   "versions": [
+    "13",
+    "15",
+    "16",
+    "17"
+   ],
+   "first_source": "repo-Basic",
+   "newest_source": "repo-Basic",
+   "first_version": "13",
+   "newest_version": "17"
+  },
+  {
+   "name": "zCldMast-Originating Asset ID",
+   "expr": "zCldMast.ZORIGINATINGASSETIDENTIFIER",
+   "refs": [
+    [
+     "zCldMast",
+     "ZORIGINATINGASSETIDENTIFIER"
+    ]
+   ],
+   "joins": [
+    "zCldMast"
+   ],
+   "shape": "col",
+   "sources": [
+    "repo-Basic"
+   ],
+   "versions": [
+    "13",
+    "14",
+    "15",
+    "16",
+    "17"
+   ],
+   "first_source": "repo-Basic",
+   "newest_source": "repo-Basic",
+   "first_version": "13",
+   "newest_version": "17"
+  },
+  {
+   "name": "zIntResou-Fingerprint",
+   "expr": "zIntResou.ZFINGERPRINT",
+   "refs": [
+    [
+     "zIntResou",
+     "ZFINGERPRINT"
+    ]
+   ],
+   "joins": [
+    "zIntResou"
+   ],
+   "shape": "col",
+   "sources": [
+    "repo-Basic"
+   ],
+   "versions": [
+    "13",
+    "14",
+    "15",
+    "16",
+    "17"
+   ],
+   "first_source": "repo-Basic",
+   "newest_source": "repo-Basic",
+   "first_version": "13",
+   "newest_version": "17"
+  },
+  {
+   "name": "zAddAssetAttr.Adjusted Fingerprint",
+   "expr": "zAddAssetAttr.ZADJUSTEDFINGERPRINT",
+   "refs": [
+    [
+     "zAddAssetAttr",
+     "ZADJUSTEDFINGERPRINT"
+    ]
+   ],
+   "joins": [
+    "zAddAssetAttr"
+   ],
+   "shape": "col",
+   "sources": [
+    "repo-Basic"
+   ],
+   "versions": [
+    "13",
+    "14",
+    "15",
+    "16",
+    "17"
+   ],
+   "first_source": "repo-Basic",
+   "newest_source": "repo-Basic",
+   "first_version": "13",
+   "newest_version": "17"
+  },
+  {
+   "name": "zUnmAdj-Other Adjustments Fingerprint",
+   "expr": "zUnmAdj.ZOTHERADJUSTMENTSFINGERPRINT",
+   "refs": [
+    [
+     "zUnmAdj",
+     "ZOTHERADJUSTMENTSFINGERPRINT"
+    ]
+   ],
+   "joins": [
+    "zUnmAdj"
+   ],
+   "shape": "col",
+   "sources": [
+    "repo-Basic"
+   ],
+   "versions": [
+    "13",
+    "14",
+    "15",
+    "16",
+    "17"
+   ],
+   "first_source": "repo-Basic",
+   "newest_source": "repo-Basic",
+   "first_version": "13",
+   "newest_version": "17"
+  },
+  {
+   "name": "zUnmAdj-Similar to Orig Adjustments Fingerprint",
+   "expr": "zUnmAdj.ZSIMILARTOORIGINALADJUSTMENTSFINGERPRINT",
+   "refs": [
+    [
+     "zUnmAdj",
+     "ZSIMILARTOORIGINALADJUSTMENTSFINGERPRINT"
+    ]
+   ],
+   "joins": [
+    "zUnmAdj"
+   ],
+   "shape": "col",
+   "sources": [
+    "repo-Basic"
+   ],
+   "versions": [
+    "13",
+    "14",
+    "15",
+    "16",
+    "17"
+   ],
+   "first_source": "repo-Basic",
+   "newest_source": "repo-Basic",
+   "first_version": "13",
+   "newest_version": "17"
+  },
+  {
+   "name": "ParentzGenAlbum-Creation Date-4Start",
+   "expr": "DateTime(ParentzGenAlbum.ZCREATIONDATE + 978307200, 'UNIXEPOCH')",
+   "refs": [
+    [
+     "ParentzGenAlbum",
+     "ZCREATIONDATE"
+    ]
+   ],
+   "joins": [
+    "ParentzGenAlbum"
+   ],
+   "shape": "datetime",
+   "sources": [
+    "repo-Basic"
+   ],
+   "versions": [
+    "13",
+    "14",
+    "15",
+    "16",
+    "17"
+   ],
+   "first_source": "repo-Basic",
+   "newest_source": "repo-Basic",
+   "first_version": "13",
+   "newest_version": "17"
+  },
+  {
+   "name": "zGenAlbum-Creation Date",
+   "expr": "DateTime(zGenAlbum.ZCREATIONDATE + 978307200, 'UNIXEPOCH')",
+   "refs": [
+    [
+     "zGenAlbum",
+     "ZCREATIONDATE"
+    ]
+   ],
+   "joins": [
+    "zGenAlbum"
+   ],
+   "shape": "datetime",
+   "sources": [
+    "repo-Basic",
+    "ileapp-Ph002"
+   ],
+   "versions": [
+    "13",
+    "14",
+    "15",
+    "16",
+    "17",
+    "14-15",
+    "15-16",
+    "16-17",
+    "17-17.6",
+    "17.6-18",
+    "18-26",
+    "26-27"
+   ],
+   "first_source": "repo-Basic",
+   "newest_source": "ileapp-Ph002",
+   "first_version": "13",
+   "newest_version": "26-27"
+  },
+  {
+   "name": "zAsset-Cloud is My Asset",
+   "expr": "CASE zAsset.ZCLOUDISMYASSET\n    WHEN 0 THEN '0-Not_My_Asset_in_Shared_Album-0'\n    WHEN 1 THEN '1-My_Asset_in_Shared_Album-1'\n    ELSE 'Unknown-New-Value!: ' || zAsset.ZCLOUDISMYASSET || ''\n  END",
+   "refs": [
+    [
+     "zAsset",
+     "ZCLOUDISMYASSET"
+    ]
+   ],
+   "joins": [
+    "zAsset"
+   ],
+   "shape": "case",
+   "sources": [
+    "repo-Basic",
+    "repo-Very-Basic"
+   ],
+   "versions": [
+    "13",
+    "14",
+    "15",
+    "16",
+    "17"
+   ],
+   "first_source": "repo-Basic",
+   "newest_source": "repo-Very-Basic",
+   "first_version": "13",
+   "newest_version": "17"
+  },
+  {
+   "name": "zAsset-Cloud is deletable/Asset",
+   "expr": "CASE zAsset.ZCLOUDISDELETABLE\n    WHEN 0 THEN '0-No-0'\n    WHEN 1 THEN '1-Yes-1'\n    ELSE 'Unknown-New-Value!: ' || zAsset.ZCLOUDISDELETABLE || ''\n  END",
+   "refs": [
+    [
+     "zAsset",
+     "ZCLOUDISDELETABLE"
+    ]
+   ],
+   "joins": [
+    "zAsset"
+   ],
+   "shape": "case",
+   "sources": [
+    "repo-Basic",
+    "repo-Very-Basic"
+   ],
+   "versions": [
+    "13",
+    "14",
+    "15",
+    "16",
+    "17"
+   ],
+   "first_source": "repo-Basic",
+   "newest_source": "repo-Very-Basic",
+   "first_version": "13",
+   "newest_version": "17"
+  },
+  {
+   "name": "zExtAttr-Camera Make",
+   "expr": "zExtAttr.ZCAMERAMAKE",
+   "refs": [
+    [
+     "zExtAttr",
+     "ZCAMERAMAKE"
+    ]
+   ],
+   "joins": [
+    "zExtAttr"
+   ],
+   "shape": "col",
+   "sources": [
+    "repo-Basic",
+    "repo-Very-Basic",
+    "ileapp-Ph002"
+   ],
+   "versions": [
+    "13",
+    "14",
+    "15",
+    "16",
+    "17",
+    "13-14",
+    "14-15",
+    "15-16",
+    "16-17",
+    "17-17.6",
+    "17.6-18",
+    "18-26",
+    "26-27"
+   ],
+   "first_source": "repo-Basic",
+   "newest_source": "ileapp-Ph002",
+   "first_version": "13",
+   "newest_version": "26-27"
+  },
+  {
+   "name": "zExtAttr-Camera Model",
+   "expr": "zExtAttr.ZCAMERAMODEL",
+   "refs": [
+    [
+     "zExtAttr",
+     "ZCAMERAMODEL"
+    ]
+   ],
+   "joins": [
+    "zExtAttr"
+   ],
+   "shape": "col",
+   "sources": [
+    "repo-Basic",
+    "repo-Very-Basic",
+    "ileapp-Ph002"
+   ],
+   "versions": [
+    "13",
+    "14",
+    "15",
+    "16",
+    "17",
+    "13-14",
+    "14-15",
+    "15-16",
+    "16-17",
+    "17-17.6",
+    "17.6-18",
+    "18-26",
+    "26-27"
+   ],
+   "first_source": "repo-Basic",
+   "newest_source": "ileapp-Ph002",
+   "first_version": "13",
+   "newest_version": "26-27"
+  },
+  {
+   "name": "zExtAttr-Lens Model",
+   "expr": "zExtAttr.ZLENSMODEL",
+   "refs": [
+    [
+     "zExtAttr",
+     "ZLENSMODEL"
+    ]
+   ],
+   "joins": [
+    "zExtAttr"
+   ],
+   "shape": "col",
+   "sources": [
+    "repo-Basic",
+    "repo-Very-Basic",
+    "ileapp-Ph002"
+   ],
+   "versions": [
+    "13",
+    "14",
+    "15",
+    "16",
+    "17",
+    "13-14",
+    "14-15",
+    "15-16",
+    "16-17",
+    "17-17.6",
+    "17.6-18",
+    "18-26",
+    "26-27"
+   ],
+   "first_source": "repo-Basic",
+   "newest_source": "ileapp-Ph002",
+   "first_version": "13",
+   "newest_version": "26-27"
+  },
+  {
+   "name": "zExtAttr-Flash Fired",
+   "expr": "CASE zExtAttr.ZFLASHFIRED\n    WHEN 0 THEN '0-No Flash-0'\n    WHEN 1 THEN '1-Flash Fired-1'\n    ELSE 'Unknown-New-Value!: ' || zExtAttr.ZFLASHFIRED || ''\n  END",
+   "refs": [
+    [
+     "zExtAttr",
+     "ZFLASHFIRED"
+    ]
+   ],
+   "joins": [
+    "zExtAttr"
+   ],
+   "shape": "case",
+   "sources": [
+    "repo-Basic"
+   ],
+   "versions": [
+    "13",
+    "14",
+    "15",
+    "16",
+    "17"
+   ],
+   "first_source": "repo-Basic",
+   "newest_source": "repo-Basic",
+   "first_version": "13",
+   "newest_version": "17"
+  },
+  {
+   "name": "zCldMast-Imported By",
+   "expr": "CASE zCldMast.ZIMPORTEDBY\n            WHEN 0 THEN '0-Cloud-Other-0'\n            WHEN 1 THEN '1-Native-Back-Camera-1'\n            WHEN 2 THEN '2-Native-Front-Camera-2'\n            WHEN 3 THEN '3-Third-Party-App-3'\n            WHEN 4 THEN '4-StillTesting-4'\n            WHEN 5 THEN '5-PhotoBooth_PL-Asset-5'\n            WHEN 6 THEN '6-Third-Party-App-6'\n            WHEN 7 THEN '7-iCloud_Share_Link-CMMAsset-7'\n            WHEN 8 THEN '8-System-Package-App-8'\n            WHEN 9 THEN '9-Native-App-9'\n            WHEN 10 THEN '10-StillTesting-10'\n            WHEN 11 THEN '11-StillTesting-11'\n            WHEN 12 THEN '12-SWY_Syndication_PL-12'\n            ELSE 'Unknown-New-Value!: ' || zCldMast.ZIMPORTEDBY || ''\n        END",
+   "refs": [
+    [
+     "zCldMast",
+     "ZIMPORTEDBY"
+    ]
+   ],
+   "joins": [
+    "zCldMast"
+   ],
+   "shape": "case",
+   "sources": [
+    "repo-Basic",
+    "repo-Very-Basic",
+    "ileapp-Ph002"
+   ],
+   "versions": [
+    "13",
+    "14",
+    "15",
+    "16",
+    "17",
+    "13-14",
+    "14-15",
+    "15-16",
+    "16-17",
+    "17-17.6",
+    "17.6-18",
+    "18-26",
+    "26-27"
+   ],
+   "first_source": "repo-Basic",
+   "newest_source": "ileapp-Ph002",
+   "first_version": "13",
+   "newest_version": "26-27"
+  },
+  {
+   "name": "zIntResou-CldMst Date Created",
+   "expr": "DateTime(zIntResou.ZCLOUDMASTERDATECREATED + 978307200, 'UNIXEPOCH')",
+   "refs": [
+    [
+     "zIntResou",
+     "ZCLOUDMASTERDATECREATED"
+    ]
+   ],
+   "joins": [
+    "zIntResou"
+   ],
+   "shape": "datetime",
+   "sources": [
+    "repo-Basic"
+   ],
+   "versions": [
+    "13",
+    "14",
+    "15",
+    "16",
+    "17"
+   ],
+   "first_source": "repo-Basic",
+   "newest_source": "repo-Basic",
+   "first_version": "13",
+   "newest_version": "17"
+  },
+  {
+   "name": "zAddAssetAttr-Inferred Time Zone Offset",
+   "expr": "zAddAssetAttr.ZINFERREDTIMEZONEOFFSET",
+   "refs": [
+    [
+     "zAddAssetAttr",
+     "ZINFERREDTIMEZONEOFFSET"
+    ]
+   ],
+   "joins": [
+    "zAddAssetAttr"
+   ],
+   "shape": "col",
+   "sources": [
+    "repo-Basic"
+   ],
+   "versions": [
+    "13",
+    "14",
+    "15",
+    "16",
+    "17"
+   ],
+   "first_source": "repo-Basic",
+   "newest_source": "repo-Basic",
+   "first_version": "13",
+   "newest_version": "17"
+  },
+  {
+   "name": "zCldMast-Cloud Local State",
+   "expr": "CASE zCldMast.ZCLOUDLOCALSTATE\n            WHEN 0 THEN '0-Not Synced with Cloud-0'\n            WHEN 1 THEN '1-Pending Upload-1'\n            WHEN 2 THEN '2-StillTesting'\n            WHEN 3 THEN '3-Synced with Cloud-3'\n            ELSE 'Unknown-New-Value!: ' || zCldMast.ZCLOUDLOCALSTATE || ''\n        END",
+   "refs": [
+    [
+     "zCldMast",
+     "ZCLOUDLOCALSTATE"
+    ]
+   ],
+   "joins": [
+    "zCldMast"
+   ],
+   "shape": "case",
+   "sources": [
+    "repo-Basic",
+    "repo-Very-Basic",
+    "ileapp-Ph002"
+   ],
+   "versions": [
+    "13",
+    "14",
+    "15",
+    "16",
+    "17",
+    "11-12",
+    "12-13",
+    "13-14",
+    "14-15",
+    "15-16",
+    "16-17",
+    "17-17.6",
+    "17.6-18",
+    "18-26",
+    "26-27"
+   ],
+   "first_source": "repo-Basic",
+   "newest_source": "ileapp-Ph002",
+   "first_version": "13",
+   "newest_version": "26-27"
+  },
+  {
+   "name": "zAsset-Import Session",
+   "expr": "zAsset.ZIMPORTSESSION",
+   "refs": [
+    [
+     "zAsset",
+     "ZIMPORTSESSION"
+    ]
+   ],
+   "joins": [
+    "zAsset"
+   ],
+   "shape": "col",
+   "sources": [
+    "repo-Basic"
+   ],
+   "versions": [
+    "13",
+    "14",
+    "15",
+    "16",
+    "17"
+   ],
+   "first_source": "repo-Basic",
+   "newest_source": "repo-Basic",
+   "first_version": "13",
+   "newest_version": "17"
+  },
+  {
+   "name": "zAddAssetAttr-Import Session ID",
+   "expr": "zAddAssetAttr.ZIMPORTSESSIONID",
+   "refs": [
+    [
+     "zAddAssetAttr",
+     "ZIMPORTSESSIONID"
+    ]
+   ],
+   "joins": [
+    "zAddAssetAttr"
+   ],
+   "shape": "col",
+   "sources": [
+    "repo-Basic",
+    "ileapp-Ph002"
+   ],
+   "versions": [
+    "13",
+    "14",
+    "15",
+    "16",
+    "17",
+    "13-14",
+    "14-15",
+    "15-16",
+    "16-17",
+    "17-17.6",
+    "17.6-18",
+    "18-26",
+    "26-27"
+   ],
+   "first_source": "repo-Basic",
+   "newest_source": "ileapp-Ph002",
+   "first_version": "13",
+   "newest_version": "26-27"
+  },
+  {
+   "name": "zCldMast-Import Session ID",
+   "expr": "zCldMast.ZIMPORTSESSIONID",
+   "refs": [
+    [
+     "zCldMast",
+     "ZIMPORTSESSIONID"
+    ]
+   ],
+   "joins": [
+    "zCldMast"
+   ],
+   "shape": "col",
+   "sources": [
+    "repo-Basic",
+    "ileapp-Ph002"
+   ],
+   "versions": [
+    "13",
+    "14",
+    "15",
+    "16",
+    "17",
+    "11-12",
+    "12-13",
+    "13-14",
+    "14-15",
+    "15-16",
+    "16-17",
+    "17-17.6",
+    "17.6-18",
+    "18-26",
+    "26-27"
+   ],
+   "first_source": "repo-Basic",
+   "newest_source": "ileapp-Ph002",
+   "first_version": "13",
+   "newest_version": "26-27"
+  },
+  {
+   "name": "zAsset-Cloud Download Requests",
+   "expr": "zAsset.ZCLOUDDOWNLOADREQUESTS",
+   "refs": [
+    [
+     "zAsset",
+     "ZCLOUDDOWNLOADREQUESTS"
+    ]
+   ],
+   "joins": [
+    "zAsset"
+   ],
+   "shape": "col",
+   "sources": [
+    "repo-Basic",
+    "ileapp-Ph002"
+   ],
+   "versions": [
+    "13",
+    "14",
+    "15",
+    "16",
+    "17",
+    "11-12",
+    "12-13",
+    "13-14",
+    "14-15",
+    "15-16",
+    "16-17",
+    "17-17.6",
+    "17.6-18",
+    "18-26",
+    "26-27"
+   ],
+   "first_source": "repo-Basic",
+   "newest_source": "ileapp-Ph002",
+   "first_version": "13",
+   "newest_version": "26-27"
+  },
+  {
+   "name": "zAsset-Cloud Batch ID",
+   "expr": "zAsset.ZCLOUDBATCHID",
+   "refs": [
+    [
+     "zAsset",
+     "ZCLOUDBATCHID"
+    ]
+   ],
+   "joins": [
+    "zAsset"
+   ],
+   "shape": "col",
+   "sources": [
+    "repo-Basic",
+    "ileapp-Ph002"
+   ],
+   "versions": [
+    "13",
+    "14",
+    "15",
+    "16",
+    "17",
+    "11-12",
+    "12-13",
+    "13-14",
+    "14-15",
+    "15-16",
+    "16-17",
+    "17-17.6",
+    "17.6-18",
+    "18-26",
+    "26-27"
+   ],
+   "first_source": "repo-Basic",
+   "newest_source": "ileapp-Ph002",
+   "first_version": "13",
+   "newest_version": "26-27"
+  },
+  {
+   "name": "zAddAssetAttr-Upload Attempts",
+   "expr": "zAddAssetAttr.ZUPLOADATTEMPTS",
+   "refs": [
+    [
+     "zAddAssetAttr",
+     "ZUPLOADATTEMPTS"
+    ]
+   ],
+   "joins": [
+    "zAddAssetAttr"
+   ],
+   "shape": "col",
+   "sources": [
+    "repo-Basic"
+   ],
+   "versions": [
+    "13",
+    "14",
+    "15",
+    "16",
+    "17"
+   ],
+   "first_source": "repo-Basic",
+   "newest_source": "repo-Basic",
+   "first_version": "13",
+   "newest_version": "17"
+  },
+  {
+   "name": "zExtAttr-Latitude",
+   "expr": "zExtAttr.ZLATITUDE",
+   "refs": [
+    [
+     "zExtAttr",
+     "ZLATITUDE"
+    ]
+   ],
+   "joins": [
+    "zExtAttr"
+   ],
+   "shape": "col",
+   "sources": [
+    "repo-Basic",
+    "ileapp-Ph002"
+   ],
+   "versions": [
+    "13",
+    "14",
+    "15",
+    "16",
+    "17",
+    "13-14",
+    "14-15",
+    "15-16",
+    "16-17",
+    "17-17.6",
+    "17.6-18",
+    "18-26",
+    "26-27"
+   ],
+   "first_source": "repo-Basic",
+   "newest_source": "ileapp-Ph002",
+   "first_version": "13",
+   "newest_version": "26-27"
+  },
+  {
+   "name": "zExtAttr-Longitude",
+   "expr": "zExtAttr.ZLONGITUDE",
+   "refs": [
+    [
+     "zExtAttr",
+     "ZLONGITUDE"
+    ]
+   ],
+   "joins": [
+    "zExtAttr"
+   ],
+   "shape": "col",
+   "sources": [
+    "repo-Basic",
+    "ileapp-Ph002"
+   ],
+   "versions": [
+    "13",
+    "14",
+    "15",
+    "16",
+    "17",
+    "13-14",
+    "14-15",
+    "15-16",
+    "16-17",
+    "17-17.6",
+    "17.6-18",
+    "18-26",
+    "26-27"
+   ],
+   "first_source": "repo-Basic",
+   "newest_source": "ileapp-Ph002",
+   "first_version": "13",
+   "newest_version": "26-27"
+  },
+  {
+   "name": "zAsset-Orientation",
+   "expr": "CASE zAsset.ZORIENTATION\n    WHEN 1 THEN '1-Video-Default/Adjustment/Horizontal-Camera-(left)-1'\n    WHEN 2 THEN '2-Horizontal-Camera-(right)-2'\n    WHEN 3 THEN '3-Horizontal-Camera-(right)-3'\n    WHEN 4 THEN '4-Horizontal-Camera-(left)-4'\n    WHEN 5 THEN '5-Vertical-Camera-(top)-5'\n    WHEN 6 THEN '6-Vertical-Camera-(top)-6'\n    WHEN 7 THEN '7-Vertical-Camera-(bottom)-7'\n    WHEN 8 THEN '8-Vertical-Camera-(bottom)-8'\n    ELSE 'Unknown-New-Value!: ' || zAsset.ZORIENTATION || ''\n  END",
+   "refs": [
+    [
+     "zAsset",
+     "ZORIENTATION"
+    ]
+   ],
+   "joins": [
+    "zAsset"
+   ],
+   "shape": "case",
+   "sources": [
+    "repo-Basic",
+    "repo-Very-Basic"
+   ],
+   "versions": [
+    "13",
+    "14",
+    "15",
+    "16",
+    "17"
+   ],
+   "first_source": "repo-Basic",
+   "newest_source": "repo-Very-Basic",
+   "first_version": "13",
+   "newest_version": "17"
+  },
+  {
+   "name": "zAddAssetAttr-Original Orientation",
+   "expr": "CASE zAddAssetAttr.ZORIGINALORIENTATION\n    WHEN 1 THEN '1-Video-Default/Adjustment/Horizontal-Camera-(left)-1'\n    WHEN 2 THEN '2-Horizontal-Camera-(right)-2'\n    WHEN 3 THEN '3-Horizontal-Camera-(right)-3'\n    WHEN 4 THEN '4-Horizontal-Camera-(left)-4'\n    WHEN 5 THEN '5-Vertical-Camera-(top)-5'\n    WHEN 6 THEN '6-Vertical-Camera-(top)-6'\n    WHEN 7 THEN '7-Vertical-Camera-(bottom)-7'\n    WHEN 8 THEN '8-Vertical-Camera-(bottom)-8'\n    ELSE 'Unknown-New-Value!: ' || zAsset.ZORIENTATION || ''\n  END",
+   "refs": [
+    [
+     "zAddAssetAttr",
+     "ZORIGINALORIENTATION"
+    ],
+    [
+     "zAsset",
+     "ZORIENTATION"
+    ]
+   ],
+   "joins": [
+    "zAddAssetAttr",
+    "zAsset"
+   ],
+   "shape": "case",
+   "sources": [
+    "repo-Basic"
+   ],
+   "versions": [
+    "13",
+    "14",
+    "15",
+    "16",
+    "17"
+   ],
+   "first_source": "repo-Basic",
+   "newest_source": "repo-Basic",
+   "first_version": "13",
+   "newest_version": "17"
+  },
+  {
+   "name": "zIntResou-Orientation",
+   "expr": "CASE zIntResou.ZORIENTATION\n    WHEN 0 THEN '0-NA-0'\n    WHEN 1 THEN '1-Video-Default/Adjustment/Horizontal-Camera-(left)-1'\n    WHEN 2 THEN '2-Horizontal-Camera-(right)-2'\n    WHEN 3 THEN '3-Horizontal-Camera-(right)-3'\n    WHEN 4 THEN '4-Horizontal-Camera-(left)-4'\n    WHEN 5 THEN '5-Vertical-Camera-(top)-5'\n    WHEN 6 THEN '6-Vertical-Camera-(top)-6'\n    WHEN 7 THEN '7-Vertical-Camera-(bottom)-7'\n    WHEN 8 THEN '8-Vertical-Camera-(bottom)-8'\n    ELSE 'Unknown-New-Value!: ' || zIntResou.ZORIENTATION || ''\n  END",
+   "refs": [
+    [
+     "zIntResou",
+     "ZORIENTATION"
+    ]
+   ],
+   "joins": [
+    "zIntResou"
+   ],
+   "shape": "case",
+   "sources": [
+    "repo-Basic"
+   ],
+   "versions": [
+    "13",
+    "14",
+    "15",
+    "16"
+   ],
+   "first_source": "repo-Basic",
+   "newest_source": "repo-Basic",
+   "first_version": "13",
+   "newest_version": "16"
+  },
+  {
+   "name": "zAddAssetAttr-Cloud Kind Sub Type",
+   "expr": "CASE zAddAssetAttr.ZCLOUDKINDSUBTYPE\n    WHEN 0 THEN '0-Still-Photo-0'\n    WHEN 1 THEN '1-StillTesting'\n    WHEN 2 THEN '2-Live-Photo-2'\n    WHEN 3 THEN '3-Screenshot-3'\n    WHEN 10 THEN '10-SpringBoard-Screenshot-10'\n    WHEN 100 THEN '100-Video-100'\n    WHEN 101 THEN '101-Slow-Mo-Video-101'\n    WHEN 102 THEN '102-Time-lapse-Video-102'\n    WHEN 103 THEN '103-Replay_Screen_Recording-103'\n    ELSE 'Unknown-New-Value!: ' || zAddAssetAttr.ZCLOUDKINDSUBTYPE || ''\n  END",
+   "refs": [
+    [
+     "zAddAssetAttr",
+     "ZCLOUDKINDSUBTYPE"
+    ]
+   ],
+   "joins": [
+    "zAddAssetAttr"
+   ],
+   "shape": "case",
+   "sources": [
+    "repo-Basic",
+    "repo-Very-Basic"
+   ],
+   "versions": [
+    "13",
+    "14",
+    "15",
+    "16",
+    "17"
+   ],
+   "first_source": "repo-Basic",
+   "newest_source": "repo-Very-Basic",
+   "first_version": "13",
+   "newest_version": "17"
+  },
+  {
+   "name": "zExtAttr-Duration",
+   "expr": "zExtAttr.ZDURATION",
+   "refs": [
+    [
+     "zExtAttr",
+     "ZDURATION"
+    ]
+   ],
+   "joins": [
+    "zExtAttr"
+   ],
+   "shape": "col",
+   "sources": [
+    "repo-Basic",
+    "repo-Very-Basic"
+   ],
+   "versions": [
+    "13",
+    "14",
+    "15",
+    "16",
+    "17"
+   ],
+   "first_source": "repo-Basic",
+   "newest_source": "repo-Very-Basic",
+   "first_version": "13",
+   "newest_version": "17"
+  },
+  {
+   "name": "zIntResou-Asset=zAsset.zPK",
+   "expr": "zIntResou.ZASSET",
+   "refs": [
+    [
+     "zIntResou",
+     "ZASSET"
+    ]
+   ],
+   "joins": [
+    "zIntResou"
+   ],
+   "shape": "col",
+   "sources": [
+    "repo-Basic"
+   ],
+   "versions": [
+    "13",
+    "14",
+    "15",
+    "16",
+    "17"
+   ],
+   "first_source": "repo-Basic",
+   "newest_source": "repo-Basic",
+   "first_version": "13",
+   "newest_version": "17"
+  },
+  {
+   "name": "zIntResou-zPK",
+   "expr": "zIntResou.Z_PK",
+   "refs": [
+    [
+     "zIntResou",
+     "Z_PK"
+    ]
+   ],
+   "joins": [
+    "zIntResou"
+   ],
+   "shape": "col",
+   "sources": [
+    "repo-Basic"
+   ],
+   "versions": [
+    "13",
+    "14",
+    "15",
+    "16",
+    "17"
+   ],
+   "first_source": "repo-Basic",
+   "newest_source": "repo-Basic",
+   "first_version": "13",
+   "newest_version": "17"
+  },
+  {
+   "name": "zIntResou-zENT",
+   "expr": "zIntResou.Z_ENT",
+   "refs": [
+    [
+     "zIntResou",
+     "Z_ENT"
+    ]
+   ],
+   "joins": [
+    "zIntResou"
+   ],
+   "shape": "col",
+   "sources": [
+    "repo-Basic"
+   ],
+   "versions": [
+    "13",
+    "14",
+    "15",
+    "16",
+    "17"
+   ],
+   "first_source": "repo-Basic",
+   "newest_source": "repo-Basic",
+   "first_version": "13",
+   "newest_version": "17"
+  },
+  {
+   "name": "zIntResou-zOPT",
+   "expr": "zIntResou.Z_OPT",
+   "refs": [
+    [
+     "zIntResou",
+     "Z_OPT"
+    ]
+   ],
+   "joins": [
+    "zIntResou"
+   ],
+   "shape": "col",
+   "sources": [
+    "repo-Basic"
+   ],
+   "versions": [
+    "13",
+    "14",
+    "15",
+    "16",
+    "17"
+   ],
+   "first_source": "repo-Basic",
+   "newest_source": "repo-Basic",
+   "first_version": "13",
+   "newest_version": "17"
+  },
+  {
+   "name": "zIntResou-Quality Sort Value Key",
+   "expr": "zIntResou.ZQUALITYSORTVALUE",
+   "refs": [
+    [
+     "zIntResou",
+     "ZQUALITYSORTVALUE"
+    ]
+   ],
+   "joins": [
+    "zIntResou"
+   ],
+   "shape": "col",
+   "sources": [
+    "repo-Basic"
+   ],
+   "versions": [
+    "13",
+    "14",
+    "15",
+    "16"
+   ],
+   "first_source": "repo-Basic",
+   "newest_source": "repo-Basic",
+   "first_version": "13",
+   "newest_version": "16"
+  },
+  {
+   "name": "zIntResou-Datastore Class ID",
+   "expr": "CASE zIntResou.ZDATASTORECLASSID\n    WHEN 0 THEN '0-LPL-Asset_CPL-Asset-0'\n    WHEN 1 THEN '1-StillTesting-1'\n    WHEN 2 THEN '2-Photo-Cloud-Sharing-Asset-2'\n    WHEN 3 THEN '3-SWY_Syndication_Asset-3'\n    ELSE 'Unknown-New-Value!: ' || zIntResou.ZDATASTORECLASSID || ''\n  END",
+   "refs": [
+    [
+     "zIntResou",
+     "ZDATASTORECLASSID"
+    ]
+   ],
+   "joins": [
+    "zIntResou"
+   ],
+   "shape": "case",
+   "sources": [
+    "repo-Basic"
+   ],
+   "versions": [
+    "13",
+    "14",
+    "15",
+    "16",
+    "17"
+   ],
+   "first_source": "repo-Basic",
+   "newest_source": "repo-Basic",
+   "first_version": "13",
+   "newest_version": "17"
+  },
+  {
+   "name": "zAsset-Cloud Placeholder Kind",
+   "expr": "CASE zAsset.ZCLOUDPLACEHOLDERKIND\n    WHEN 0 THEN '0-Local&CloudMaster Asset-0'\n    WHEN 1 THEN '1-StillTesting-1'\n    WHEN 2 THEN '2-StillTesting-2'\n    WHEN 3 THEN '3-JPG-Asset_Only_PhDa/Thumb/V2-3'\n    WHEN 4 THEN '4-LPL-JPG-Asset_CPLAsset-OtherType-4'\n    WHEN 5 THEN '5-Asset_synced_CPL_2_Device-5'\n    WHEN 6 THEN '6-StillTesting-6'\n    WHEN 7 THEN '7-LPL-poster-JPG-Asset_CPLAsset-MP4-7'\n    WHEN 8 THEN '8-LPL-JPG_Asset_CPLAsset-LivePhoto-MOV-8'\n    WHEN 9 THEN '9-CPL_MP4_Asset_Saved_2_LPL-9'\n    ELSE 'Unknown-New-Value!: ' || zAsset.ZCLOUDPLACEHOLDERKIND || ''\n  END",
+   "refs": [
+    [
+     "zAsset",
+     "ZCLOUDPLACEHOLDERKIND"
+    ]
+   ],
+   "joins": [
+    "zAsset"
+   ],
+   "shape": "case",
+   "sources": [
+    "repo-Basic",
+    "repo-Very-Basic"
+   ],
+   "versions": [
+    "13",
+    "14",
+    "15",
+    "16",
+    "17"
+   ],
+   "first_source": "repo-Basic",
+   "newest_source": "repo-Very-Basic",
+   "first_version": "13",
+   "newest_version": "17"
+  },
+  {
+   "name": "zIntResou-Local Availability",
+   "expr": "CASE zIntResou.ZLOCALAVAILABILITY\n    WHEN -1 THEN '(-1)-IR_Asset_Not_Avail_Locally(-1)'\n    WHEN 1 THEN '1-IR_Asset_Avail_Locally-1'\n    WHEN -32768 THEN '(-32768)_IR_Asset-SWY-Linked_Asset(-32768)'\n    ELSE 'Unknown-New-Value!: ' || zIntResou.ZLOCALAVAILABILITY || ''\n  END",
+   "refs": [
+    [
+     "zIntResou",
+     "ZLOCALAVAILABILITY"
+    ]
+   ],
+   "joins": [
+    "zIntResou"
+   ],
+   "shape": "case",
+   "sources": [
+    "repo-Basic"
+   ],
+   "versions": [
+    "13",
+    "14",
+    "15",
+    "16",
+    "17"
+   ],
+   "first_source": "repo-Basic",
+   "newest_source": "repo-Basic",
+   "first_version": "13",
+   "newest_version": "17"
+  },
+  {
+   "name": "zIntResou-Local Availability Target",
+   "expr": "CASE zIntResou.ZLOCALAVAILABILITYTARGET\n    WHEN 0 THEN '0-StillTesting-0'\n    ELSE 'Unknown-New-Value!: ' || zIntResou.ZLOCALAVAILABILITYTARGET || ''\n  END",
+   "refs": [
+    [
+     "zIntResou",
+     "ZLOCALAVAILABILITYTARGET"
+    ]
+   ],
+   "joins": [
+    "zIntResou"
+   ],
+   "shape": "case",
+   "sources": [
+    "repo-Basic"
+   ],
+   "versions": [
+    "13",
+    "14",
+    "15",
+    "16",
+    "17"
+   ],
+   "first_source": "repo-Basic",
+   "newest_source": "repo-Basic",
+   "first_version": "13",
+   "newest_version": "17"
+  },
+  {
+   "name": "zIntResou-Cloud Local State",
+   "expr": "CASE zIntResou.ZCLOUDLOCALSTATE\n    WHEN 0 THEN '0-IR_Asset_Not_Synced_No_IR-CldMastDateCreated-0'\n    WHEN 1 THEN '1-IR_Asset_Pening-Upload-1'\n    WHEN 2 THEN '2-IR_Asset_Photo_Cloud_Share_Asset_On-Local-Device-2'\n    WHEN 3 THEN '3-IR_Asset_Synced_iCloud-3'\n    ELSE 'Unknown-New-Value!: ' || zIntResou.ZCLOUDLOCALSTATE || ''\n  END",
+   "refs": [
+    [
+     "zIntResou",
+     "ZCLOUDLOCALSTATE"
+    ]
+   ],
+   "joins": [
+    "zIntResou"
+   ],
+   "shape": "case",
+   "sources": [
+    "repo-Basic"
+   ],
+   "versions": [
+    "13",
+    "14",
+    "15",
+    "16",
+    "17"
+   ],
+   "first_source": "repo-Basic",
+   "newest_source": "repo-Basic",
+   "first_version": "13",
+   "newest_version": "17"
+  },
+  {
+   "name": "zIntResou-Remote Availability",
+   "expr": "CASE zIntResou.ZREMOTEAVAILABILITY\n    WHEN 0 THEN '0-IR_Asset-Not-Avail-Remotely-0'\n    WHEN 1 THEN '1-IR_Asset_Avail-Remotely-1'\n    ELSE 'Unknown-New-Value!: ' || zIntResou.ZREMOTEAVAILABILITY || ''\n  END",
+   "refs": [
+    [
+     "zIntResou",
+     "ZREMOTEAVAILABILITY"
+    ]
+   ],
+   "joins": [
+    "zIntResou"
+   ],
+   "shape": "case",
+   "sources": [
+    "repo-Basic"
+   ],
+   "versions": [
+    "13",
+    "14",
+    "15",
+    "16",
+    "17"
+   ],
+   "first_source": "repo-Basic",
+   "newest_source": "repo-Basic",
+   "first_version": "13",
+   "newest_version": "17"
+  },
+  {
+   "name": "zIntResou-Remote Availability Target",
+   "expr": "CASE zIntResou.ZREMOTEAVAILABILITYTARGET\n    WHEN 0 THEN '0-StillTesting-0'\n    WHEN 1 THEN '1-StillTesting-1'\n    ELSE 'Unknown-New-Value!: ' || zIntResou.ZREMOTEAVAILABILITYTARGET || ''\n  END",
+   "refs": [
+    [
+     "zIntResou",
+     "ZREMOTEAVAILABILITYTARGET"
+    ]
+   ],
+   "joins": [
+    "zIntResou"
+   ],
+   "shape": "case",
+   "sources": [
+    "repo-Basic"
+   ],
+   "versions": [
+    "13",
+    "14",
+    "15",
+    "16",
+    "17"
+   ],
+   "first_source": "repo-Basic",
+   "newest_source": "repo-Basic",
+   "first_version": "13",
+   "newest_version": "17"
+  },
+  {
+   "name": "zIntResou-Transient Cloud Master",
+   "expr": "zIntResou.ZTRANSIENTCLOUDMASTER",
+   "refs": [
+    [
+     "zIntResou",
+     "ZTRANSIENTCLOUDMASTER"
+    ]
+   ],
+   "joins": [
+    "zIntResou"
+   ],
+   "shape": "col",
+   "sources": [
+    "repo-Basic"
+   ],
+   "versions": [
+    "13",
+    "14",
+    "15",
+    "16",
+    "17"
+   ],
+   "first_source": "repo-Basic",
+   "newest_source": "repo-Basic",
+   "first_version": "13",
+   "newest_version": "17"
+  },
+  {
+   "name": "zIntResou-Side Car Index",
+   "expr": "zIntResou.ZSIDECARINDEX",
+   "refs": [
+    [
+     "zIntResou",
+     "ZSIDECARINDEX"
+    ]
+   ],
+   "joins": [
+    "zIntResou"
+   ],
+   "shape": "col",
+   "sources": [
+    "repo-Basic"
+   ],
+   "versions": [
+    "13",
+    "14",
+    "15",
+    "16",
+    "17"
+   ],
+   "first_source": "repo-Basic",
+   "newest_source": "repo-Basic",
+   "first_version": "13",
+   "newest_version": "17"
+  },
+  {
+   "name": "zIntResou- File ID",
+   "expr": "zIntResou.ZFILEID",
+   "refs": [
+    [
+     "zIntResou",
+     "ZFILEID"
+    ]
+   ],
+   "joins": [
+    "zIntResou"
+   ],
+   "shape": "col",
+   "sources": [
+    "repo-Basic"
+   ],
+   "versions": [
+    "13",
+    "14",
+    "15",
+    "16",
+    "17"
+   ],
+   "first_source": "repo-Basic",
+   "newest_source": "repo-Basic",
+   "first_version": "13",
+   "newest_version": "17"
+  },
+  {
+   "name": "zIntResou-Version",
+   "expr": "CASE zIntResou.ZVERSION\n    WHEN 0 THEN '0-IR_Asset_Standard-0'\n    WHEN 1 THEN '1-StillTesting-1'\n    WHEN 2 THEN '2-IR_Asset_Adjustments-Mutation-2'\n    WHEN 3 THEN '3-IR_Asset_No_IR-CldMastDateCreated-3'\n    ELSE 'Unknown-New-Value!: ' || zIntResou.ZVERSION || ''\n  END",
+   "refs": [
+    [
+     "zIntResou",
+     "ZVERSION"
+    ]
+   ],
+   "joins": [
+    "zIntResou"
+   ],
+   "shape": "case",
+   "sources": [
+    "repo-Basic"
+   ],
+   "versions": [
+    "13",
+    "14",
+    "15",
+    "16",
+    "17"
+   ],
+   "first_source": "repo-Basic",
+   "newest_source": "repo-Basic",
+   "first_version": "13",
+   "newest_version": "17"
+  },
+  {
+   "name": "zAddAssetAttr- Original-File-Size",
+   "expr": "zAddAssetAttr.ZORIGINALFILESIZE",
+   "refs": [
+    [
+     "zAddAssetAttr",
+     "ZORIGINALFILESIZE"
+    ]
+   ],
+   "joins": [
+    "zAddAssetAttr"
+   ],
+   "shape": "col",
+   "sources": [
+    "repo-Basic",
+    "repo-Very-Basic"
+   ],
+   "versions": [
+    "13",
+    "14",
+    "15",
+    "16",
+    "17"
+   ],
+   "first_source": "repo-Basic",
+   "newest_source": "repo-Very-Basic",
+   "first_version": "13",
+   "newest_version": "17"
+  },
+  {
+   "name": "zIntResou-Resource Type",
+   "expr": "CASE zIntResou.ZRESOURCETYPE\n    WHEN 0 THEN '0-Photo-0'\n    WHEN 1 THEN '1-Video-1'\n    WHEN 3 THEN '3-Live-Photo-3'\n    WHEN 5 THEN '5-Adjustement-Data-5'\n    WHEN 6 THEN '6-Screenshot-6'\n    WHEN 9 THEN '9-AlternatePhoto-3rdPartyApp-StillTesting-9'\n    WHEN 13 THEN '13-Movie-13'\n    WHEN 14 THEN '14-Wallpaper-14'\n    ELSE 'Unknown-New-Value!: ' || zIntResou.ZRESOURCETYPE || ''\n  END",
+   "refs": [
+    [
+     "zIntResou",
+     "ZRESOURCETYPE"
+    ]
+   ],
+   "joins": [
+    "zIntResou"
+   ],
+   "shape": "case",
+   "sources": [
+    "repo-Basic"
+   ],
+   "versions": [
+    "13",
+    "14",
+    "15",
+    "16",
+    "17"
+   ],
+   "first_source": "repo-Basic",
+   "newest_source": "repo-Basic",
+   "first_version": "13",
+   "newest_version": "17"
+  },
+  {
+   "name": "zIntResou-DataStoreKeyData/HEX",
+   "expr": "zIntResou.ZDATASTOREKEYDATA",
+   "refs": [
+    [
+     "zIntResou",
+     "ZDATASTOREKEYDATA"
+    ]
+   ],
+   "joins": [
+    "zIntResou"
+   ],
+   "shape": "col",
+   "sources": [
+    "repo-Basic"
+   ],
+   "versions": [
+    "13",
+    "14",
+    "15",
+    "16",
+    "17"
+   ],
+   "first_source": "repo-Basic",
+   "newest_source": "repo-Basic",
+   "first_version": "13",
+   "newest_version": "17"
+  },
+  {
+   "name": "zIntResou-Datastore Sub-Type",
+   "expr": "CASE zIntResou.ZDATASTORESUBTYPE\n    WHEN 0 THEN '0-No Cloud Inter Resource-0'\n    WHEN 1 THEN '1-Main-Asset-Orig-Size-1'\n    WHEN 2 THEN '2-Photo-with-Adjustments-2'\n    WHEN 3 THEN '3-JPG-Large-Thumb-3'\n    WHEN 4 THEN '4-JPG-Med-Thumb-4'\n    WHEN 5 THEN '5-JPG-Small-Thumb-5'\n    WHEN 6 THEN '6-Video-Med-Data-6'\n    WHEN 7 THEN '7-Video-Small-Data-7'\n    WHEN 8 THEN '8-MP4-Cloud-Share-8'\n    WHEN 9 THEN '9-StillTesting'\n    WHEN 10 THEN '10-3rdPartyApp_thumb-StillTesting-10'\n    WHEN 11 THEN '11-StillTesting'\n    WHEN 12 THEN '12-StillTesting'\n    WHEN 13 THEN '13-PNG-Optimized_CPLAsset-13'\n    WHEN 14 THEN '14-Wallpaper-14'\n    WHEN 15 THEN '15-Has-Markup-and-Adjustments-15'\n    WHEN 16 THEN '16-Video-with-Adjustments-16'\n    WHEN 17 THEN '17-RAW_Photo-17_RT'\n    WHEN 18 THEN '18-Live-Photo-Video_Optimized_CPLAsset-18'\n    WHEN 19 THEN '19-Live-Photo-with-Adjustments-19'\n    WHEN 20 THEN '20-StillTesting'\n    WHEN 21 THEN '21-MOV-Optimized_HEVC-4K_video-21'\n    WHEN 22 THEN '22-Adjust-Mutation_AAE_Asset-22'\n    WHEN 23 THEN '23-StillTesting'\n    WHEN 24 THEN '24-StillTesting'\n    WHEN 25 THEN '25-StillTesting'\n    WHEN 26 THEN '26-MOV-Optimized_CPLAsset-26'\n    WHEN 27 THEN '27-StillTesting'\n    WHEN 28 THEN '28-MOV-Med-hdr-Data-28'\n    ELSE 'Unknown-New-Value!: ' || zIntResou.ZDATASTORESUBTYPE || ''\n  END",
+   "refs": [
+    [
+     "zIntResou",
+     "ZDATASTORESUBTYPE"
+    ]
+   ],
+   "joins": [
+    "zIntResou"
+   ],
+   "shape": "case",
+   "sources": [
+    "repo-Basic"
+   ],
+   "versions": [
+    "13",
+    "14",
+    "15",
+    "16",
+    "17"
+   ],
+   "first_source": "repo-Basic",
+   "newest_source": "repo-Basic",
+   "first_version": "13",
+   "newest_version": "17"
+  },
+  {
+   "name": "zIntResou-Cloud Source Type",
+   "expr": "CASE zIntResou.ZCLOUDSOURCETYPE\n    WHEN 0 THEN '0-NA-0'\n    WHEN 1 THEN '1-Main-Asset-Orig-Size-1'\n    WHEN 2 THEN '2-Photo-with-Adjustments-2'\n    WHEN 3 THEN '3-JPG-Large-Thumb-3'\n    WHEN 4 THEN '4-JPG-Med-Thumb-4'\n    WHEN 5 THEN '5-JPG-Small-Thumb-5'\n    WHEN 6 THEN '6-Video-Med-Data-6'\n    WHEN 7 THEN '7-Video-Small-Data-7'\n    WHEN 8 THEN '8-MP4-Cloud-Share-8'\n    WHEN 9 THEN '9-StillTesting'\n    WHEN 10 THEN '10-3rdPartyApp_thumb-StillTesting-10'\n    WHEN 11 THEN '11-StillTesting'\n    WHEN 12 THEN '12-StillTesting'\n    WHEN 13 THEN '13-PNG-Optimized_CPLAsset-13'\n    WHEN 14 THEN '14-Wallpaper-14'\n    WHEN 15 THEN '15-Has-Markup-and-Adjustments-15'\n    WHEN 16 THEN '16-Video-with-Adjustments-16'\n    WHEN 17 THEN '17-RAW_Photo-17_RT'\n    WHEN 18 THEN '18-Live-Photo-Video_Optimized_CPLAsset-18'\n    WHEN 19 THEN '19-Live-Photo-with-Adjustments-19'\n    WHEN 20 THEN '20-StillTesting'\n    WHEN 21 THEN '21-MOV-Optimized_HEVC-4K_video-21'\n    WHEN 22 THEN '22-Adjust-Mutation_AAE_Asset-22'\n    WHEN 23 THEN '23-StillTesting'\n    WHEN 24 THEN '24-StillTesting'\n    WHEN 25 THEN '25-StillTesting'\n    WHEN 26 THEN '26-MOV-Optimized_CPLAsset-26'\n    WHEN 27 THEN '27-StillTesting'\n    WHEN 28 THEN '28-MOV-Med-hdr-Data-28'\n    ELSE 'Unknown-New-Value!: ' || zIntResou.ZCLOUDSOURCETYPE || ''\n  END",
+   "refs": [
+    [
+     "zIntResou",
+     "ZCLOUDSOURCETYPE"
+    ]
+   ],
+   "joins": [
+    "zIntResou"
+   ],
+   "shape": "case",
+   "sources": [
+    "repo-Basic"
+   ],
+   "versions": [
+    "13",
+    "14",
+    "15",
+    "16",
+    "17"
+   ],
+   "first_source": "repo-Basic",
+   "newest_source": "repo-Basic",
+   "first_version": "13",
+   "newest_version": "17"
+  },
+  {
+   "name": "zIntResou-Data Length",
+   "expr": "zIntResou.ZDATALENGTH",
+   "refs": [
+    [
+     "zIntResou",
+     "ZDATALENGTH"
+    ]
+   ],
+   "joins": [
+    "zIntResou"
+   ],
+   "shape": "col",
+   "sources": [
+    "repo-Basic"
+   ],
+   "versions": [
+    "13",
+    "14",
+    "15",
+    "16",
+    "17"
+   ],
+   "first_source": "repo-Basic",
+   "newest_source": "repo-Basic",
+   "first_version": "13",
+   "newest_version": "17"
+  },
+  {
+   "name": "zIntResou-Recipe ID",
+   "expr": "CASE zIntResou.ZRECIPEID\n    WHEN 0 THEN '0-OrigFileSize_match_DataLength_or_Optimized-0'\n    WHEN 65737 THEN '65737-full-JPG_Orig-ProRAW_DNG-65737'\n    WHEN 65739 THEN '65739-JPG_Large_Thumb-65739'\n    WHEN 65741 THEN '65741-Various_Asset_Types-or-Thumbs-65741'\n    WHEN 65743 THEN '65743-ResouType-Photo_5003-or-5005-JPG_Thumb-65743'\n    WHEN 65749 THEN '65749-LocalVideoKeyFrame-JPG_Thumb-65749'\n    WHEN 65938 THEN '65938-FullSizeRender-Photo-or-plist-65938'\n    WHEN 131072 THEN '131072-FullSizeRender-Video-or-plist-131072'\n    WHEN 131077 THEN '131077-medium-MOV_HEVC-4K-131077'\n    WHEN 131079 THEN '131079-medium-MP4_Adj-Mutation_Asset-131079'\n    WHEN 131081 THEN '131081-ResouType-Video_5003-or-5005-JPG_Thumb-131081'\n    WHEN 131272 THEN '131272-FullSizeRender-Video_LivePhoto_Adj-Mutation-131272'\n    WHEN 131275 THEN '131275-medium-MOV_LivePhoto-131275'\n    WHEN 131277 THEN '131277-No-IR-Asset_LivePhoto-iCloud_Sync_Asset-131277'\n    WHEN 131475 THEN '131475-medium-hdr-MOV-131475'\n    WHEN 327683 THEN '327683-JPG-Thumb_for_3rdParty-StillTesting-327683'\n    WHEN 327687 THEN '627687-WallpaperComputeResource-627687'\n    ELSE 'Unknown-New-Value!: ' || zIntResou.ZRECIPEID || ''\n  END",
+   "refs": [
+    [
+     "zIntResou",
+     "ZRECIPEID"
+    ]
+   ],
+   "joins": [
+    "zIntResou"
+   ],
+   "shape": "case",
+   "sources": [
+    "repo-Basic"
+   ],
+   "versions": [
+    "13",
+    "14",
+    "15",
+    "16",
+    "17"
+   ],
+   "first_source": "repo-Basic",
+   "newest_source": "repo-Basic",
+   "first_version": "13",
+   "newest_version": "17"
+  },
+  {
+   "name": "zIntResou-Cloud Last Prefetch Date",
+   "expr": "CASE zIntResou.ZCLOUDLASTPREFETCHDATE\n    WHEN 0 THEN '0-NA-0'\n    ELSE DateTime(zIntResou.ZCLOUDLASTPREFETCHDATE + 978307200, 'UNIXEPOCH')\n  END",
+   "refs": [
+    [
+     "zIntResou",
+     "ZCLOUDLASTPREFETCHDATE"
+    ]
+   ],
+   "joins": [
+    "zIntResou"
+   ],
+   "shape": "case",
+   "sources": [
+    "repo-Basic"
+   ],
+   "versions": [
+    "13",
+    "14",
+    "15",
+    "16",
+    "17"
+   ],
+   "first_source": "repo-Basic",
+   "newest_source": "repo-Basic",
+   "first_version": "13",
+   "newest_version": "17"
+  },
+  {
+   "name": "zIntResou-Cloud Prefetch Count",
+   "expr": "zIntResou.ZCLOUDPREFETCHCOUNT",
+   "refs": [
+    [
+     "zIntResou",
+     "ZCLOUDPREFETCHCOUNT"
+    ]
+   ],
+   "joins": [
+    "zIntResou"
+   ],
+   "shape": "col",
+   "sources": [
+    "repo-Basic"
+   ],
+   "versions": [
+    "13",
+    "14",
+    "15",
+    "16",
+    "17"
+   ],
+   "first_source": "repo-Basic",
+   "newest_source": "repo-Basic",
+   "first_version": "13",
+   "newest_version": "17"
+  },
+  {
+   "name": "zIntResou- Cloud-Last-OnDemand Download-Date",
+   "expr": "DateTime(zIntResou.ZCLOUDLASTONDEMANDDOWNLOADDATE + 978307200, 'UNIXEPOCH')",
+   "refs": [
+    [
+     "zIntResou",
+     "ZCLOUDLASTONDEMANDDOWNLOADDATE"
+    ]
+   ],
+   "joins": [
+    "zIntResou"
+   ],
+   "shape": "datetime",
+   "sources": [
+    "repo-Basic"
+   ],
+   "versions": [
+    "13",
+    "14",
+    "15",
+    "16",
+    "17"
+   ],
+   "first_source": "repo-Basic",
+   "newest_source": "repo-Basic",
+   "first_version": "13",
+   "newest_version": "17"
+  },
+  {
+   "name": "zAsset-Original Color Space",
+   "expr": "zAsset.ZORIGINALCOLORSPACE",
+   "refs": [
+    [
+     "zAsset",
+     "ZORIGINALCOLORSPACE"
+    ]
+   ],
+   "joins": [
+    "zAsset"
+   ],
+   "shape": "col",
+   "sources": [
+    "repo-Basic"
+   ],
+   "versions": [
+    "13",
+    "14",
+    "15",
+    "16",
+    "17"
+   ],
+   "first_source": "repo-Basic",
+   "newest_source": "repo-Basic",
+   "first_version": "13",
+   "newest_version": "17"
+  },
+  {
+   "name": "zCldMast-Uniform_Type_ID",
+   "expr": "zCldMast.ZUNIFORMTYPEIDENTIFIER",
+   "refs": [
+    [
+     "zCldMast",
+     "ZUNIFORMTYPEIDENTIFIER"
+    ]
+   ],
+   "joins": [
+    "zCldMast"
+   ],
+   "shape": "col",
+   "sources": [
+    "repo-Basic"
+   ],
+   "versions": [
+    "13",
+    "14",
+    "15",
+    "16",
+    "17"
+   ],
+   "first_source": "repo-Basic",
+   "newest_source": "repo-Basic",
+   "first_version": "13",
+   "newest_version": "17"
+  },
+  {
+   "name": "zCldMast-Full Size JPEG Source",
+   "expr": "CASE zCldMast.ZFULLSIZEJPEGSOURCE\n    WHEN 0 THEN '0-CldMast-JPEG-Source-Video Still-Testing-0'\n    WHEN 1 THEN '1-CldMast-JPEG-Source-Other- Still-Testing-1'\n    ELSE 'Unknown-New-Value!: ' || zCldMast.ZFULLSIZEJPEGSOURCE || ''\n  END",
+   "refs": [
+    [
+     "zCldMast",
+     "ZFULLSIZEJPEGSOURCE"
+    ]
+   ],
+   "joins": [
+    "zCldMast"
+   ],
+   "shape": "case",
+   "sources": [
+    "repo-Basic"
+   ],
+   "versions": [
+    "13",
+    "14",
+    "15",
+    "16",
+    "17"
+   ],
+   "first_source": "repo-Basic",
+   "newest_source": "repo-Basic",
+   "first_version": "13",
+   "newest_version": "17"
+  },
+  {
+   "name": "zAsset-HDR Gain",
+   "expr": "zAsset.ZHDRGAIN",
+   "refs": [
+    [
+     "zAsset",
+     "ZHDRGAIN"
+    ]
+   ],
+   "joins": [
+    "zAsset"
+   ],
+   "shape": "col",
+   "sources": [
+    "repo-Basic"
+   ],
+   "versions": [
+    "13",
+    "14",
+    "15",
+    "16",
+    "17"
+   ],
+   "first_source": "repo-Basic",
+   "newest_source": "repo-Basic",
+   "first_version": "13",
+   "newest_version": "17"
+  },
+  {
+   "name": "zExtAttr-Codec",
+   "expr": "zExtAttr.ZCODEC",
+   "refs": [
+    [
+     "zExtAttr",
+     "ZCODEC"
+    ]
+   ],
+   "joins": [
+    "zExtAttr"
+   ],
+   "shape": "col",
+   "sources": [
+    "repo-Basic"
+   ],
+   "versions": [
+    "13",
+    "14",
+    "15",
+    "16",
+    "17"
+   ],
+   "first_source": "repo-Basic",
+   "newest_source": "repo-Basic",
+   "first_version": "13",
+   "newest_version": "17"
+  },
+  {
+   "name": "zCldMast-Codec Name",
+   "expr": "zCldMast.ZCODECNAME",
+   "refs": [
+    [
+     "zCldMast",
+     "ZCODECNAME"
+    ]
+   ],
+   "joins": [
+    "zCldMast"
+   ],
+   "shape": "col",
+   "sources": [
+    "repo-Basic"
+   ],
+   "versions": [
+    "13",
+    "14",
+    "15",
+    "16",
+    "17"
+   ],
+   "first_source": "repo-Basic",
+   "newest_source": "repo-Basic",
+   "first_version": "13",
+   "newest_version": "17"
+  },
+  {
+   "name": "zCldMast-Video Frame Rate",
+   "expr": "zCldMast.ZVIDEOFRAMERATE",
+   "refs": [
+    [
+     "zCldMast",
+     "ZVIDEOFRAMERATE"
+    ]
+   ],
+   "joins": [
+    "zCldMast"
+   ],
+   "shape": "col",
+   "sources": [
+    "repo-Basic"
+   ],
+   "versions": [
+    "13",
+    "14",
+    "15",
+    "16",
+    "17"
+   ],
+   "first_source": "repo-Basic",
+   "newest_source": "repo-Basic",
+   "first_version": "13",
+   "newest_version": "17"
+  },
+  {
+   "name": "zCldMast-Placeholder State",
+   "expr": "zCldMast.ZPLACEHOLDERSTATE",
+   "refs": [
+    [
+     "zCldMast",
+     "ZPLACEHOLDERSTATE"
+    ]
+   ],
+   "joins": [
+    "zCldMast"
+   ],
+   "shape": "col",
+   "sources": [
+    "repo-Basic"
+   ],
+   "versions": [
+    "13",
+    "14",
+    "15",
+    "16",
+    "17"
+   ],
+   "first_source": "repo-Basic",
+   "newest_source": "repo-Basic",
+   "first_version": "13",
+   "newest_version": "17"
+  },
+  {
+   "name": "zAsset-Avalanche UUID",
+   "expr": "zAsset.ZAVALANCHEUUID",
+   "refs": [
+    [
+     "zAsset",
+     "ZAVALANCHEUUID"
+    ]
+   ],
+   "joins": [
+    "zAsset"
+   ],
+   "shape": "col",
+   "sources": [
+    "repo-Basic"
+   ],
+   "versions": [
+    "13",
+    "14",
+    "15",
+    "16",
+    "17"
+   ],
+   "first_source": "repo-Basic",
+   "newest_source": "repo-Basic",
+   "first_version": "13",
+   "newest_version": "17"
+  },
+  {
+   "name": "zAsset-Avalanche_Pick_Type/BurstAsset",
+   "expr": "CASE zAsset.ZAVALANCHEPICKTYPE\n    WHEN 0 THEN '0-NA/Single_Asset_Burst_UUID-0_RT'\n    WHEN 2 THEN '2-Burst_Asset_Not_Selected-2_RT'\n    WHEN 4 THEN '4-Burst_Asset_PhotosApp_Picked_KeyImage-4_RT'\n    WHEN 8 THEN '8-Burst_Asset_Selected_for_LPL-8_RT'\n    WHEN 16 THEN '16-Top_Burst_Asset_inStack_KeyImage-16_RT'\n    WHEN 32 THEN '32-StillTesting-32_RT'\n    WHEN 52 THEN '52-Burst_Asset_Visible_LPL-52'\n    ELSE 'Unknown-New-Value!: ' || zAsset.ZAVALANCHEPICKTYPE || ''\n  END",
+   "refs": [
+    [
+     "zAsset",
+     "ZAVALANCHEPICKTYPE"
+    ]
+   ],
+   "joins": [
+    "zAsset"
+   ],
+   "shape": "case",
+   "sources": [
+    "repo-Basic"
+   ],
+   "versions": [
+    "13",
+    "14",
+    "15",
+    "16",
+    "17"
+   ],
+   "first_source": "repo-Basic",
+   "newest_source": "repo-Basic",
+   "first_version": "13",
+   "newest_version": "17"
+  },
+  {
+   "name": "zAddAssetAttr-Cloud_Avalanche_Pick_Type/BurstAsset",
+   "expr": "CASE zAddAssetAttr.ZCLOUDAVALANCHEPICKTYPE\n    WHEN 0 THEN '0-NA/Single_Asset_Burst_UUID-0_RT'\n    WHEN 2 THEN '2-Burst_Asset_Not_Selected-2_RT'\n    WHEN 4 THEN '4-Burst_Asset_PhotosApp_Picked_KeyImage-4_RT'\n    WHEN 8 THEN '8-Burst_Asset_Selected_for_LPL-8_RT'\n    WHEN 16 THEN '16-Top_Burst_Asset_inStack_KeyImage-16_RT'\n    WHEN 32 THEN '32-StillTesting-32_RT'\n    WHEN 52 THEN '52-Burst_Asset_Visible_LPL-52'\n    ELSE 'Unknown-New-Value!: ' || zAddAssetAttr.ZCLOUDAVALANCHEPICKTYPE || ''\n  END",
+   "refs": [
+    [
+     "zAddAssetAttr",
+     "ZCLOUDAVALANCHEPICKTYPE"
+    ]
+   ],
+   "joins": [
+    "zAddAssetAttr"
+   ],
+   "shape": "case",
+   "sources": [
+    "repo-Basic"
+   ],
+   "versions": [
+    "13",
+    "14",
+    "15",
+    "16",
+    "17"
+   ],
+   "first_source": "repo-Basic",
+   "newest_source": "repo-Basic",
+   "first_version": "13",
+   "newest_version": "17"
+  },
+  {
+   "name": "zAddAssetAttr-Cloud Recovery State",
+   "expr": "CASE zAddAssetAttr.ZCLOUDRECOVERYSTATE\n    WHEN 0 THEN '0-StillTesting'\n    WHEN 1 THEN '1-StillTesting'\n    ELSE 'Unknown-New-Value!: ' || zAddAssetAttr.ZCLOUDRECOVERYSTATE || ''\n  END",
+   "refs": [
+    [
+     "zAddAssetAttr",
+     "ZCLOUDRECOVERYSTATE"
+    ]
+   ],
+   "joins": [
+    "zAddAssetAttr"
+   ],
+   "shape": "case",
+   "sources": [
+    "repo-Basic"
+   ],
+   "versions": [
+    "13",
+    "14",
+    "15",
+    "16",
+    "17"
+   ],
+   "first_source": "repo-Basic",
+   "newest_source": "repo-Basic",
+   "first_version": "13",
+   "newest_version": "17"
+  },
+  {
+   "name": "zAddAssetAttr-Cloud State Recovery Attempts Count",
+   "expr": "zAddAssetAttr.ZCLOUDSTATERECOVERYATTEMPTSCOUNT",
+   "refs": [
+    [
+     "zAddAssetAttr",
+     "ZCLOUDSTATERECOVERYATTEMPTSCOUNT"
+    ]
+   ],
+   "joins": [
+    "zAddAssetAttr"
+   ],
+   "shape": "col",
+   "sources": [
+    "repo-Basic"
+   ],
+   "versions": [
+    "13",
+    "14",
+    "15",
+    "16",
+    "17"
+   ],
+   "first_source": "repo-Basic",
+   "newest_source": "repo-Basic",
+   "first_version": "13",
+   "newest_version": "17"
+  },
+  {
+   "name": "zAsset-Deferred Processing Needed",
+   "expr": "zAsset.ZDEFERREDPROCESSINGNEEDED",
+   "refs": [
+    [
+     "zAsset",
+     "ZDEFERREDPROCESSINGNEEDED"
+    ]
+   ],
+   "joins": [
+    "zAsset"
+   ],
+   "shape": "col",
+   "sources": [
+    "repo-Basic"
+   ],
+   "versions": [
+    "13",
+    "14",
+    "15",
+    "16",
+    "17"
+   ],
+   "first_source": "repo-Basic",
+   "newest_source": "repo-Basic",
+   "first_version": "13",
+   "newest_version": "17"
+  },
+  {
+   "name": "zAsset-Has Adjustments/Camera-Effects-Filters",
+   "expr": "CASE zAsset.ZHASADJUSTMENTS\n    WHEN 0 THEN '0-No-Adjustments-0'\n    WHEN 1 THEN '1-Yes-Adjustments-1'\n    ELSE 'Unknown-New-Value!: ' || zAsset.ZHASADJUSTMENTS || ''\n  END",
+   "refs": [
+    [
+     "zAsset",
+     "ZHASADJUSTMENTS"
+    ]
+   ],
+   "joins": [
+    "zAsset"
+   ],
+   "shape": "case",
+   "sources": [
+    "repo-Basic"
+   ],
+   "versions": [
+    "13",
+    "14",
+    "15",
+    "16",
+    "17"
+   ],
+   "first_source": "repo-Basic",
+   "newest_source": "repo-Basic",
+   "first_version": "13",
+   "newest_version": "17"
+  },
+  {
+   "name": "zUnmAdj-Asset Attributes=zAddAssetAttr.zPK",
+   "expr": "zUnmAdj.ZASSETATTRIBUTES",
+   "refs": [
+    [
+     "zUnmAdj",
+     "ZASSETATTRIBUTES"
+    ]
+   ],
+   "joins": [
+    "zUnmAdj"
+   ],
+   "shape": "col",
+   "sources": [
+    "repo-Basic"
+   ],
+   "versions": [
+    "13",
+    "14",
+    "15",
+    "16",
+    "17"
+   ],
+   "first_source": "repo-Basic",
+   "newest_source": "repo-Basic",
+   "first_version": "13",
+   "newest_version": "17"
+  },
+  {
+   "name": "zAddAssetAttr-UnmanAdjust Key=zUnmAdj.zPK",
+   "expr": "zAddAssetAttr.ZUNMANAGEDADJUSTMENT",
+   "refs": [
+    [
+     "zAddAssetAttr",
+     "ZUNMANAGEDADJUSTMENT"
+    ]
+   ],
+   "joins": [
+    "zAddAssetAttr"
+   ],
+   "shape": "col",
+   "sources": [
+    "repo-Basic"
+   ],
+   "versions": [
+    "13",
+    "14",
+    "15",
+    "16",
+    "17"
+   ],
+   "first_source": "repo-Basic",
+   "newest_source": "repo-Basic",
+   "first_version": "13",
+   "newest_version": "17"
+  },
+  {
+   "name": "zUnmAdj-zPK=zAddAssetAttr.ZUnmanAdj Key",
+   "expr": "zUnmAdj.Z_PK",
+   "refs": [
+    [
+     "zUnmAdj",
+     "Z_PK"
+    ]
+   ],
+   "joins": [
+    "zUnmAdj"
+   ],
+   "shape": "col",
+   "sources": [
+    "repo-Basic"
+   ],
+   "versions": [
+    "13",
+    "14",
+    "15",
+    "16",
+    "17"
+   ],
+   "first_source": "repo-Basic",
+   "newest_source": "repo-Basic",
+   "first_version": "13",
+   "newest_version": "17"
+  },
+  {
+   "name": "zUnmAdj-UUID",
+   "expr": "zUnmAdj.ZUUID",
+   "refs": [
+    [
+     "zUnmAdj",
+     "ZUUID"
+    ]
+   ],
+   "joins": [
+    "zUnmAdj"
+   ],
+   "shape": "col",
+   "sources": [
+    "repo-Basic"
+   ],
+   "versions": [
+    "13",
+    "14",
+    "15",
+    "16",
+    "17"
+   ],
+   "first_source": "repo-Basic",
+   "newest_source": "repo-Basic",
+   "first_version": "13",
+   "newest_version": "17"
+  },
+  {
+   "name": "zUnmAdj-Adjustment Timestamp",
+   "expr": "DateTime(zUnmAdj.ZADJUSTMENTTIMESTAMP + 978307200, 'UNIXEPOCH')",
+   "refs": [
+    [
+     "zUnmAdj",
+     "ZADJUSTMENTTIMESTAMP"
+    ]
+   ],
+   "joins": [
+    "zUnmAdj"
+   ],
+   "shape": "datetime",
+   "sources": [
+    "repo-Basic"
+   ],
+   "versions": [
+    "13",
+    "14",
+    "15",
+    "16",
+    "17"
+   ],
+   "first_source": "repo-Basic",
+   "newest_source": "repo-Basic",
+   "first_version": "13",
+   "newest_version": "17"
+  },
+  {
+   "name": "zAddAssetAttr-Editor Bundle ID",
+   "expr": "zAddAssetAttr.ZEDITORBUNDLEID",
+   "refs": [
+    [
+     "zAddAssetAttr",
+     "ZEDITORBUNDLEID"
+    ]
+   ],
+   "joins": [
+    "zAddAssetAttr"
+   ],
+   "shape": "col",
+   "sources": [
+    "repo-Basic"
+   ],
+   "versions": [
+    "13",
+    "14",
+    "15",
+    "16",
+    "17"
+   ],
+   "first_source": "repo-Basic",
+   "newest_source": "repo-Basic",
+   "first_version": "13",
+   "newest_version": "17"
+  },
+  {
+   "name": "zUnmAdj-Editor Localized Name",
+   "expr": "zUnmAdj.ZEDITORLOCALIZEDNAME",
+   "refs": [
+    [
+     "zUnmAdj",
+     "ZEDITORLOCALIZEDNAME"
+    ]
+   ],
+   "joins": [
+    "zUnmAdj"
+   ],
+   "shape": "col",
+   "sources": [
+    "repo-Basic"
+   ],
+   "versions": [
+    "13",
+    "14",
+    "15",
+    "16",
+    "17"
+   ],
+   "first_source": "repo-Basic",
+   "newest_source": "repo-Basic",
+   "first_version": "13",
+   "newest_version": "17"
+  },
+  {
+   "name": "zUnmAdj-Adjustment Format ID",
+   "expr": "zUnmAdj.ZADJUSTMENTFORMATIDENTIFIER",
+   "refs": [
+    [
+     "zUnmAdj",
+     "ZADJUSTMENTFORMATIDENTIFIER"
+    ]
+   ],
+   "joins": [
+    "zUnmAdj"
+   ],
+   "shape": "col",
+   "sources": [
+    "repo-Basic"
+   ],
+   "versions": [
+    "13",
+    "14",
+    "15",
+    "16",
+    "17"
+   ],
+   "first_source": "repo-Basic",
+   "newest_source": "repo-Basic",
+   "first_version": "13",
+   "newest_version": "17"
+  },
+  {
+   "name": "zAddAssetAttr-Montage",
+   "expr": "zAddAssetAttr.ZMONTAGE",
+   "refs": [
+    [
+     "zAddAssetAttr",
+     "ZMONTAGE"
+    ]
+   ],
+   "joins": [
+    "zAddAssetAttr"
+   ],
+   "shape": "col",
+   "sources": [
+    "repo-Basic"
+   ],
+   "versions": [
+    "13",
+    "14",
+    "15",
+    "16",
+    "17"
+   ],
+   "first_source": "repo-Basic",
+   "newest_source": "repo-Basic",
+   "first_version": "13",
+   "newest_version": "17"
+  },
+  {
+   "name": "zUnmAdj-Adjustment Render Types",
+   "expr": "CASE zUnmAdj.ZADJUSTMENTRENDERTYPES\n    WHEN 0 THEN '0-Standard or Portrait with erros-0'\n    WHEN 1 THEN '1-StillTesting'\n    WHEN 2 THEN '2-Portrait-2'\n    WHEN 3 THEN '3-StillTesting'\n    WHEN 4 THEN '4-StillTesting'\n    ELSE 'Unknown-New-Value!: ' || zUnmAdj.ZADJUSTMENTRENDERTYPES || ''\n  END",
+   "refs": [
+    [
+     "zUnmAdj",
+     "ZADJUSTMENTRENDERTYPES"
+    ]
+   ],
+   "joins": [
+    "zUnmAdj"
+   ],
+   "shape": "case",
+   "sources": [
+    "repo-Basic"
+   ],
+   "versions": [
+    "13",
+    "14",
+    "15",
+    "16",
+    "17"
+   ],
+   "first_source": "repo-Basic",
+   "newest_source": "repo-Basic",
+   "first_version": "13",
+   "newest_version": "17"
+  },
+  {
+   "name": "zUnmAdj-Adjustment Format Version",
+   "expr": "CASE zUnmAdj.ZADJUSTMENTFORMATVERSION\n    WHEN 1.0 THEN '1.0-Markup-1.0'\n    WHEN 1.1 THEN '1.1-Slow-Mo-1.1'\n    WHEN 1.2 THEN '1.2-StillTesting'\n    WHEN 1.3 THEN '1.3-StillTesting'\n    WHEN 1.4 THEN '1.4-Filter-1.4'\n    WHEN 1.5 THEN '1.5-Adjust-1.5'\n    WHEN 1.6 THEN '1.6-Video-Trim-1.6'\n    WHEN 1.7 THEN '1.7-StillTesting'\n    WHEN 1.8 THEN '1.8-StillTesting'\n    WHEN 1.9 THEN '1.9-StillTesting'\n    WHEN 2.0 THEN '2.0-ScreenshotServices-2.0'\n    ELSE 'Unknown-New-Value!: ' || zUnmAdj.ZADJUSTMENTFORMATVERSION || ''\n  END",
+   "refs": [
+    [
+     "zUnmAdj",
+     "ZADJUSTMENTFORMATVERSION"
+    ]
+   ],
+   "joins": [
+    "zUnmAdj"
+   ],
+   "shape": "case",
+   "sources": [
+    "repo-Basic"
+   ],
+   "versions": [
+    "13",
+    "14",
+    "15",
+    "16",
+    "17"
+   ],
+   "first_source": "repo-Basic",
+   "newest_source": "repo-Basic",
+   "first_version": "13",
+   "newest_version": "17"
+  },
+  {
+   "name": "zUnmAdj-Adjustment Base Image Format",
+   "expr": "zUnmAdj.ZADJUSTMENTBASEIMAGEFORMAT",
+   "refs": [
+    [
+     "zUnmAdj",
+     "ZADJUSTMENTBASEIMAGEFORMAT"
+    ]
+   ],
+   "joins": [
+    "zUnmAdj"
+   ],
+   "shape": "col",
+   "sources": [
+    "repo-Basic"
+   ],
+   "versions": [
+    "13",
+    "14",
+    "15",
+    "16",
+    "17"
+   ],
+   "first_source": "repo-Basic",
+   "newest_source": "repo-Basic",
+   "first_version": "13",
+   "newest_version": "17"
+  },
+  {
+   "name": "zAsset-Favorite",
+   "expr": "CASE zAsset.ZFAVORITE\n    WHEN 0 THEN '0-Asset Not Favorite-0'\n    WHEN 1 THEN '1-Asset Favorite-1'\n  END",
+   "refs": [
+    [
+     "zAsset",
+     "ZFAVORITE"
+    ]
+   ],
+   "joins": [
+    "zAsset"
+   ],
+   "shape": "case",
+   "sources": [
+    "repo-Basic"
+   ],
+   "versions": [
+    "13",
+    "14",
+    "15",
+    "16",
+    "17"
+   ],
+   "first_source": "repo-Basic",
+   "newest_source": "repo-Basic",
+   "first_version": "13",
+   "newest_version": "17"
+  },
+  {
+   "name": "zIntResou-Trash State",
+   "expr": "CASE zIntResou.ZTRASHEDSTATE\n    WHEN 0 THEN '0-zIntResou-Not In Trash/Recently Deleted-0'\n    WHEN 1 THEN '1-zIntResou-In Trash/Recently Deleted-1'\n    ELSE 'Unknown-New-Value!: ' || zIntResou.ZTRASHEDSTATE || ''\n  END",
+   "refs": [
+    [
+     "zIntResou",
+     "ZTRASHEDSTATE"
+    ]
+   ],
+   "joins": [
+    "zIntResou"
+   ],
+   "shape": "case",
+   "sources": [
+    "repo-Basic"
+   ],
+   "versions": [
+    "13",
+    "14",
+    "15",
+    "16",
+    "17"
+   ],
+   "first_source": "repo-Basic",
+   "newest_source": "repo-Basic",
+   "first_version": "13",
+   "newest_version": "17"
+  },
+  {
+   "name": "zIntResou-Trashed Date",
+   "expr": "DateTime(zIntResou.ZTRASHEDDATE + 978307200, 'UNIXEPOCH')",
+   "refs": [
+    [
+     "zIntResou",
+     "ZTRASHEDDATE"
+    ]
+   ],
+   "joins": [
+    "zIntResou"
+   ],
+   "shape": "datetime",
+   "sources": [
+    "repo-Basic"
+   ],
+   "versions": [
+    "13",
+    "14",
+    "15",
+    "16",
+    "17"
+   ],
+   "first_source": "repo-Basic",
+   "newest_source": "repo-Basic",
+   "first_version": "13",
+   "newest_version": "17"
+  },
+  {
+   "name": "zAsset-Cloud Delete State",
+   "expr": "CASE zAsset.ZCLOUDDELETESTATE\n    WHEN 0 THEN '0-Cloud Asset Not Deleted-0'\n    WHEN 1 THEN '1-Cloud Asset Deleted-1'\n    ELSE 'Unknown-New-Value!: ' || zAsset.ZCLOUDDELETESTATE || ''\n  END",
+   "refs": [
+    [
+     "zAsset",
+     "ZCLOUDDELETESTATE"
+    ]
+   ],
+   "joins": [
+    "zAsset"
+   ],
+   "shape": "case",
+   "sources": [
+    "repo-Basic"
+   ],
+   "versions": [
+    "13",
+    "14",
+    "15",
+    "16",
+    "17"
+   ],
+   "first_source": "repo-Basic",
+   "newest_source": "repo-Basic",
+   "first_version": "13",
+   "newest_version": "17"
+  },
+  {
+   "name": "zIntResou-Cloud Delete State",
+   "expr": "CASE zIntResou.ZCLOUDDELETESTATE\n    WHEN 0 THEN '0-Cloud IntResou Not Deleted-0'\n    WHEN 1 THEN '1-Cloud IntResou Deleted-1'\n    ELSE 'Unknown-New-Value!: ' || zIntResou.ZCLOUDDELETESTATE || ''\n  END",
+   "refs": [
+    [
+     "zIntResou",
+     "ZCLOUDDELETESTATE"
+    ]
+   ],
+   "joins": [
+    "zIntResou"
+   ],
+   "shape": "case",
+   "sources": [
+    "repo-Basic"
+   ],
+   "versions": [
+    "13",
+    "14",
+    "15",
+    "16",
+    "17"
+   ],
+   "first_source": "repo-Basic",
+   "newest_source": "repo-Basic",
+   "first_version": "13",
+   "newest_version": "17"
+  },
+  {
+   "name": "zAddAssetAttr-PTP Trashed State",
+   "expr": "CASE zAddAssetAttr.ZPTPTRASHEDSTATE\n    WHEN 0 THEN '0-PTP Not in Trash-0'\n    WHEN 1 THEN '1-PTP In Trash-1'\n    ELSE 'Unknown-New-Value!: ' || zAddAssetAttr.ZPTPTRASHEDSTATE || ''\n  END",
+   "refs": [
+    [
+     "zAddAssetAttr",
+     "ZPTPTRASHEDSTATE"
+    ]
+   ],
+   "joins": [
+    "zAddAssetAttr"
+   ],
+   "shape": "case",
+   "sources": [
+    "repo-Basic"
+   ],
+   "versions": [
+    "13",
+    "14",
+    "15",
+    "16",
+    "17"
+   ],
+   "first_source": "repo-Basic",
+   "newest_source": "repo-Basic",
+   "first_version": "13",
+   "newest_version": "17"
+  },
+  {
+   "name": "zIntResou-PTP Trashed State",
+   "expr": "CASE zIntResou.ZPTPTRASHEDSTATE\n    WHEN 0 THEN '0-PTP IntResou Not in Trash-0'\n    WHEN 1 THEN '1-PTP IntResou In Trash-1'\n    ELSE 'Unknown-New-Value!: ' || zIntResou.ZPTPTRASHEDSTATE || ''\n  END",
+   "refs": [
+    [
+     "zIntResou",
+     "ZPTPTRASHEDSTATE"
+    ]
+   ],
+   "joins": [
+    "zIntResou"
+   ],
+   "shape": "case",
+   "sources": [
+    "repo-Basic"
+   ],
+   "versions": [
+    "13",
+    "14",
+    "15",
+    "16",
+    "17"
+   ],
+   "first_source": "repo-Basic",
+   "newest_source": "repo-Basic",
+   "first_version": "13",
+   "newest_version": "17"
+  },
+  {
+   "name": "zIntResou-Cloud Delete Asset UUID With Resource Type",
+   "expr": "zIntResou.ZCLOUDDELETEASSETUUIDWITHRESOURCETYPE",
+   "refs": [
+    [
+     "zIntResou",
+     "ZCLOUDDELETEASSETUUIDWITHRESOURCETYPE"
+    ]
+   ],
+   "joins": [
+    "zIntResou"
+   ],
+   "shape": "col",
+   "sources": [
+    "repo-Basic"
+   ],
+   "versions": [
+    "13",
+    "14",
+    "15",
+    "16",
+    "17"
+   ],
+   "first_source": "repo-Basic",
+   "newest_source": "repo-Basic",
+   "first_version": "13",
+   "newest_version": "17"
+  },
+  {
+   "name": "zMedAnlyAstAttr-Media Analysis Timestamp",
+   "expr": "DateTime(zMedAnlyAstAttr.ZMEDIAANALYSISTIMESTAMP + 978307200, 'UNIXEPOCH')",
+   "refs": [
+    [
+     "zMedAnlyAstAttr",
+     "ZMEDIAANALYSISTIMESTAMP"
+    ]
+   ],
+   "joins": [
+    "zMedAnlyAstAttr"
+   ],
+   "shape": "datetime",
+   "sources": [
+    "repo-Basic"
+   ],
+   "versions": [
+    "13",
+    "14",
+    "15",
+    "16",
+    "17"
+   ],
+   "first_source": "repo-Basic",
+   "newest_source": "repo-Basic",
+   "first_version": "13",
+   "newest_version": "17"
+  },
+  {
+   "name": "zAsset-Analysis State Modificaion Date",
+   "expr": "DateTime(zAsset.ZANALYSISSTATEMODIFICATIONDATE + 978307200, 'UNIXEPOCH')",
+   "refs": [
+    [
+     "zAsset",
+     "ZANALYSISSTATEMODIFICATIONDATE"
+    ]
+   ],
+   "joins": [
+    "zAsset"
+   ],
+   "shape": "datetime",
+   "sources": [
+    "repo-Basic"
+   ],
+   "versions": [
+    "13",
+    "14",
+    "15",
+    "16",
+    "17"
+   ],
+   "first_source": "repo-Basic",
+   "newest_source": "repo-Basic",
+   "first_version": "13",
+   "newest_version": "17"
+  },
+  {
+   "name": "zAddAssetAttr-Pending View Count",
+   "expr": "zAddAssetAttr.ZPENDINGVIEWCOUNT",
+   "refs": [
+    [
+     "zAddAssetAttr",
+     "ZPENDINGVIEWCOUNT"
+    ]
+   ],
+   "joins": [
+    "zAddAssetAttr"
+   ],
+   "shape": "col",
+   "sources": [
+    "repo-Basic"
+   ],
+   "versions": [
+    "13",
+    "14",
+    "15",
+    "16",
+    "17"
+   ],
+   "first_source": "repo-Basic",
+   "newest_source": "repo-Basic",
+   "first_version": "13",
+   "newest_version": "17"
+  },
+  {
+   "name": "zAddAssetAttr-View Count",
+   "expr": "zAddAssetAttr.ZVIEWCOUNT",
+   "refs": [
+    [
+     "zAddAssetAttr",
+     "ZVIEWCOUNT"
+    ]
+   ],
+   "joins": [
+    "zAddAssetAttr"
+   ],
+   "shape": "col",
+   "sources": [
+    "repo-Basic"
+   ],
+   "versions": [
+    "13",
+    "14",
+    "15",
+    "16",
+    "17"
+   ],
+   "first_source": "repo-Basic",
+   "newest_source": "repo-Basic",
+   "first_version": "13",
+   "newest_version": "17"
+  },
+  {
+   "name": "zAddAssetAttr-Pending Play Count",
+   "expr": "zAddAssetAttr.ZPENDINGPLAYCOUNT",
+   "refs": [
+    [
+     "zAddAssetAttr",
+     "ZPENDINGPLAYCOUNT"
+    ]
+   ],
+   "joins": [
+    "zAddAssetAttr"
+   ],
+   "shape": "col",
+   "sources": [
+    "repo-Basic"
+   ],
+   "versions": [
+    "13",
+    "14",
+    "15",
+    "16",
+    "17"
+   ],
+   "first_source": "repo-Basic",
+   "newest_source": "repo-Basic",
+   "first_version": "13",
+   "newest_version": "17"
+  },
+  {
+   "name": "zAddAssetAttr-Play Count",
+   "expr": "zAddAssetAttr.ZPLAYCOUNT",
+   "refs": [
+    [
+     "zAddAssetAttr",
+     "ZPLAYCOUNT"
+    ]
+   ],
+   "joins": [
+    "zAddAssetAttr"
+   ],
+   "shape": "col",
+   "sources": [
+    "repo-Basic"
+   ],
+   "versions": [
+    "13",
+    "14",
+    "15",
+    "16",
+    "17"
+   ],
+   "first_source": "repo-Basic",
+   "newest_source": "repo-Basic",
+   "first_version": "13",
+   "newest_version": "17"
+  },
+  {
+   "name": "zAddAssetAttr-Pending Share Count",
+   "expr": "zAddAssetAttr.ZPENDINGSHARECOUNT",
+   "refs": [
+    [
+     "zAddAssetAttr",
+     "ZPENDINGSHARECOUNT"
+    ]
+   ],
+   "joins": [
+    "zAddAssetAttr"
+   ],
+   "shape": "col",
+   "sources": [
+    "repo-Basic"
+   ],
+   "versions": [
+    "13",
+    "14",
+    "15",
+    "16",
+    "17"
+   ],
+   "first_source": "repo-Basic",
+   "newest_source": "repo-Basic",
+   "first_version": "13",
+   "newest_version": "17"
+  },
+  {
+   "name": "zAddAssetAttr-Share Count",
+   "expr": "zAddAssetAttr.ZSHARECOUNT",
+   "refs": [
+    [
+     "zAddAssetAttr",
+     "ZSHARECOUNT"
+    ]
+   ],
+   "joins": [
+    "zAddAssetAttr"
+   ],
+   "shape": "col",
+   "sources": [
+    "repo-Basic"
+   ],
+   "versions": [
+    "13",
+    "14",
+    "15",
+    "16",
+    "17"
+   ],
+   "first_source": "repo-Basic",
+   "newest_source": "repo-Basic",
+   "first_version": "13",
+   "newest_version": "17"
+  },
+  {
+   "name": "zAddAssetAttr-Allowed for Analysis",
+   "expr": "CASE zAddAssetAttr.ZALLOWEDFORANALYSIS\n    WHEN 0 THEN '0-Asset Not Allowed For Analysis-0'\n    WHEN 1 THEN '1-Asset Allowed for Analysis-1'\n    ELSE 'Unknown-New-Value!: ' || zAddAssetAttr.ZALLOWEDFORANALYSIS || ''\n  END",
+   "refs": [
+    [
+     "zAddAssetAttr",
+     "ZALLOWEDFORANALYSIS"
+    ]
+   ],
+   "joins": [
+    "zAddAssetAttr"
+   ],
+   "shape": "case",
+   "sources": [
+    "repo-Basic"
+   ],
+   "versions": [
+    "13",
+    "14",
+    "15",
+    "16",
+    "17"
+   ],
+   "first_source": "repo-Basic",
+   "newest_source": "repo-Basic",
+   "first_version": "13",
+   "newest_version": "17"
+  },
+  {
+   "name": "zAddAssetAttr-Scene Analysis Version",
+   "expr": "zAddAssetAttr.ZSCENEANALYSISVERSION",
+   "refs": [
+    [
+     "zAddAssetAttr",
+     "ZSCENEANALYSISVERSION"
+    ]
+   ],
+   "joins": [
+    "zAddAssetAttr"
+   ],
+   "shape": "col",
+   "sources": [
+    "repo-Basic"
+   ],
+   "versions": [
+    "13",
+    "14",
+    "15",
+    "16",
+    "17"
+   ],
+   "first_source": "repo-Basic",
+   "newest_source": "repo-Basic",
+   "first_version": "13",
+   "newest_version": "17"
+  },
+  {
+   "name": "zAddAssetAttr-Destination Asset Copy State",
+   "expr": "CASE zAddAssetAttr.ZDESTINATIONASSETCOPYSTATE\n    WHEN 0 THEN '0-No Copy-0'\n    WHEN 1 THEN '1-Has A Copy-1'\n    WHEN 2 THEN '2-Has A Copy-2'\n    ELSE 'Unknown-New-Value!: ' || zAddAssetAttr.ZDESTINATIONASSETCOPYSTATE || ''\n  END",
+   "refs": [
+    [
+     "zAddAssetAttr",
+     "ZDESTINATIONASSETCOPYSTATE"
+    ]
+   ],
+   "joins": [
+    "zAddAssetAttr"
+   ],
+   "shape": "case",
+   "sources": [
+    "repo-Basic"
+   ],
+   "versions": [
+    "13",
+    "14",
+    "15",
+    "16",
+    "17"
+   ],
+   "first_source": "repo-Basic",
+   "newest_source": "repo-Basic",
+   "first_version": "13",
+   "newest_version": "17"
+  },
+  {
+   "name": "zSceneP-Data/HEX NSKeyed Plist",
+   "expr": "zSceneP.ZDATA",
+   "refs": [
+    [
+     "zSceneP",
+     "ZDATA"
+    ]
+   ],
+   "joins": [
+    "zSceneP"
+   ],
+   "shape": "col",
+   "sources": [
+    "repo-Basic"
+   ],
+   "versions": [
+    "13",
+    "14",
+    "15",
+    "16",
+    "17"
+   ],
+   "first_source": "repo-Basic",
+   "newest_source": "repo-Basic",
+   "first_version": "13",
+   "newest_version": "17"
+  },
+  {
+   "name": "zAddAssetAttr-Media Metadata Type",
+   "expr": "zAddAssetAttr.ZMEDIAMETADATATYPE",
+   "refs": [
+    [
+     "zAddAssetAttr",
+     "ZMEDIAMETADATATYPE"
+    ]
+   ],
+   "joins": [
+    "zAddAssetAttr"
+   ],
+   "shape": "col",
+   "sources": [
+    "repo-Very-Basic",
+    "repo-Basic",
+    "ileapp-Ph002"
+   ],
+   "versions": [
+    "13",
+    "14",
+    "15",
+    "16",
+    "17",
+    "13-14",
+    "14-15",
+    "15-16",
+    "16-17",
+    "17-17.6",
+    "17.6-18",
+    "18-26",
+    "26-27"
+   ],
+   "first_source": "repo-Very-Basic",
+   "newest_source": "ileapp-Ph002",
+   "first_version": "13",
+   "newest_version": "26-27"
+  },
+  {
+   "name": "CMzCldMastMedData-Data/HEX",
+   "expr": "CMzCldMastMedData.ZDATA",
+   "refs": [
+    [
+     "CMzCldMastMedData",
+     "ZDATA"
+    ]
+   ],
+   "joins": [
+    "CMzCldMastMedData"
+   ],
+   "shape": "col",
+   "sources": [
+    "repo-Very-Basic",
+    "repo-Basic"
+   ],
+   "versions": [
+    "13",
+    "15",
+    "16",
+    "17"
+   ],
+   "first_source": "repo-Very-Basic",
+   "newest_source": "repo-Basic",
+   "first_version": "13",
+   "newest_version": "17"
+  },
+  {
+   "name": "zAsset-Playback Variation",
+   "expr": "zAsset.ZPLAYBACKVARIATION",
+   "refs": [
+    [
+     "zAsset",
+     "ZPLAYBACKVARIATION"
+    ]
+   ],
+   "joins": [
+    "zAsset"
+   ],
+   "shape": "col",
+   "sources": [
+    "repo-Very-Basic",
+    "repo-Basic"
+   ],
+   "versions": [
+    "13",
+    "14",
+    "15",
+    "16",
+    "17"
+   ],
+   "first_source": "repo-Very-Basic",
+   "newest_source": "repo-Very-Basic",
+   "first_version": "13",
+   "newest_version": "17"
+  },
+  {
+   "name": "zAddAssetAttr-Video CP Duration Time Scale",
+   "expr": "zAddAssetAttr.ZVIDEOCPDURATIONTIMESCALE",
+   "refs": [
+    [
+     "zAddAssetAttr",
+     "ZVIDEOCPDURATIONTIMESCALE"
+    ]
+   ],
+   "joins": [
+    "zAddAssetAttr"
+   ],
+   "shape": "col",
+   "sources": [
+    "repo-Very-Basic",
+    "repo-Basic"
+   ],
+   "versions": [
+    "13",
+    "14",
+    "15",
+    "16",
+    "17"
+   ],
+   "first_source": "repo-Very-Basic",
+   "newest_source": "repo-Very-Basic",
+   "first_version": "13",
+   "newest_version": "17"
+  },
+  {
+   "name": "zAsset-Video CP Visibility State",
+   "expr": "zAsset.ZVIDEOCPVISIBILITYSTATE",
+   "refs": [
+    [
+     "zAsset",
+     "ZVIDEOCPVISIBILITYSTATE"
+    ]
+   ],
+   "joins": [
+    "zAsset"
+   ],
+   "shape": "col",
+   "sources": [
+    "repo-Very-Basic",
+    "repo-Basic"
+   ],
+   "versions": [
+    "13",
+    "14",
+    "15",
+    "16",
+    "17"
+   ],
+   "first_source": "repo-Very-Basic",
+   "newest_source": "repo-Very-Basic",
+   "first_version": "13",
+   "newest_version": "17"
+  },
+  {
+   "name": "zAddAssetAttr-Video CP Display Time Scale",
+   "expr": "zAddAssetAttr.ZVIDEOCPDISPLAYTIMESCALE",
+   "refs": [
+    [
+     "zAddAssetAttr",
+     "ZVIDEOCPDISPLAYTIMESCALE"
+    ]
+   ],
+   "joins": [
+    "zAddAssetAttr"
+   ],
+   "shape": "col",
+   "sources": [
+    "repo-Very-Basic",
+    "repo-Basic"
+   ],
+   "versions": [
+    "13",
+    "14",
+    "15",
+    "16",
+    "17"
+   ],
+   "first_source": "repo-Very-Basic",
+   "newest_source": "repo-Very-Basic",
+   "first_version": "13",
+   "newest_version": "17"
+  },
+  {
+   "name": "zAsset-Derived Camera Capture Device",
+   "expr": "CASE zAsset.ZDERIVEDCAMERACAPTUREDEVICE\n            WHEN 0 THEN '0-Back-Camera-Other-0'\n            WHEN 1 THEN '1-Front-Camera-1'\n            ELSE 'Unknown-New-Value!: ' || zAsset.ZDERIVEDCAMERACAPTUREDEVICE || ''\n        END",
+   "refs": [
+    [
+     "zAsset",
+     "ZDERIVEDCAMERACAPTUREDEVICE"
+    ]
+   ],
+   "joins": [
+    "zAsset"
+   ],
+   "shape": "case",
+   "sources": [
+    "repo-Basic",
+    "repo-Very-Basic",
+    "ileapp-Ph002"
+   ],
+   "versions": [
+    "14",
+    "15",
+    "16",
+    "17",
+    "14-15",
+    "15-16",
+    "16-17",
+    "17-17.6",
+    "17.6-18",
+    "18-26",
+    "26-27"
+   ],
+   "first_source": "repo-Basic",
+   "newest_source": "ileapp-Ph002",
+   "first_version": "14",
+   "newest_version": "26-27"
+  },
+  {
+   "name": "zAddAssetAttr-Imported By Display Name",
+   "expr": "zAddAssetAttr.ZIMPORTEDBYDISPLAYNAME",
+   "refs": [
+    [
+     "zAddAssetAttr",
+     "ZIMPORTEDBYDISPLAYNAME"
+    ]
+   ],
+   "joins": [
+    "zAddAssetAttr"
+   ],
+   "shape": "col",
+   "sources": [
+    "repo-Basic",
+    "repo-Very-Basic",
+    "ileapp-Ph001",
+    "ileapp-Ph002"
+   ],
+   "versions": [
+    "14",
+    "15",
+    "16",
+    "17",
+    "14-15",
+    "15-16",
+    "16-18",
+    "18-27",
+    "16-17",
+    "17-17.6",
+    "17.6-18",
+    "18-26",
+    "26-27"
+   ],
+   "first_source": "repo-Basic",
+   "newest_source": "ileapp-Ph002",
+   "first_version": "14",
+   "newest_version": "26-27"
+  },
+  {
+   "name": "zCldMast-Imported by Bundle ID",
+   "expr": "zCldMast.ZIMPORTEDBYBUNDLEIDENTIFIER",
+   "refs": [
+    [
+     "zCldMast",
+     "ZIMPORTEDBYBUNDLEIDENTIFIER"
+    ]
+   ],
+   "joins": [
+    "zCldMast"
+   ],
+   "shape": "col",
+   "sources": [
+    "repo-Basic",
+    "repo-Very-Basic",
+    "ileapp-Ph002"
+   ],
+   "versions": [
+    "14",
+    "15",
+    "16",
+    "17",
+    "14-15",
+    "15-16",
+    "16-17",
+    "17-17.6",
+    "17.6-18",
+    "18-26",
+    "26-27"
+   ],
+   "first_source": "repo-Basic",
+   "newest_source": "ileapp-Ph002",
+   "first_version": "14",
+   "newest_version": "26-27"
+  },
+  {
+   "name": "zCldMast-Imported by Display Name",
+   "expr": "zCldMast.ZIMPORTEDBYDISPLAYNAME",
+   "refs": [
+    [
+     "zCldMast",
+     "ZIMPORTEDBYDISPLAYNAME"
+    ]
+   ],
+   "joins": [
+    "zCldMast"
+   ],
+   "shape": "col",
+   "sources": [
+    "repo-Basic",
+    "repo-Very-Basic",
+    "ileapp-Ph002"
+   ],
+   "versions": [
+    "14",
+    "15",
+    "16",
+    "17",
+    "14-15",
+    "15-16",
+    "16-17",
+    "17-17.6",
+    "17.6-18",
+    "18-26",
+    "26-27"
+   ],
+   "first_source": "repo-Basic",
+   "newest_source": "ileapp-Ph002",
+   "first_version": "14",
+   "newest_version": "26-27"
+  },
+  {
+   "name": "zAddAssetAttr-GPS Horizontal Accuracy",
+   "expr": "CASE zAddAssetAttr.ZGPSHORIZONTALACCURACY\n            WHEN -1.0 THEN '-1.0'\n            ELSE zAddAssetAttr.ZGPSHORIZONTALACCURACY\n        END",
+   "refs": [
+    [
+     "zAddAssetAttr",
+     "ZGPSHORIZONTALACCURACY"
+    ]
+   ],
+   "joins": [
+    "zAddAssetAttr"
+   ],
+   "shape": "case",
+   "sources": [
+    "repo-Basic",
+    "ileapp-Ph002"
+   ],
+   "versions": [
+    "14",
+    "15",
+    "16",
+    "17",
+    "14-15",
+    "15-16",
+    "16-17",
+    "17-17.6",
+    "17.6-18",
+    "18-26",
+    "26-27"
+   ],
+   "first_source": "repo-Basic",
+   "newest_source": "ileapp-Ph002",
+   "first_version": "14",
+   "newest_version": "26-27"
+  },
+  {
+   "name": "zAsset-Depth_Type",
+   "expr": "CASE zAsset.ZDEPTHTYPE\n    WHEN 0 THEN '0-Not_Portrait-0_RT'\n    ELSE 'Portrait: ' || zAsset.ZDEPTHTYPE || ''\n  END",
+   "refs": [
+    [
+     "zAsset",
+     "ZDEPTHTYPE"
+    ]
+   ],
+   "joins": [
+    "zAsset"
+   ],
+   "shape": "case",
+   "sources": [
+    "repo-Basic"
+   ],
+   "versions": [
+    "14",
+    "15",
+    "16",
+    "17"
+   ],
+   "first_source": "repo-Basic",
+   "newest_source": "repo-Basic",
+   "first_version": "14",
+   "newest_version": "17"
+  },
+  {
+   "name": "zAddAssetAttr-Deferred Photo Identifier",
+   "expr": "zAddAssetAttr.ZDEFERREDPHOTOIDENTIFIER",
+   "refs": [
+    [
+     "zAddAssetAttr",
+     "ZDEFERREDPHOTOIDENTIFIER"
+    ]
+   ],
+   "joins": [
+    "zAddAssetAttr"
+   ],
+   "shape": "col",
+   "sources": [
+    "repo-Basic"
+   ],
+   "versions": [
+    "14",
+    "15",
+    "16",
+    "17"
+   ],
+   "first_source": "repo-Basic",
+   "newest_source": "repo-Basic",
+   "first_version": "14",
+   "newest_version": "17"
+  },
+  {
+   "name": "zAddAssetAttr-Deferred Processing Candidate Options",
+   "expr": "zAddAssetAttr.ZDEFERREDPROCESSINGCANDIDATEOPTIONS",
+   "refs": [
+    [
+     "zAddAssetAttr",
+     "ZDEFERREDPROCESSINGCANDIDATEOPTIONS"
+    ]
+   ],
+   "joins": [
+    "zAddAssetAttr"
+   ],
+   "shape": "col",
+   "sources": [
+    "repo-Basic"
+   ],
+   "versions": [
+    "14",
+    "15",
+    "16",
+    "17"
+   ],
+   "first_source": "repo-Basic",
+   "newest_source": "repo-Basic",
+   "first_version": "14",
+   "newest_version": "17"
+  },
+  {
+   "name": "AAAzCldMastMedData-Data/HEX",
+   "expr": "AAAzCldMastMedData.ZDATA",
+   "refs": [
+    [
+     "AAAzCldMastMedData",
+     "ZDATA"
+    ]
+   ],
+   "joins": [
+    "AAAzCldMastMedData"
+   ],
+   "shape": "col",
+   "sources": [
+    "repo-Very-Basic",
+    "repo-Basic"
+   ],
+   "versions": [
+    "14",
+    "15",
+    "16",
+    "17"
+   ],
+   "first_source": "repo-Very-Basic",
+   "newest_source": "repo-Very-Basic",
+   "first_version": "14",
+   "newest_version": "17"
+  },
+  {
+   "name": "zAsset-Bundle Scope",
+   "expr": "CASE zAsset.ZBUNDLESCOPE\n            WHEN 0 THEN '0-iCldPhtos-ON-AssetNotInSharedAlbum_or_iCldPhtos-OFF-AssetOnLocalDevice-0'\n            WHEN 1 THEN '1-SharediCldLink_CldMastMomentAsset-1'\n            WHEN 2 THEN '2-iCldPhtos-ON-AssetInCloudSharedAlbum-2'\n            WHEN 3 THEN '3-iCldPhtos-ON-AssetIsInSWYConversation-3'\n            ELSE 'Unknown-New-Value!: ' || zAsset.ZBUNDLESCOPE || ''\n        END",
+   "refs": [
+    [
+     "zAsset",
+     "ZBUNDLESCOPE"
+    ]
+   ],
+   "joins": [
+    "zAsset"
+   ],
+   "shape": "case",
+   "sources": [
+    "repo-Basic",
+    "repo-Very-Basic",
+    "ileapp-Ph001",
+    "ileapp-Ph002"
+   ],
+   "versions": [
+    "15",
+    "16",
+    "17",
+    "15-16",
+    "16-18",
+    "18-27",
+    "16-17",
+    "17-17.6",
+    "17.6-18",
+    "18-26",
+    "26-27"
+   ],
+   "first_source": "repo-Basic",
+   "newest_source": "ileapp-Ph002",
+   "first_version": "15",
+   "newest_version": "26-27"
+  },
+  {
+   "name": "zExtAttr-Focal Lenght",
+   "expr": "zExtAttr.ZFOCALLENGTH",
+   "refs": [
+    [
+     "zExtAttr",
+     "ZFOCALLENGTH"
+    ]
+   ],
+   "joins": [
+    "zExtAttr"
+   ],
+   "shape": "col",
+   "sources": [
+    "repo-Basic"
+   ],
+   "versions": [
+    "15",
+    "16",
+    "17"
+   ],
+   "first_source": "repo-Basic",
+   "newest_source": "repo-Basic",
+   "first_version": "15",
+   "newest_version": "17"
+  },
+  {
+   "name": "zExtAttr-Focal Lenth in 35MM",
+   "expr": "zExtAttr.ZFOCALLENGTHIN35MM",
+   "refs": [
+    [
+     "zExtAttr",
+     "ZFOCALLENGTHIN35MM"
+    ]
+   ],
+   "joins": [
+    "zExtAttr"
+   ],
+   "shape": "col",
+   "sources": [
+    "repo-Basic"
+   ],
+   "versions": [
+    "15",
+    "16",
+    "17"
+   ],
+   "first_source": "repo-Basic",
+   "newest_source": "repo-Basic",
+   "first_version": "15",
+   "newest_version": "17"
+  },
+  {
+   "name": "zExtAttr-Digital Zoom Ratio",
+   "expr": "zExtAttr.ZDIGITALZOOMRATIO",
+   "refs": [
+    [
+     "zExtAttr",
+     "ZDIGITALZOOMRATIO"
+    ]
+   ],
+   "joins": [
+    "zExtAttr"
+   ],
+   "shape": "col",
+   "sources": [
+    "repo-Basic"
+   ],
+   "versions": [
+    "15",
+    "16",
+    "17"
+   ],
+   "first_source": "repo-Basic",
+   "newest_source": "repo-Basic",
+   "first_version": "15",
+   "newest_version": "17"
+  },
+  {
+   "name": "zAddAssetAttr-Imported by Bundle ID",
+   "expr": "zAddAssetAttr.ZIMPORTEDBYBUNDLEIDENTIFIER",
+   "refs": [
+    [
+     "zAddAssetAttr",
+     "ZIMPORTEDBYBUNDLEIDENTIFIER"
+    ]
+   ],
+   "joins": [
+    "zAddAssetAttr"
+   ],
+   "shape": "col",
+   "sources": [
+    "repo-Basic",
+    "repo-Very-Basic",
+    "ileapp-Ph001",
+    "ileapp-Ph002"
+   ],
+   "versions": [
+    "15",
+    "16",
+    "17",
+    "15-16",
+    "16-18",
+    "18-27",
+    "16-17",
+    "17-17.6",
+    "17.6-18",
+    "18-26",
+    "26-27"
+   ],
+   "first_source": "repo-Basic",
+   "newest_source": "ileapp-Ph002",
+   "first_version": "15",
+   "newest_version": "26-27"
+  },
+  {
+   "name": "zAddAssetAttr- Syndication Identifier-SWY-Files",
+   "expr": "zAddAssetAttr.ZSYNDICATIONIDENTIFIER",
+   "refs": [
+    [
+     "zAddAssetAttr",
+     "ZSYNDICATIONIDENTIFIER"
+    ]
+   ],
+   "joins": [
+    "zAddAssetAttr"
+   ],
+   "shape": "col",
+   "sources": [
+    "repo-Basic",
+    "repo-Very-Basic",
+    "ileapp-Ph001",
+    "ileapp-Ph002"
+   ],
+   "versions": [
+    "15",
+    "16",
+    "17",
+    "15-16",
+    "16-18",
+    "18-27",
+    "16-17",
+    "17-17.6",
+    "17.6-18",
+    "18-26",
+    "26-27"
+   ],
+   "first_source": "repo-Basic",
+   "newest_source": "ileapp-Ph002",
+   "first_version": "15",
+   "newest_version": "26-27"
+  },
+  {
+   "name": "zAddAssetAttr-Date Created Source",
+   "expr": "CASE zAddAssetAttr.ZDATECREATEDSOURCE\n    WHEN 0 THEN '0-Cloud-Asset-0'\n    WHEN 1 THEN '1-Local_Asset_EXIF-1'\n    WHEN 3 THEN '3-Local_Asset_No_EXIF-3'\n    ELSE 'Unknown-New-Value!: ' || zAddAssetAttr.ZDATECREATEDSOURCE || ''\n  END",
+   "refs": [
+    [
+     "zAddAssetAttr",
+     "ZDATECREATEDSOURCE"
+    ]
+   ],
+   "joins": [
+    "zAddAssetAttr"
+   ],
+   "shape": "case",
+   "sources": [
+    "repo-Basic",
+    "repo-Very-Basic"
+   ],
+   "versions": [
+    "15",
+    "16",
+    "17"
+   ],
+   "first_source": "repo-Basic",
+   "newest_source": "repo-Very-Basic",
+   "first_version": "15",
+   "newest_version": "17"
+  },
+  {
+   "name": "AAAzCldMastMedData-zOPT",
+   "expr": "CASE AAAzCldMastMedData.Z_OPT\n            WHEN 1 THEN '1-StillTesting-Cloud-1'\n            WHEN 2 THEN '2-StillTesting-This Device-2'\n            WHEN 3 THEN '3-StillTesting-Muted-3'\n            WHEN 4 THEN '4-StillTesting-Unknown-4'\n            WHEN 5 THEN '5-StillTesting-Unknown-5'\n            ELSE 'Unknown-New-Value!: ' || AAAzCldMastMedData.Z_OPT || ''\n        END",
+   "refs": [
+    [
+     "AAAzCldMastMedData",
+     "Z_OPT"
+    ]
+   ],
+   "joins": [
+    "AAAzCldMastMedData"
+   ],
+   "shape": "case",
+   "sources": [
+    "repo-Basic",
+    "ileapp-Ph002"
+   ],
+   "versions": [
+    "15",
+    "16",
+    "17",
+    "13-14",
+    "14-15",
+    "15-16",
+    "16-17",
+    "17-17.6",
+    "17.6-18",
+    "18-26",
+    "26-27"
+   ],
+   "first_source": "repo-Basic",
+   "newest_source": "ileapp-Ph002",
+   "first_version": "15",
+   "newest_version": "26-27"
+  },
+  {
+   "name": "CldMasterzCldMastMedData-zOPT",
+   "expr": "CASE CMzCldMastMedData.Z_OPT\n            WHEN 1 THEN '1-StillTesting-Has_CldMastAsset-1'\n            WHEN 2 THEN '2-StillTesting-Local_Asset-2'\n            WHEN 3 THEN '3-StillTesting-Muted-3'\n            WHEN 4 THEN '4-StillTesting-Unknown-4'\n            WHEN 5 THEN '5-StillTesting-Unknown-5'\n            ELSE 'Unknown-New-Value!: ' || CMzCldMastMedData.Z_OPT || ''\n        END",
+   "refs": [
+    [
+     "CMzCldMastMedData",
+     "Z_OPT"
+    ]
+   ],
+   "joins": [
+    "CMzCldMastMedData"
+   ],
+   "shape": "case",
+   "sources": [
+    "repo-Basic",
+    "ileapp-Ph002"
+   ],
+   "versions": [
+    "15",
+    "16",
+    "17",
+    "13-14",
+    "14-15",
+    "15-16",
+    "16-17",
+    "17-17.6",
+    "17.6-18",
+    "18-26",
+    "26-27"
+   ],
+   "first_source": "repo-Basic",
+   "newest_source": "ileapp-Ph002",
+   "first_version": "15",
+   "newest_version": "26-27"
+  },
+  {
+   "name": "zCldMast-Media Metadata Type",
+   "expr": "zCldMast.ZMEDIAMETADATATYPE",
+   "refs": [
+    [
+     "zCldMast",
+     "ZMEDIAMETADATATYPE"
+    ]
+   ],
+   "joins": [
+    "zCldMast"
+   ],
+   "shape": "col",
+   "sources": [
+    "repo-Basic",
+    "ileapp-Ph002"
+   ],
+   "versions": [
+    "15",
+    "16",
+    "17",
+    "13-14",
+    "14-15",
+    "15-16",
+    "16-17",
+    "17-17.6",
+    "17.6-18",
+    "18-26",
+    "26-27"
+   ],
+   "first_source": "repo-Basic",
+   "newest_source": "ileapp-Ph002",
+   "first_version": "15",
+   "newest_version": "26-27"
+  },
+  {
+   "name": "zIntResou-UniformTypeID_UTI_Conformance_Hint",
+   "expr": "CASE zIntResou.ZUTICONFORMANCEHINT\n    WHEN 0 THEN '0-NA/Doesnt_Conform-0'\n    WHEN 1 THEN '1-UTTypeImage-1'\n    WHEN 2 THEN '2-UTTypeProRawPhoto-2'\n    WHEN 3 THEN '3-UTTypeMovie-3'\n    ELSE 'Unknown-New-Value!: ' || zIntResou.ZUTICONFORMANCEHINT || ''\n  END",
+   "refs": [
+    [
+     "zIntResou",
+     "ZUTICONFORMANCEHINT"
+    ]
+   ],
+   "joins": [
+    "zIntResou"
+   ],
+   "shape": "case",
+   "sources": [
+    "repo-Basic"
+   ],
+   "versions": [
+    "15",
+    "16",
+    "17"
+   ],
+   "first_source": "repo-Basic",
+   "newest_source": "repo-Basic",
+   "first_version": "15",
+   "newest_version": "17"
+  },
+  {
+   "name": "zIntResou-Compact-UTI",
+   "expr": "CASE zIntResou.ZCOMPACTUTI\n    WHEN 1 THEN '1-JPEG/THM-1'\n    WHEN 3 THEN '3-HEIC-3'\n    WHEN 6 THEN '6-PNG-6'\n    WHEN 7 THEN '7-StillTesting'\n    WHEN 9 THEN '9-DNG-9'\n    WHEN 23 THEN '23-JPEG/HEIC/quicktime-mov-23'\n    WHEN 24 THEN '24-MPEG4-24'\n    WHEN 36 THEN '36-Wallpaper-36'\n    WHEN 37 THEN '37-Adj/Mutation_Data-37'\n    ELSE 'Unknown-New-Value!: ' || zIntResou.ZCOMPACTUTI || ''\n  END",
+   "refs": [
+    [
+     "zIntResou",
+     "ZCOMPACTUTI"
+    ]
+   ],
+   "joins": [
+    "zIntResou"
+   ],
+   "shape": "case",
+   "sources": [
+    "repo-Basic"
+   ],
+   "versions": [
+    "15",
+    "16",
+    "17"
+   ],
+   "first_source": "repo-Basic",
+   "newest_source": "repo-Basic",
+   "first_version": "15",
+   "newest_version": "17"
+  },
+  {
+   "name": "zAsset-zHDR_Type",
+   "expr": "CASE zAsset.ZHDRTYPE\n    WHEN 0 THEN '0-No-HDR-0'\n    WHEN 3 THEN '3-HDR_Photo-3_RT'\n    WHEN 4 THEN '4-Non-HDR_Version-4_RT'\n    WHEN 5 THEN '5-HEVC_Movie-5'\n    WHEN 6 THEN '6-Panorama-6_RT'\n    WHEN 10 THEN '10-HDR-Gain-10'\n    ELSE 'Unknown-New-Value!: ' || zAsset.ZHDRTYPE || ''\n  END",
+   "refs": [
+    [
+     "zAsset",
+     "ZHDRTYPE"
+    ]
+   ],
+   "joins": [
+    "zAsset"
+   ],
+   "shape": "case",
+   "sources": [
+    "repo-Basic"
+   ],
+   "versions": [
+    "15",
+    "16",
+    "17"
+   ],
+   "first_source": "repo-Basic",
+   "newest_source": "repo-Basic",
+   "first_version": "15",
+   "newest_version": "17"
+  },
+  {
+   "name": "zIntResou-Codec Four Char Code Name",
+   "expr": "zIntResou.ZCODECFOURCHARCODENAME",
+   "refs": [
+    [
+     "zIntResou",
+     "ZCODECFOURCHARCODENAME"
+    ]
+   ],
+   "joins": [
+    "zIntResou"
+   ],
+   "shape": "col",
+   "sources": [
+    "repo-Basic"
+   ],
+   "versions": [
+    "15",
+    "16",
+    "17"
+   ],
+   "first_source": "repo-Basic",
+   "newest_source": "repo-Basic",
+   "first_version": "15",
+   "newest_version": "17"
+  },
+  {
+   "name": "zAsset-Video Deferred Processing Needed",
+   "expr": "zAsset.ZVIDEODEFERREDPROCESSINGNEEDED",
+   "refs": [
+    [
+     "zAsset",
+     "ZVIDEODEFERREDPROCESSINGNEEDED"
+    ]
+   ],
+   "joins": [
+    "zAsset"
+   ],
+   "shape": "col",
+   "sources": [
+    "repo-Basic"
+   ],
+   "versions": [
+    "15",
+    "16",
+    "17"
+   ],
+   "first_source": "repo-Basic",
+   "newest_source": "repo-Basic",
+   "first_version": "15",
+   "newest_version": "17"
+  },
+  {
+   "name": "zAsset-Syndication State",
+   "expr": "CASE zAsset.ZSYNDICATIONSTATE\n            WHEN 0 THEN '0-PhDaPs-NA_or_SyndPs-Received-SWY_Synd_Asset-0'\n            WHEN 1 THEN '1-SyndPs-Sent-SWY_Synd_Asset-1'\n            WHEN 2 THEN '2-SyndPs-Saved_SWY_Synd_Asset-2'\n            WHEN 3 THEN '3-SyndPs-STILLTESTING_Sent-SWY-3'\n            WHEN 8 THEN '8-SyndPs-Linked_Asset_was_Visible_On-Device_Link_Removed-8'\n            WHEN 9 THEN '9-SyndPs-STILLTESTING_Sent_SWY-9'\n            WHEN 10 THEN '10-SyndPs-Saved_SWY_Synd_Asset_Removed_From_LPL-10'\n            ELSE 'Unknown-New-Value!: ' || zAsset.ZSYNDICATIONSTATE || ''\n        END",
+   "refs": [
+    [
+     "zAsset",
+     "ZSYNDICATIONSTATE"
+    ]
+   ],
+   "joins": [
+    "zAsset"
+   ],
+   "shape": "case",
+   "sources": [
+    "repo-Basic",
+    "repo-Very-Basic",
+    "ileapp-Ph001",
+    "ileapp-Ph002"
+   ],
+   "versions": [
+    "15",
+    "16",
+    "17",
+    "15-16",
+    "16-18",
+    "18-27",
+    "16-17",
+    "17-17.6",
+    "17.6-18",
+    "18-26",
+    "26-27"
+   ],
+   "first_source": "repo-Basic",
+   "newest_source": "ileapp-Ph002",
+   "first_version": "15",
+   "newest_version": "26-27"
+  },
+  {
+   "name": "zAddAssetAttr-Syndication History",
+   "expr": "zAddAssetAttr.ZSYNDICATIONHISTORY",
+   "refs": [
+    [
+     "zAddAssetAttr",
+     "ZSYNDICATIONHISTORY"
+    ]
+   ],
+   "joins": [
+    "zAddAssetAttr"
+   ],
+   "shape": "col",
+   "sources": [
+    "repo-Basic",
+    "repo-Very-Basic"
+   ],
+   "versions": [
+    "15",
+    "16",
+    "17"
+   ],
+   "first_source": "repo-Basic",
+   "newest_source": "repo-Very-Basic",
+   "first_version": "15",
+   "newest_version": "17"
+  },
+  {
+   "name": "zMedAnlyAstAttr-Syndication Processing Version",
+   "expr": "zMedAnlyAstAttr.ZSYNDICATIONPROCESSINGVERSION",
+   "refs": [
+    [
+     "zMedAnlyAstAttr",
+     "ZSYNDICATIONPROCESSINGVERSION"
+    ]
+   ],
+   "joins": [
+    "zMedAnlyAstAttr"
+   ],
+   "shape": "col",
+   "sources": [
+    "repo-Basic",
+    "repo-Very-Basic"
+   ],
+   "versions": [
+    "15",
+    "16",
+    "17"
+   ],
+   "first_source": "repo-Basic",
+   "newest_source": "repo-Very-Basic",
+   "first_version": "15",
+   "newest_version": "17"
+  },
+  {
+   "name": "zMedAnlyAstAttr-Syndication Processing Value",
+   "expr": "CASE zMedAnlyAstAttr.ZSYNDICATIONPROCESSINGVALUE\n    WHEN 0 THEN '0-NA-0'\n    WHEN 1 THEN '1-STILLTESTING_Wide-Camera_JPG-1'\n    WHEN 2 THEN '2-STILLTESTING_Telephoto_Camear_Lens-2'\n    WHEN 4 THEN '4-STILLTESTING_SWY_Asset_OrigAssetImport_SystemPackageApp-4'\n    WHEN 16 THEN '16-STILLTESTING-16'\n    WHEN 1024 THEN '1024-STILLTESTING_SWY_Asset_OrigAssetImport_NativeCamera-1024'\n    WHEN 2048 THEN '2048-STILLTESTING-2048'\n    WHEN 4096 THEN '4096-STILLTESTING_SWY_Asset_Manually_Saved-4096'\n    ELSE 'Unknown-New-Value!: ' || zMedAnlyAstAttr.ZSYNDICATIONPROCESSINGVALUE || ''\n  END",
+   "refs": [
+    [
+     "zMedAnlyAstAttr",
+     "ZSYNDICATIONPROCESSINGVALUE"
+    ]
+   ],
+   "joins": [
+    "zMedAnlyAstAttr"
+   ],
+   "shape": "case",
+   "sources": [
+    "repo-Basic",
+    "repo-Very-Basic"
+   ],
+   "versions": [
+    "15",
+    "16",
+    "17"
+   ],
+   "first_source": "repo-Basic",
+   "newest_source": "repo-Very-Basic",
+   "first_version": "15",
+   "newest_version": "17"
+  },
+  {
+   "name": "zAddAssetAttr-Scene Analysis is From Preview",
+   "expr": "CASE zAddAssetAttr.ZSCENEANALYSISISFROMPREVIEW\n    WHEN 0 THEN '0-No-0'\n    ELSE 'Unknown-New-Value!: ' || zAddAssetAttr.ZSCENEANALYSISISFROMPREVIEW || ''\n  END",
+   "refs": [
+    [
+     "zAddAssetAttr",
+     "ZSCENEANALYSISISFROMPREVIEW"
+    ]
+   ],
+   "joins": [
+    "zAddAssetAttr"
+   ],
+   "shape": "case",
+   "sources": [
+    "repo-Basic"
+   ],
+   "versions": [
+    "15",
+    "16",
+    "17"
+   ],
+   "first_source": "repo-Basic",
+   "newest_source": "repo-Basic",
+   "first_version": "15",
+   "newest_version": "17"
+  },
+  {
+   "name": "zAddAssetAttr-Source Asset for Duplication Scope ID",
+   "expr": "zAddAssetAttr.ZSOURCEASSETFORDUPLICATIONSCOPEIDENTIFIER",
+   "refs": [
+    [
+     "zAddAssetAttr",
+     "ZSOURCEASSETFORDUPLICATIONSCOPEIDENTIFIER"
+    ]
+   ],
+   "joins": [
+    "zAddAssetAttr"
+   ],
+   "shape": "col",
+   "sources": [
+    "repo-Basic"
+   ],
+   "versions": [
+    "15",
+    "16",
+    "17"
+   ],
+   "first_source": "repo-Basic",
+   "newest_source": "repo-Basic",
+   "first_version": "15",
+   "newest_version": "17"
+  },
+  {
+   "name": "zCldMast-Source Master For Duplication Scope ID",
+   "expr": "zCldMast.ZSOURCEMASTERFORDUPLICATIONSCOPEIDENTIFIER",
+   "refs": [
+    [
+     "zCldMast",
+     "ZSOURCEMASTERFORDUPLICATIONSCOPEIDENTIFIER"
+    ]
+   ],
+   "joins": [
+    "zCldMast"
+   ],
+   "shape": "col",
+   "sources": [
+    "repo-Basic"
+   ],
+   "versions": [
+    "15",
+    "16",
+    "17"
+   ],
+   "first_source": "repo-Basic",
+   "newest_source": "repo-Basic",
+   "first_version": "15",
+   "newest_version": "17"
+  },
+  {
+   "name": "zAddAssetAttr-Source Asset For Duplication ID",
+   "expr": "zAddAssetAttr.ZSOURCEASSETFORDUPLICATIONIDENTIFIER",
+   "refs": [
+    [
+     "zAddAssetAttr",
+     "ZSOURCEASSETFORDUPLICATIONIDENTIFIER"
+    ]
+   ],
+   "joins": [
+    "zAddAssetAttr"
+   ],
+   "shape": "col",
+   "sources": [
+    "repo-Basic"
+   ],
+   "versions": [
+    "15",
+    "16",
+    "17"
+   ],
+   "first_source": "repo-Basic",
+   "newest_source": "repo-Basic",
+   "first_version": "15",
+   "newest_version": "17"
+  },
+  {
+   "name": "zCldMast-Source Master for Duplication ID",
+   "expr": "zCldMast.ZSOURCEMASTERFORDUPLICATIONIDENTIFIER",
+   "refs": [
+    [
+     "zCldMast",
+     "ZSOURCEMASTERFORDUPLICATIONIDENTIFIER"
+    ]
+   ],
+   "joins": [
+    "zCldMast"
+   ],
+   "shape": "col",
+   "sources": [
+    "repo-Basic"
+   ],
+   "versions": [
+    "15",
+    "16",
+    "17"
+   ],
+   "first_source": "repo-Basic",
+   "newest_source": "repo-Basic",
+   "first_version": "15",
+   "newest_version": "17"
+  },
+  {
+   "name": "zAsset-Search Index Rebuild State",
+   "expr": "CASE zAsset.ZSEARCHINDEXREBUILDSTATE\n    WHEN 0 THEN '0-StillTesting-0'\n    ELSE 'Unknown-New-Value!: ' || zAsset.ZSEARCHINDEXREBUILDSTATE || ''\n  END",
+   "refs": [
+    [
+     "zAsset",
+     "ZSEARCHINDEXREBUILDSTATE"
+    ]
+   ],
+   "joins": [
+    "zAsset"
+   ],
+   "shape": "case",
+   "sources": [
+    "repo-Basic"
+   ],
+   "versions": [
+    "16",
+    "17"
+   ],
+   "first_source": "repo-Basic",
+   "newest_source": "repo-Basic",
+   "first_version": "16",
+   "newest_version": "17"
+  },
+  {
+   "name": "zAsset-Mono Skin Type",
+   "expr": "CASE zAsset.ZMONOSKITYPE\n    WHEN 0 THEN '0-StillTesting No-Monoski-0'\n    ELSE 'Unknown-New-Value!: ' || zAsset.ZMONOSKITYPE || ''\n  END",
+   "refs": [
+    [
+     "zAsset",
+     "ZMONOSKITYPE"
+    ]
+   ],
+   "joins": [
+    "zAsset"
+   ],
+   "shape": "case",
+   "sources": [
+    "repo-Basic"
+   ],
+   "versions": [
+    "16"
+   ],
+   "first_source": "repo-Basic",
+   "newest_source": "repo-Basic",
+   "first_version": "16",
+   "newest_version": "16"
+  },
+  {
+   "name": "zAsset-Delete-Reason",
+   "expr": "CASE zAsset.ZDELETEREASON\n    WHEN 1 THEN '1-StillTesting Delete-Reason-1'\n    WHEN 2 THEN '2-StillTesting Delete-Reason-2'\n    WHEN 3 THEN '3-StillTesting Delete-Reason-3'\n    ELSE 'Unknown-New-Value!: ' || zAsset.ZDELETEREASON || ''\n  END",
+   "refs": [
+    [
+     "zAsset",
+     "ZDELETEREASON"
+    ]
+   ],
+   "joins": [
+    "zAsset"
+   ],
+   "shape": "case",
+   "sources": [
+    "repo-Basic"
+   ],
+   "versions": [
+    "16",
+    "17"
+   ],
+   "first_source": "repo-Basic",
+   "newest_source": "repo-Basic",
+   "first_version": "16",
+   "newest_version": "17"
+  },
+  {
+   "name": "zAsset-Trashed by Participant",
+   "expr": "CASE zAsset.ZTRASHEDBYPARTICIPANT\n    WHEN 1 THEN '1-Asset Trashed/Recently Deleted by Participant-1'\n    ELSE 'Unknown-New-Value!: ' || zAsset.ZTRASHEDBYPARTICIPANT || ''\n  END",
+   "refs": [
+    [
+     "zAsset",
+     "ZTRASHEDBYPARTICIPANT"
+    ]
+   ],
+   "joins": [
+    "zAsset"
+   ],
+   "shape": "case",
+   "sources": [
+    "repo-Basic"
+   ],
+   "versions": [
+    "16",
+    "17"
+   ],
+   "first_source": "repo-Basic",
+   "newest_source": "repo-Basic",
+   "first_version": "16",
+   "newest_version": "17"
+  },
+  {
+   "name": "zAsset-Duplication Asset Visibility State",
+   "expr": "CASE zAsset.ZDUPLICATEASSETVISIBILITYSTATE\n    WHEN 0 THEN 'No-Duplicates-0'\n    WHEN 1 THEN 'Has Duplicate-1'\n    WHEN 2 THEN 'Is a Duplicate-2'\n    ELSE 'Unknown-New-Value!: ' || zAsset.ZDUPLICATEASSETVISIBILITYSTATE || ''\n  END",
+   "refs": [
+    [
+     "zAsset",
+     "ZDUPLICATEASSETVISIBILITYSTATE"
+    ]
+   ],
+   "joins": [
+    "zAsset"
+   ],
+   "shape": "case",
+   "sources": [
+    "repo-Basic"
+   ],
+   "versions": [
+    "16",
+    "17"
+   ],
+   "first_source": "repo-Basic",
+   "newest_source": "repo-Basic",
+   "first_version": "16",
+   "newest_version": "17"
+  },
+  {
+   "name": "zSceneP-Duplicate Matching Data/HEX NSKeyed Plist",
+   "expr": "zSceneP.ZDUPLICATEMATCHINGDATA",
+   "refs": [
+    [
+     "zSceneP",
+     "ZDUPLICATEMATCHINGDATA"
+    ]
+   ],
+   "joins": [
+    "zSceneP"
+   ],
+   "shape": "col",
+   "sources": [
+    "repo-Basic"
+   ],
+   "versions": [
+    "16",
+    "17"
+   ],
+   "first_source": "repo-Basic",
+   "newest_source": "repo-Basic",
+   "first_version": "16",
+   "newest_version": "17"
+  },
+  {
+   "name": "zSceneP-Duplicate Matching Alternat Data/HEX NSKeyed Plist",
+   "expr": "zSceneP.ZDUPLICATEMATCHINGALTERNATEDATA",
+   "refs": [
+    [
+     "zSceneP",
+     "ZDUPLICATEMATCHINGALTERNATEDATA"
+    ]
+   ],
+   "joins": [
+    "zSceneP"
+   ],
+   "shape": "col",
+   "sources": [
+    "repo-Basic"
+   ],
+   "versions": [
+    "16",
+    "17"
+   ],
+   "first_source": "repo-Basic",
+   "newest_source": "repo-Basic",
+   "first_version": "16",
+   "newest_version": "17"
+  },
+  {
+   "name": "zMedAnlyAstAttr-ios17 VA Analysis Timestamp",
+   "expr": "DateTime(zMedAnlyAstAttr.ZVAANALYSISTIMESTAMP + 978307200, 'UNIXEPOCH')",
+   "refs": [
+    [
+     "zMedAnlyAstAttr",
+     "ZVAANALYSISTIMESTAMP"
+    ]
+   ],
+   "joins": [
+    "zMedAnlyAstAttr"
+   ],
+   "shape": "datetime",
+   "sources": [
+    "repo-Basic"
+   ],
+   "versions": [
+    "17"
+   ],
+   "first_source": "repo-Basic",
+   "newest_source": "repo-Basic",
+   "first_version": "17",
+   "newest_version": "17"
+  },
+  {
+   "name": "zMedAnlyAstAttr-newiOS17 Va Analysis Version",
+   "expr": "zMedAnlyAstAttr.ZVAANALYSISVERSION",
+   "refs": [
+    [
+     "zMedAnlyAstAttr",
+     "ZVAANALYSISVERSION"
+    ]
+   ],
+   "joins": [
+    "zMedAnlyAstAttr"
+   ],
+   "shape": "col",
+   "sources": [
+    "repo-Basic"
+   ],
+   "versions": [
+    "17"
+   ],
+   "first_source": "repo-Basic",
+   "newest_source": "repo-Basic",
+   "first_version": "17",
+   "newest_version": "17"
+  },
+  {
+   "name": "zAsset- SortToken -CameraRoll",
+   "expr": "DateTime(zAsset.ZSORTTOKEN + 978307200, 'UNIXEPOCH')",
+   "refs": [
+    [
+     "zAsset",
+     "ZSORTTOKEN"
+    ]
+   ],
+   "joins": [
+    "zAsset"
+   ],
+   "shape": "datetime",
+   "sources": [
+    "ileapp-Ph001",
+    "ileapp-Ph002"
+   ],
+   "versions": [
+    "11-14",
+    "14-15",
+    "15-16",
+    "16-18",
+    "18-27",
+    "11-12",
+    "12-13",
+    "13-14",
+    "16-17",
+    "17-17.6",
+    "17.6-18",
+    "18-26",
+    "26-27"
+   ],
+   "first_source": "ileapp-Ph001",
+   "newest_source": "ileapp-Ph002",
+   "first_version": "11-14",
+   "newest_version": "26-27"
+  },
+  {
+   "name": "zAddAssetAttr-Share Type",
+   "expr": "CASE zAddAssetAttr.ZSHARETYPE\n            WHEN 0 THEN '0-Not_Shared-or-Shared_via_Phy_Device_StillTesting-0'\n            WHEN 1 THEN '1-Shared_via_iCldPhotos_Web-or-Other_Device_StillTesting-1'\n            ELSE 'Unknown-New-Value!: ' || zAddAssetAttr.ZSHARETYPE || ''\n        END",
+   "refs": [
+    [
+     "zAddAssetAttr",
+     "ZSHARETYPE"
+    ]
+   ],
+   "joins": [
+    "zAddAssetAttr"
+   ],
+   "shape": "case",
+   "sources": [
+    "ileapp-Ph001",
+    "ileapp-Ph002"
+   ],
+   "versions": [
+    "14-15",
+    "15-16",
+    "16-18",
+    "18-27",
+    "13-14",
+    "16-17",
+    "17-17.6",
+    "17.6-18",
+    "18-26",
+    "26-27"
+   ],
+   "first_source": "ileapp-Ph001",
+   "newest_source": "ileapp-Ph002",
+   "first_version": "14-15",
+   "newest_version": "26-27"
+  },
+  {
+   "name": "zAsset-Trashed by Participant= zShareParticipant_zPK",
+   "expr": "zAsset.ZTRASHEDBYPARTICIPANT",
+   "refs": [
+    [
+     "zAsset",
+     "ZTRASHEDBYPARTICIPANT"
+    ]
+   ],
+   "joins": [
+    "zAsset"
+   ],
+   "shape": "col",
+   "sources": [
+    "ileapp-Ph001",
+    "ileapp-Ph002"
+   ],
+   "versions": [
+    "16-18",
+    "18-27",
+    "16-17",
+    "17-17.6",
+    "17.6-18",
+    "18-26",
+    "26-27"
+   ],
+   "first_source": "ileapp-Ph001",
+   "newest_source": "ileapp-Ph002",
+   "first_version": "16-18",
+   "newest_version": "26-27"
+  },
+  {
+   "name": "zAsset-Active Library Scope Participation State",
+   "expr": "CASE zAsset.ZACTIVELIBRARYSCOPEPARTICIPATIONSTATE\n            WHEN 0 THEN '0-Asset-Not-In-Active-SPL-0'\n            WHEN 1 THEN '1-Asset-In-Active-SPL-1'\n            ELSE 'Unknown-New-Value!: ' || zAsset.ZACTIVELIBRARYSCOPEPARTICIPATIONSTATE || ''\n        END",
+   "refs": [
+    [
+     "zAsset",
+     "ZACTIVELIBRARYSCOPEPARTICIPATIONSTATE"
+    ]
+   ],
+   "joins": [
+    "zAsset"
+   ],
+   "shape": "case",
+   "sources": [
+    "ileapp-Ph001",
+    "ileapp-Ph002"
+   ],
+   "versions": [
+    "16-18",
+    "18-27",
+    "16-17",
+    "17-17.6",
+    "17.6-18",
+    "18-26",
+    "26-27"
+   ],
+   "first_source": "ileapp-Ph001",
+   "newest_source": "ileapp-Ph002",
+   "first_version": "16-18",
+   "newest_version": "26-27"
+  },
+  {
+   "name": "zAsset-Is_Recently_Saved",
+   "expr": "CASE zAsset.ZISRECENTLYSAVED\n            WHEN 0 THEN '0-Not_Recenlty_Saved_Still_Testing-0'\n            WHEN 1 THEN '1-Recently_Saved_Still_Testing-1'\t\n            ELSE 'Unknown-New-Value!: ' || zAsset.ZISRECENTLYSAVED || ''\n        END",
+   "refs": [
+    [
+     "zAsset",
+     "ZISRECENTLYSAVED"
+    ]
+   ],
+   "joins": [
+    "zAsset"
+   ],
+   "shape": "case",
+   "sources": [
+    "ileapp-Ph001",
+    "ileapp-Ph002"
+   ],
+   "versions": [
+    "18-27",
+    "18-26",
+    "26-27"
+   ],
+   "first_source": "ileapp-Ph001",
+   "newest_source": "ileapp-Ph002",
+   "first_version": "18-27",
+   "newest_version": "26-27"
+  },
+  {
+   "name": "zAddAssetAttr-Original Stable Hash",
+   "expr": "zAddAssetAttr.ZORIGINALSTABLEHASH",
+   "refs": [
+    [
+     "zAddAssetAttr",
+     "ZORIGINALSTABLEHASH"
+    ]
+   ],
+   "joins": [
+    "zAddAssetAttr"
+   ],
+   "shape": "col",
+   "sources": [
+    "ileapp-Ph001",
+    "ileapp-Ph002"
+   ],
+   "versions": [
+    "18-27",
+    "18-26",
+    "26-27"
+   ],
+   "first_source": "ileapp-Ph001",
+   "newest_source": "ileapp-Ph002",
+   "first_version": "18-27",
+   "newest_version": "26-27"
+  },
+  {
+   "name": "zAddAssetAttr.Adjusted Stable Hash",
+   "expr": "zAddAssetAttr.ZADJUSTEDSTABLEHASH",
+   "refs": [
+    [
+     "zAddAssetAttr",
+     "ZADJUSTEDSTABLEHASH"
+    ]
+   ],
+   "joins": [
+    "zAddAssetAttr"
+   ],
+   "shape": "col",
+   "sources": [
+    "ileapp-Ph001",
+    "ileapp-Ph002"
+   ],
+   "versions": [
+    "18-27",
+    "18-26",
+    "26-27"
+   ],
+   "first_source": "ileapp-Ph001",
+   "newest_source": "ileapp-Ph002",
+   "first_version": "18-27",
+   "newest_version": "26-27"
+  },
+  {
+   "name": "zAddAssetAttr-Shifted Location Data (2)",
+   "expr": "CASE\n            WHEN zAddAssetAttr.ZSHIFTEDLOCATIONDATA > 0 THEN 'zAddAssetAttr-Shifted_Location_Data_has_Plist'\n            ELSE 'zAddAssetArrt-Shifted_Location_Data_Empty-NULL'\n        END",
+   "refs": [
+    [
+     "zAddAssetAttr",
+     "ZSHIFTEDLOCATIONDATA"
+    ]
+   ],
+   "joins": [
+    "zAddAssetAttr"
+   ],
+   "shape": "case",
+   "sources": [
+    "ileapp-Ph002"
+   ],
+   "versions": [
+    "11-12",
+    "12-13",
+    "13-14",
+    "14-15",
+    "15-16",
+    "16-17",
+    "17-17.6",
+    "17.6-18",
+    "18-26",
+    "26-27"
+   ],
+   "first_source": "ileapp-Ph002",
+   "newest_source": "ileapp-Ph002",
+   "first_version": "11-12",
+   "newest_version": "26-27"
+  },
+  {
+   "name": "zAddAssetAttr-Reverse Location Data",
+   "expr": "CASE\n            WHEN zAddAssetAttr.ZREVERSELOCATIONDATA > 0 THEN 'zAddAssetAttr-Reverse_Location_Data_has_Plist'\n            ELSE 'zAddAssetAttr-Reverse_Location_Data_Empty-NULL'\n        END",
+   "refs": [
+    [
+     "zAddAssetAttr",
+     "ZREVERSELOCATIONDATA"
+    ]
+   ],
+   "joins": [
+    "zAddAssetAttr"
+   ],
+   "shape": "case",
+   "sources": [
+    "ileapp-Ph002"
+   ],
+   "versions": [
+    "11-12",
+    "12-13",
+    "13-14",
+    "14-15",
+    "15-16",
+    "16-17",
+    "17-17.6",
+    "17.6-18",
+    "18-26",
+    "26-27"
+   ],
+   "first_source": "ileapp-Ph002",
+   "newest_source": "ileapp-Ph002",
+   "first_version": "11-12",
+   "newest_version": "26-27"
+  },
+  {
+   "name": "zGenAlbum-Start Date",
+   "expr": "DateTime(zGenAlbum.ZSTARTDATE + 978307200, 'UNIXEPOCH')",
+   "refs": [
+    [
+     "zGenAlbum",
+     "ZSTARTDATE"
+    ]
+   ],
+   "joins": [
+    "zGenAlbum"
+   ],
+   "shape": "datetime",
+   "sources": [
+    "ileapp-Ph002"
+   ],
+   "versions": [
+    "11-12",
+    "12-13",
+    "13-14",
+    "14-15",
+    "15-16",
+    "16-17",
+    "17-17.6",
+    "17.6-18",
+    "18-26",
+    "26-27"
+   ],
+   "first_source": "ileapp-Ph002",
+   "newest_source": "ileapp-Ph002",
+   "first_version": "11-12",
+   "newest_version": "26-27"
+  },
+  {
+   "name": "zGenAlbum-End Date",
+   "expr": "DateTime(zGenAlbum.ZENDDATE + 978307200, 'UNIXEPOCH')",
+   "refs": [
+    [
+     "zGenAlbum",
+     "ZENDDATE"
+    ]
+   ],
+   "joins": [
+    "zGenAlbum"
+   ],
+   "shape": "datetime",
+   "sources": [
+    "ileapp-Ph002"
+   ],
+   "versions": [
+    "11-12",
+    "12-13",
+    "13-14",
+    "14-15",
+    "15-16",
+    "16-17",
+    "17-17.6",
+    "17.6-18",
+    "18-26",
+    "26-27"
+   ],
+   "first_source": "ileapp-Ph002",
+   "newest_source": "ileapp-Ph002",
+   "first_version": "11-12",
+   "newest_version": "26-27"
+  },
+  {
+   "name": "zGenAlbum-Album Kind",
+   "expr": "CASE zGenAlbum.ZKIND\n            WHEN 2 THEN '2-Non-Shared-Album-2'\n            WHEN 1505 THEN '1505-Shared-Album-1505'\n            WHEN 1506 THEN '1506-Import_Session_AssetsImportedatSameTime-1506_RT'\n            WHEN 1508 THEN '1508-My_Projects_Album_CalendarCardEct_RT'\n            WHEN 1509 THEN '1509-SWY_Synced_Conversation_Media-1509'\n            WHEN 1510 THEN '1510-Duplicate_Album-Pending_Merge-1510'\n            WHEN 3571 THEN '3571-Progress-Sync-3571'\n            WHEN 3572 THEN '3572-Progress-OTA-Restore-3572'\n            WHEN 3573 THEN '3573-Progress-FS-Import-3573'\n            WHEN 3998 THEN '3998-Project Root Folder-3998'\n            WHEN 3999 THEN '3999-Parent_Root_for_Generic_Album-3999'\n            WHEN 4000 THEN '4000-Parent_is_Folder_on_Local_Device-4000'\n            ELSE 'Unknown-New-Value!: ' || zGenAlbum.ZKIND || ''\n        END",
+   "refs": [
+    [
+     "zGenAlbum",
+     "ZKIND"
+    ]
+   ],
+   "joins": [
+    "zGenAlbum"
+   ],
+   "shape": "case",
+   "sources": [
+    "ileapp-Ph002"
+   ],
+   "versions": [
+    "11-12",
+    "12-13",
+    "13-14",
+    "14-15",
+    "15-16",
+    "16-17",
+    "17-17.6",
+    "17.6-18",
+    "18-26",
+    "26-27"
+   ],
+   "first_source": "ileapp-Ph002",
+   "newest_source": "ileapp-Ph002",
+   "first_version": "11-12",
+   "newest_version": "26-27"
+  },
+  {
+   "name": "zGenAlbum- Import Session ID",
+   "expr": "zGenAlbum.ZIMPORTSESSIONID",
+   "refs": [
+    [
+     "zGenAlbum",
+     "ZIMPORTSESSIONID"
+    ]
+   ],
+   "joins": [
+    "zGenAlbum"
+   ],
+   "shape": "col",
+   "sources": [
+    "ileapp-Ph002"
+   ],
+   "versions": [
+    "11-12",
+    "12-13",
+    "13-14",
+    "14-15",
+    "15-16",
+    "16-17",
+    "17-17.6",
+    "17.6-18",
+    "18-26",
+    "26-27"
+   ],
+   "first_source": "ileapp-Ph002",
+   "newest_source": "ileapp-Ph002",
+   "first_version": "11-12",
+   "newest_version": "26-27"
+  },
+  {
+   "name": "zGenAlbum-Cached Photos Count",
+   "expr": "zGenAlbum.ZCACHEDPHOTOSCOUNT",
+   "refs": [
+    [
+     "zGenAlbum",
+     "ZCACHEDPHOTOSCOUNT"
+    ]
+   ],
+   "joins": [
+    "zGenAlbum"
+   ],
+   "shape": "col",
+   "sources": [
+    "ileapp-Ph002"
+   ],
+   "versions": [
+    "11-12",
+    "12-13",
+    "13-14",
+    "14-15",
+    "15-16",
+    "16-17",
+    "17-17.6",
+    "17.6-18",
+    "18-26",
+    "26-27"
+   ],
+   "first_source": "ileapp-Ph002",
+   "newest_source": "ileapp-Ph002",
+   "first_version": "11-12",
+   "newest_version": "26-27"
+  },
+  {
+   "name": "zGenAlbum-Cached Videos Count",
+   "expr": "zGenAlbum.ZCACHEDVIDEOSCOUNT",
+   "refs": [
+    [
+     "zGenAlbum",
+     "ZCACHEDVIDEOSCOUNT"
+    ]
+   ],
+   "joins": [
+    "zGenAlbum"
+   ],
+   "shape": "col",
+   "sources": [
+    "ileapp-Ph002"
+   ],
+   "versions": [
+    "11-12",
+    "12-13",
+    "13-14",
+    "14-15",
+    "15-16",
+    "16-17",
+    "17-17.6",
+    "17.6-18",
+    "18-26",
+    "26-27"
+   ],
+   "first_source": "ileapp-Ph002",
+   "newest_source": "ileapp-Ph002",
+   "first_version": "11-12",
+   "newest_version": "26-27"
+  },
+  {
+   "name": "zGenAlbum-Cached Count",
+   "expr": "zGenAlbum.ZCACHEDCOUNT",
+   "refs": [
+    [
+     "zGenAlbum",
+     "ZCACHEDCOUNT"
+    ]
+   ],
+   "joins": [
+    "zGenAlbum"
+   ],
+   "shape": "col",
+   "sources": [
+    "ileapp-Ph002"
+   ],
+   "versions": [
+    "11-12",
+    "12-13",
+    "13-14",
+    "14-15",
+    "15-16",
+    "16-17",
+    "17-17.6",
+    "17.6-18",
+    "18-26",
+    "26-27"
+   ],
+   "first_source": "ileapp-Ph002",
+   "newest_source": "ileapp-Ph002",
+   "first_version": "11-12",
+   "newest_version": "26-27"
+  },
+  {
+   "name": "zGenAlbum-Trashed State",
+   "expr": "CASE zGenAlbum.ZTRASHEDSTATE\n            WHEN 0 THEN 'zGenAlbum Not In Trash-0'\n            WHEN 1 THEN 'zGenAlbum Album In Trash-1'\n            ELSE 'Unknown-New-Value!: ' || zGenAlbum.ZTRASHEDSTATE || ''\n        END",
+   "refs": [
+    [
+     "zGenAlbum",
+     "ZTRASHEDSTATE"
+    ]
+   ],
+   "joins": [
+    "zGenAlbum"
+   ],
+   "shape": "case",
+   "sources": [
+    "ileapp-Ph002"
+   ],
+   "versions": [
+    "11-12",
+    "12-13",
+    "13-14",
+    "14-15",
+    "15-16",
+    "16-17",
+    "17-17.6",
+    "17.6-18",
+    "18-26",
+    "26-27"
+   ],
+   "first_source": "ileapp-Ph002",
+   "newest_source": "ileapp-Ph002",
+   "first_version": "11-12",
+   "newest_version": "26-27"
+  },
+  {
+   "name": "zGenAlbum-Trash Date",
+   "expr": "DateTime(zGenAlbum.ZTRASHEDDATE + 978307200, 'UNIXEPOCH')",
+   "refs": [
+    [
+     "zGenAlbum",
+     "ZTRASHEDDATE"
+    ]
+   ],
+   "joins": [
+    "zGenAlbum"
+   ],
+   "shape": "datetime",
+   "sources": [
+    "ileapp-Ph002"
+   ],
+   "versions": [
+    "11-12",
+    "12-13",
+    "13-14",
+    "14-15",
+    "15-16",
+    "16-17",
+    "17-17.6",
+    "17.6-18",
+    "18-26",
+    "26-27"
+   ],
+   "first_source": "ileapp-Ph002",
+   "newest_source": "ileapp-Ph002",
+   "first_version": "11-12",
+   "newest_version": "26-27"
+  },
+  {
+   "name": "zGenAlbum-UUID",
+   "expr": "zGenAlbum.ZUUID",
+   "refs": [
+    [
+     "zGenAlbum",
+     "ZUUID"
+    ]
+   ],
+   "joins": [
+    "zGenAlbum"
+   ],
+   "shape": "col",
+   "sources": [
+    "ileapp-Ph002"
+   ],
+   "versions": [
+    "11-12",
+    "12-13",
+    "13-14",
+    "14-15",
+    "15-16",
+    "16-17",
+    "17-17.6",
+    "17.6-18",
+    "18-26",
+    "26-27"
+   ],
+   "first_source": "ileapp-Ph002",
+   "newest_source": "ileapp-Ph002",
+   "first_version": "11-12",
+   "newest_version": "26-27"
+  },
+  {
+   "name": "AAAzCldMastMedData-Data",
+   "expr": "CASE\n            WHEN AAAzCldMastMedData.ZDATA > 0 THEN 'AAAzCldMastMedData-Data_has_Plist'\n            ELSE 'AAAzCldMastMedData-Data_Empty-NULL'\n        END",
+   "refs": [
+    [
+     "AAAzCldMastMedData",
+     "ZDATA"
+    ]
+   ],
+   "joins": [
+    "AAAzCldMastMedData"
+   ],
+   "shape": "case",
+   "sources": [
+    "ileapp-Ph002"
+   ],
+   "versions": [
+    "13-14",
+    "14-15",
+    "15-16",
+    "16-17",
+    "17-17.6",
+    "17.6-18",
+    "18-26",
+    "26-27"
+   ],
+   "first_source": "ileapp-Ph002",
+   "newest_source": "ileapp-Ph002",
+   "first_version": "13-14",
+   "newest_version": "26-27"
+  },
+  {
+   "name": "CMzCldMastMedData-Data",
+   "expr": "CASE\n            WHEN CMzCldMastMedData.ZDATA > 0 THEN 'CMzCldMastMedData-Data_has_Plist'\n            ELSE 'CMzCldMastMedData-Data_Empty-NULL'\n        END",
+   "refs": [
+    [
+     "CMzCldMastMedData",
+     "ZDATA"
+    ]
+   ],
+   "joins": [
+    "CMzCldMastMedData"
+   ],
+   "shape": "case",
+   "sources": [
+    "ileapp-Ph002"
+   ],
+   "versions": [
+    "13-14",
+    "14-15",
+    "15-16",
+    "16-17",
+    "17-17.6",
+    "17.6-18",
+    "18-26",
+    "26-27"
+   ],
+   "first_source": "ileapp-Ph002",
+   "newest_source": "ileapp-Ph002",
+   "first_version": "13-14",
+   "newest_version": "26-27"
+  },
+  {
+   "name": "zGenAlbum-Creator Bundle Identifier",
+   "expr": "zGenAlbum.ZCREATORBUNDLEID",
+   "refs": [
+    [
+     "zGenAlbum",
+     "ZCREATORBUNDLEID"
+    ]
+   ],
+   "joins": [
+    "zGenAlbum"
+   ],
+   "shape": "col",
+   "sources": [
+    "ileapp-Ph002"
+   ],
+   "versions": [
+    "14-15"
+   ],
+   "first_source": "ileapp-Ph002",
+   "newest_source": "ileapp-Ph002",
+   "first_version": "14-15",
+   "newest_version": "14-15"
+  },
+  {
+   "name": "zAsset- Conversation= zGenAlbum_zPK ",
+   "expr": "zAsset.ZCONVERSATION",
+   "refs": [
+    [
+     "zAsset",
+     "ZCONVERSATION"
+    ]
+   ],
+   "joins": [
+    "zAsset"
+   ],
+   "shape": "col",
+   "sources": [
+    "ileapp-Ph002"
+   ],
+   "versions": [
+    "15-16",
+    "16-17",
+    "17-17.6",
+    "17.6-18",
+    "18-26",
+    "26-27"
+   ],
+   "first_source": "ileapp-Ph002",
+   "newest_source": "ileapp-Ph002",
+   "first_version": "15-16",
+   "newest_version": "26-27"
+  },
+  {
+   "name": "SWYConverszGenAlbum- Import Session ID",
+   "expr": "SWYConverszGenAlbum.ZIMPORTSESSIONID",
+   "refs": [
+    [
+     "SWYConverszGenAlbum",
+     "ZIMPORTSESSIONID"
+    ]
+   ],
+   "joins": [
+    "SWYConverszGenAlbum"
+   ],
+   "shape": "col",
+   "sources": [
+    "ileapp-Ph002"
+   ],
+   "versions": [
+    "15-16",
+    "16-17",
+    "17-17.6",
+    "17.6-18",
+    "18-26",
+    "26-27"
+   ],
+   "first_source": "ileapp-Ph002",
+   "newest_source": "ileapp-Ph002",
+   "first_version": "15-16",
+   "newest_version": "26-27"
+  },
+  {
+   "name": "zGenAlbum-Imported by Bundle Identifier",
+   "expr": "zGenAlbum.ZIMPORTEDBYBUNDLEIDENTIFIER",
+   "refs": [
+    [
+     "zGenAlbum",
+     "ZIMPORTEDBYBUNDLEIDENTIFIER"
+    ]
+   ],
+   "joins": [
+    "zGenAlbum"
+   ],
+   "shape": "col",
+   "sources": [
+    "ileapp-Ph002"
+   ],
+   "versions": [
+    "15-16",
+    "16-17",
+    "17-17.6",
+    "17.6-18",
+    "18-26",
+    "26-27"
+   ],
+   "first_source": "ileapp-Ph002",
+   "newest_source": "ileapp-Ph002",
+   "first_version": "15-16",
+   "newest_version": "26-27"
+  },
+  {
+   "name": "zAddAssetAttr-Last Viewed Date",
+   "expr": "DateTime(zAddAssetAttr.ZLASTVIEWEDDATE + 978307200, 'UNIXEPOCH')",
+   "refs": [
+    [
+     "zAddAssetAttr",
+     "ZLASTVIEWEDDATE"
+    ]
+   ],
+   "joins": [
+    "zAddAssetAttr"
+   ],
+   "shape": "datetime",
+   "sources": [
+    "ileapp-Ph002"
+   ],
+   "versions": [
+    "17-17.6",
+    "17.6-18",
+    "18-26",
+    "26-27"
+   ],
+   "first_source": "ileapp-Ph002",
+   "newest_source": "ileapp-Ph002",
+   "first_version": "17-17.6",
+   "newest_version": "26-27"
+  },
+  {
+   "name": "zAsset-Capture_Session_Identifier",
+   "expr": "zAsset.ZCAPTURESESSIONIDENTIFIER",
+   "refs": [
+    [
+     "zAsset",
+     "ZCAPTURESESSIONIDENTIFIER"
+    ]
+   ],
+   "joins": [
+    "zAsset"
+   ],
+   "shape": "col",
+   "sources": [
+    "ileapp-Ph002"
+   ],
+   "versions": [
+    "18-26",
+    "26-27"
+   ],
+   "first_source": "ileapp-Ph002",
+   "newest_source": "ileapp-Ph002",
+   "first_version": "18-26",
+   "newest_version": "26-27"
+  }
+ ],
+ "joins": [
+  {
+   "alias": "AAAzCldMastMedData",
+   "tables": [
+    "ZCLOUDMASTERMEDIAMETADATA"
+   ],
+   "resolve": null,
+   "on": "AAAzCldMastMedData.Z_PK = zAddAssetAttr.ZMEDIAMETADATA"
+  },
+  {
+   "alias": "CMzCldMastMedData",
+   "tables": [
+    "ZCLOUDMASTERMEDIAMETADATA"
+   ],
+   "resolve": null,
+   "on": "CMzCldMastMedData.Z_PK = zCldMast.ZMEDIAMETADATA"
+  },
+  {
+   "alias": "ParentzGenAlbum",
+   "tables": [
+    "ZGENERICALBUM"
+   ],
+   "resolve": null,
+   "on": "ParentzGenAlbum.Z_PK = zGenAlbum.ZPARENTFOLDER"
+  },
+  {
+   "alias": "SWYConverszGenAlbum",
+   "tables": [
+    "ZGENERICALBUM"
+   ],
+   "resolve": null,
+   "on": "SWYConverszGenAlbum.Z_PK = zAsset.ZCONVERSATION"
+  },
+  {
+   "alias": "zAddAssetAttr",
+   "tables": [
+    "ZADDITIONALASSETATTRIBUTES"
+   ],
+   "resolve": null,
+   "on": "zAddAssetAttr.Z_PK = zAsset.ZADDITIONALATTRIBUTES"
+  },
+  {
+   "alias": "zAlbumList",
+   "tables": [
+    "ZALBUMLIST"
+   ],
+   "resolve": null,
+   "on": "zAlbumList.Z_PK = zAlbumLists.{{AL_LIST_FK}}"
+  },
+  {
+   "alias": "zAlbumLists",
+   "tables": null,
+   "resolve": "album_list_join",
+   "on": "zAlbumLists.{{AL_ALBUM_FK}} = zGenAlbum.Z_PK"
+  },
+  {
+   "alias": "zAssetAlbums",
+   "tables": null,
+   "resolve": "asset_album_join",
+   "on": "zAssetAlbums.{{AA_ASSET_FK}} = zAsset.Z_PK"
+  },
+  {
+   "alias": "zCldMast",
+   "tables": [
+    "ZCLOUDMASTER"
+   ],
+   "resolve": null,
+   "on": "zAsset.ZMASTER = zCldMast.Z_PK"
+  },
+  {
+   "alias": "zExtAttr",
+   "tables": [
+    "ZEXTENDEDATTRIBUTES"
+   ],
+   "resolve": null,
+   "on": "zExtAttr.Z_PK = zAsset.ZEXTENDEDATTRIBUTES"
+  },
+  {
+   "alias": "zGenAlbum",
+   "tables": [
+    "ZGENERICALBUM"
+   ],
+   "resolve": null,
+   "on": "zGenAlbum.Z_PK = zAssetAlbums.{{AA_ALBUM_FK}}"
+  },
+  {
+   "alias": "zIntResou",
+   "tables": [
+    "ZINTERNALRESOURCE"
+   ],
+   "resolve": null,
+   "on": "zIntResou.ZASSET = zAsset.Z_PK"
+  },
+  {
+   "alias": "zMedAnlyAstAttr",
+   "tables": [
+    "ZMEDIAANALYSISASSETATTRIBUTES"
+   ],
+   "resolve": null,
+   "on": "zAsset.ZMEDIAANALYSISATTRIBUTES = zMedAnlyAstAttr.Z_PK"
+  },
+  {
+   "alias": "zSceneP",
+   "tables": [
+    "ZSCENEPRINT"
+   ],
+   "resolve": null,
+   "on": "zSceneP.Z_PK = zAddAssetAttr.ZSCENEPRINT"
+  },
+  {
+   "alias": "zShare",
+   "tables": [
+    "ZSHARE",
+    "ZMOMENTSHARE"
+   ],
+   "resolve": null,
+   "on": "zShare.Z_PK = zAsset.ZMOMENTSHARE"
+  },
+  {
+   "alias": "zSideCarFile",
+   "tables": [
+    "ZSIDECARFILE"
+   ],
+   "resolve": null,
+   "on": "zSideCarFile.ZASSET = zAsset.Z_PK"
+  },
+  {
+   "alias": "zUnmAdj",
+   "tables": [
+    "ZUNMANAGEDADJUSTMENT"
+   ],
+   "resolve": null,
+   "on": "zAddAssetAttr.ZUNMANAGEDADJUSTMENT = zUnmAdj.Z_PK"
+  }
+ ],
+ "profiles": {
+  "basic": [
+   "zAddAssetAttr",
+   "zExtAttr",
+   "zIntResou",
+   "zSceneP",
+   "zAssetAlbums",
+   "zGenAlbum",
+   "zUnmAdj",
+   "zAlbumLists",
+   "zAlbumList",
+   "ParentzGenAlbum",
+   "zCldMast",
+   "AAAzCldMastMedData",
+   "CMzCldMastMedData",
+   "zMedAnlyAstAttr",
+   "zShare",
+   "zSideCarFile",
+   "SWYConverszGenAlbum"
+  ],
+  "very-basic": [
+   "zAddAssetAttr",
+   "zExtAttr",
+   "zCldMast",
+   "AAAzCldMastMedData",
+   "zMedAnlyAstAttr"
+  ]
+ },
+ "filters": [
+  {
+   "name": "hidden",
+   "where": [
+    "zAsset.ZHIDDEN = 1"
+   ]
+  },
+  {
+   "name": "trashed",
+   "where": [
+    "zAsset.ZTRASHEDSTATE = 1"
+   ]
+  },
+  {
+   "name": "favorite",
+   "where": [
+    "zAsset.ZFAVORITE = 1"
+   ]
+  },
+  {
+   "name": "locations",
+   "where": [
+    "(zAsset.ZLATITUDE != -180.0) OR (zExtAttr.ZLATITUDE != -180.0)",
+    "zAsset.ZLATITUDE != -180.0"
+   ]
+  },
+  {
+   "name": "adjusted",
+   "where": [
+    "zAsset.ZHASADJUSTMENTS = 1",
+    "zAsset.ZADJUSTMENTSSTATE > 0"
+   ]
+  },
+  {
+   "name": "syndication",
+   "where": [
+    "zAddAssetAttr.ZSYNDICATIONIDENTIFIER IS NOT NULL"
+   ]
+  }
+ ]
+}

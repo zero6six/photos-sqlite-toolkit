@@ -1,0 +1,45 @@
+base table: ZASSET
+asset-album join: Z_33ASSETS (album FK Z_33ALBUMS, asset FK Z_3ASSETS) - looks like iOS 26
+album-list join: Z_32ALBUMLISTS (album FK Z_32ALBUMS, list FK Z_2ALBUMLISTS)
+join dropped: zSideCarFile           no table ZSIDECARFILE
+join dropped: zUnmAdj                no table ZUNMANAGEDADJUSTMENT
+columns: 218 kept, 37 dropped, 0 as NULL
+dropped columns (37):
+  zAddAssetAttr-Creator Bundle ID                         ZADDITIONALASSETATTRIBUTES.ZCREATORBUNDLEID missing
+  zSideCarFile-Filename                                   join zSideCarFile unavailable
+  zSideCarFile-Original Filename                          join zSideCarFile unavailable
+  zSideCarFile-Capture Date                               join zSideCarFile unavailable
+  zSideCarFile-Modification Date                          join zSideCarFile unavailable
+  zSideCarFile-Uniform Type Identifier                    join zSideCarFile unavailable
+  zAsset-Location Data/HEX                                ZASSET.ZLOCATIONDATA missing
+  ParentzGenAlbum-Cloud-Local-State-4Start                ZGENERICALBUM.ZCLOUDLOCALSTATE missing
+  zGenAlbum-Cloud_Local_State-4Start                      ZGENERICALBUM.ZCLOUDLOCALSTATE missing
+  zAsset-ImageRequestHints/HEX-Path                       ZASSET.ZIMAGEREQUESTHINTS missing
+  zAddAssetAttr-Share Originator                          ZADDITIONALASSETATTRIBUTES.ZSHAREORIGINATOR missing
+  zAddAssetAttr-Master Fingerprint                        ZADDITIONALASSETATTRIBUTES.ZMASTERFINGERPRINT missing
+  zAddAssetAttr.Adjusted Fingerprint                      ZADDITIONALASSETATTRIBUTES.ZADJUSTEDFINGERPRINT missing
+  zUnmAdj-Other Adjustments Fingerprint                   join zUnmAdj unavailable
+  zUnmAdj-Similar to Orig Adjustments Fingerprint         join zUnmAdj unavailable
+  zIntResou-Orientation                                   ZINTERNALRESOURCE.ZORIENTATION missing
+  zIntResou-Quality Sort Value Key                        ZINTERNALRESOURCE.ZQUALITYSORTVALUE missing
+  zAsset-Cloud Placeholder Kind                           ZASSET.ZCLOUDPLACEHOLDERKIND missing
+  zIntResou-Transient Cloud Master                        ZINTERNALRESOURCE.ZTRANSIENTCLOUDMASTER missing
+  zIntResou-DataStoreKeyData/HEX                          ZINTERNALRESOURCE.ZDATASTOREKEYDATA missing
+  zAsset-Has Adjustments/Camera-Effects-Filters           ZASSET.ZHASADJUSTMENTS missing
+  zUnmAdj-Asset Attributes=zAddAssetAttr.zPK              join zUnmAdj unavailable
+  zUnmAdj-zPK=zAddAssetAttr.ZUnmanAdj Key                 join zUnmAdj unavailable
+  zUnmAdj-UUID                                            join zUnmAdj unavailable
+  zUnmAdj-Adjustment Timestamp                            join zUnmAdj unavailable
+  zUnmAdj-Editor Localized Name                           join zUnmAdj unavailable
+  zUnmAdj-Adjustment Format ID                            join zUnmAdj unavailable
+  zUnmAdj-Adjustment Render Types                         join zUnmAdj unavailable
+  zUnmAdj-Adjustment Format Version                       join zUnmAdj unavailable
+  zUnmAdj-Adjustment Base Image Format                    join zUnmAdj unavailable
+  zSceneP-Data/HEX NSKeyed Plist                          ZSCENEPRINT.ZDATA missing
+  zAsset-Mono Skin Type                                   ZASSET.ZMONOSKITYPE missing
+  zSceneP-Duplicate Matching Data/HEX NSKeyed Plist       ZSCENEPRINT.ZDUPLICATEMATCHINGDATA missing
+  zSceneP-Duplicate Matching Alternat Data/HEX NSKeyed Plist ZSCENEPRINT.ZDUPLICATEMATCHINGALTERNATEDATA missing
+  zMedAnlyAstAttr-ios17 VA Analysis Timestamp             ZMEDIAANALYSISASSETATTRIBUTES.ZVAANALYSISTIMESTAMP missing
+  zMedAnlyAstAttr-newiOS17 Va Analysis Version            ZMEDIAANALYSISASSETATTRIBUTES.ZVAANALYSISVERSION missing
+  zGenAlbum-Creator Bundle Identifier                     ZGENERICALBUM.ZCREATORBUNDLEID missing
+wrote Photos_ios26_synthetic_basic.csv: 218 columns x 8 rows

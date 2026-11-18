@@ -1,0 +1,61 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  exporter:
+    name: exporter (py${{ matrix.python }} on ${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        # 3.8/3.9 need the older ubuntu image to be installable
+        include:
+          - { os: ubuntu-latest, python: '3.10' }
+          - { os: ubuntu-latest, python: '3.12' }
+          - { os: ubuntu-latest, python: '3.13' }
+          - { os: windows-latest, python: '3.10' }
+          - { os: windows-latest, python: '3.13' }
+          - { os: ubuntu-22.04, python: '3.8' }
+          - { os: ubuntu-22.04, python: '3.9' }
+    defaults:
+      run:
+        working-directory: photos_sqlite_export
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+      - name: Unit tests (24, differential ones skip without upstream sources)
+        run: python -m unittest discover -s tests -v
+      - name: Smoke run on the synthetic iOS 26 sample
+        run: python photos_export.py samples/Photos_ios26_synthetic.sqlite --limit 3
+      - name: --version works
+        run: python photos_export.py --version
+
+  viewer:
+    name: viewer (node ${{ matrix.node }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        node: ['20', '22']
+    defaults:
+      run:
+        working-directory: photos_viewer
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+      - run: npm ci
+      - run: npm test
+      - run: npm run build
+      - name: Upload offline single-file viewer
+        uses: actions/upload-artifact@v4
+        with:
+          name: photos_viewer-node${{ matrix.node }}
+          path: photos_viewer/dist/photos_viewer.html

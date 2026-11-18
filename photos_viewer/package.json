@@ -1,0 +1,27 @@
+{
+  "name": "photos-viewer",
+  "private": true,
+  "version": "2.0.0",
+  "type": "module",
+  "license": "MIT",
+  "description": "iOS 相册取证导出查看器：Photos.sqlite 查询导出 CSV 的本地可视化分析（构建为离线单文件 HTML）",
+  "scripts": {
+    "dev": "vite",
+    "build": "vue-tsc --noEmit && vite build",
+    "test": "vitest run",
+    "typecheck": "vue-tsc --noEmit",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "vue": "^3.5.13"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.6",
+    "@vitejs/plugin-vue": "^6.0.0",
+    "typescript": "~5.9.0",
+    "vite": "^7.1.0",
+    "vite-plugin-singlefile": "^2.3.0",
+    "vitest": "^3.2.0",
+    "vue-tsc": "^3.0.0"
+  }
+}
