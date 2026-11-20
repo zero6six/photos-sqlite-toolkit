@@ -33,8 +33,6 @@ jobs:
         run: python -m unittest discover -s tests -v
       - name: Smoke run on the synthetic iOS 26 sample
         run: python photos_export.py samples/Photos_ios26_synthetic.sqlite --limit 3
-      - name: --version works
-        run: python photos_export.py --version
 
   viewer:
     name: viewer (node ${{ matrix.node }})

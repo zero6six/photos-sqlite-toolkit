@@ -28,7 +28,7 @@ python photos_export.py Photos.sqlite -o out --where "zAsset.ZFAVORITE = 1"
 python photos_export.py Photos.sqlite -o out --dump-sql 2> final.sql
 ```
 
-## WAL 差分导出（0.2.0 起，自动）
+## WAL 差分导出（v0.2.0 起，自动）
 
 目录里存在非空的 `Photos.sqlite-wal` 时（活体提取的常见状态），导出自动变成
 两遍差分：第一遍读主库上次 checkpoint 的快照，第二遍读
@@ -76,7 +76,6 @@ CSV 是 UTF-8 带 BOM，Excel 可直接打开。BLOB 列写成 `0x` 开头的十
 | `--limit N` | 只取前 N 行 |
 | `--dump-sql` | 打印最终 SQL |
 | `--list` | 查看目录里有哪些 profile 和过滤器 |
-| `--version` | 打印版本号 |
 
 ## 退出码
 

@@ -4,9 +4,9 @@
 ScottKjr 仓库（iOS11~17 各版本查询）与本项目 [`photos_sqlite_export`](../photos_sqlite_export/README.md)
 （iOS11~26）——列按名称模糊匹配，互不锁定。全程本地解析，无网络请求。
 
-## WAL 差分（viewer 2.1.0 起）
+## WAL 差分（仓库 v0.2.0 起）
 
-`photos_sqlite_export` ≥0.2.0 检出非空 `-wal` 时导出的 CSV 带
+`photos_sqlite_export` 检出非空 `-wal` 时导出的 CSV 带
 `wal-diff-status` 列，查看器会：
 
 - 给对应资产打 **➕ WAL新增 / 🗑 WAL删除 / ✏️ WAL修改** 徽章；

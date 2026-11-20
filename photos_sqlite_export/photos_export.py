@@ -22,7 +22,7 @@ Usage:
     python photos_export.py <Photos.sqlite> [-o OUTDIR] [--profile basic]
         [--filter hidden trashed ...] [--all-filters] [--where "SQL"]
         [--keep-missing] [--limit N] [--dump-sql] [--list] [--catalog PATH]
-        [--no-wal-diff] [--keep-wal-work] [--version]
+        [--no-wal-diff] [--keep-wal-work]
 
 Exit codes: 0 every requested CSV was written; 1 some outputs were skipped
     (or the WAL diff had to fall back to single-pass); 2 the file is not a
@@ -39,8 +39,6 @@ import shutil
 import sqlite3
 import sys
 from pathlib import Path
-
-__version__ = "0.2.0"
 
 DEFAULT_CATALOG = os.path.join(os.path.dirname(os.path.abspath(__file__)),
                                "catalog.json")
@@ -638,8 +636,6 @@ def main(argv=None):
     ap = argparse.ArgumentParser(
         description="Export any iOS Photos.sqlite to CSV, degrading "
                     "gracefully on unknown schemas.")
-    ap.add_argument("--version", action="version",
-                    version="%(prog)s " + __version__)
     ap.add_argument("database")
     ap.add_argument("-o", "--outdir", default=None)
     ap.add_argument("--profile", default="basic")

@@ -78,8 +78,9 @@ python tools/build_catalog.py \
 
 ## 版本与发布
 
-- 版本号三处同步：`photos_export.py` 的 `__version__`、`pyproject.toml`
-  的 `version`、git tag。
-- viewer 构建产物 `dist/photos_viewer.html` 随 Release 附带：
-  `cd photos_viewer && npm run build`。
+- 版本号**只在根目录 `CHANGELOG.md` 维护**（仓库级，两个子项目共用）；
+  子项目不携带各自版本号（`photos_export.py` 无 `__version__`，
+  viewer 的 package.json 无 `version` 字段），不要再加回去。
+- 发版清单：CHANGELOG.md 顶部加一节 → commit → `git tag v<版本号>` →
+  push main 与 tag → Release 附新构建的 `photos_viewer/dist/photos_viewer.html`。
 - 合成样本再生成方法见 `photos_sqlite_export/samples/README.md`。

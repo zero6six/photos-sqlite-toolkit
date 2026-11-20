@@ -1,4 +1,4 @@
-/* 组件间契约测试：photos_sqlite_export（≥0.2.0）产出的 CSV → viewer 核心加载。
+/* 组件间契约测试：photos_sqlite_export 产出的 CSV（v0.2.0 起可含 WAL 差分列）→ viewer 核心加载。
  * 检材是入库的合成样本（iOS 26，8 行 × 218 列，5 资产），可随样本再生成同步更新。
  */
 import { describe, it, expect } from 'vitest';
@@ -27,7 +27,7 @@ describe('exporter CSV 契约（samples/Photos_ios26_synthetic_basic.csv）', ()
   });
 
   it('关键契约字段全部映射（iLEAPP 风格表头）', () => {
-    // 曾有缺口：zAsset-Added Date 不被 add-date 模式命中（viewer 2.1.0 修）
+    // 曾有缺口：zAsset-Added Date 不被 add-date 模式命中（v0.2.0 修）
     const need = ['zpk', 'uuid', 'filename', 'origname', 'dateCreated', 'dateAdded',
       'dateModified', 'dateTrashed', 'importedBy', 'bundleId', 'kind', 'kindSub',
       'uti', 'fileSize', 'trashedState', 'hiddenState', 'favorite', 'lat', 'lon',
