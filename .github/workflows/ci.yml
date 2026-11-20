@@ -25,8 +25,8 @@ jobs:
       run:
         working-directory: photos_sqlite_export
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
         with:
           python-version: ${{ matrix.python }}
       - name: Unit tests (24, differential ones skip without upstream sources)
@@ -42,20 +42,20 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        node: ['20', '22']
+        node: ['22', '24']
     defaults:
       run:
         working-directory: photos_viewer
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
         with:
           node-version: ${{ matrix.node }}
       - run: npm ci
       - run: npm test
       - run: npm run build
       - name: Upload offline single-file viewer
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: photos_viewer-node${{ matrix.node }}
           path: photos_viewer/dist/photos_viewer.html
