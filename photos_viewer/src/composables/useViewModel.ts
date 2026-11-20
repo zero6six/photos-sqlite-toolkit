@@ -2,7 +2,7 @@
 import { computed } from 'vue';
 import { dataState, view, customCols, showToast } from '../state';
 import type { Asset, Badges, AggState } from '../core/aggregate';
-import { cleanV, kindLabel, srcLabel, gpsText, fmtBytes, fmtDur } from '../core/format';
+import { cleanV, kindLabel, srcLabel, gpsText, gpsParts, fmtBytes, fmtDur } from '../core/format';
 import {
   colId, customValue, isNumericColumn, sortAssetList,
   isValidCustomColShape, revalidateCustomCols, type CustomCol,
@@ -23,6 +23,17 @@ export function rowValue(a: Asset, key: string): string {
     case 'sizeLabel':   return fmtBytes(f.fileSize);
     case 'durLabel':    return fmtDur(f.duration);
     default:            return '';
+  }
+}
+
+/** 排序键：显示串（带单位/拼接文本）不能直接比数值，数值列返回原始值 */
+export function sortValue(a: Asset, key: string): string {
+  const f = a.f;
+  switch (key) {
+    case 'sizeLabel': return cleanV(f.fileSize);              // 原始字节
+    case 'durLabel':  return cleanV(f.duration);              // 原始秒
+    case 'gpsLabel':  { const p = gpsParts(f); return p ? String(p.lat) : ''; } // 纬度
+    default:          return rowValue(a, key);
   }
 }
 
@@ -51,8 +62,8 @@ export const visibleAssets = computed<Asset[]>(() => {
   }
   return sortAssetList(list, {
     key, dir: view.sortDir,
-    getVal: a => rowValue(a, key),
-    numeric: key === 'sizeLabel' || key === 'durLabel',
+    getVal: a => sortValue(a, key),
+    numeric: key === 'sizeLabel' || key === 'durLabel' || key === 'gpsLabel',
   });
 });
 

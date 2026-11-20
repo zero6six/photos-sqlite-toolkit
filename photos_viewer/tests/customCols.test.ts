@@ -10,7 +10,8 @@ import {
   customValue, catValue, isNumericColumn, sortAssetList,
   isValidCustomColShape, revalidateCustomCols,
 } from '../src/composables/customCols';
-import { rowValue } from '../src/composables/useViewModel';
+import { rowValue, sortValue } from '../src/composables/useViewModel';
+import { fmtDur } from '../src/core/format';
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const rows = parseCSV(readFileSync(join(HERE, '..', 'test.csv'), 'utf-8'));
@@ -121,6 +122,55 @@ describe('排序行为', () => {
     expect(isNumericColumn(['1', '2.5', ''])).toBe(true);
     expect(isNumericColumn(['a', '1'])).toBe(false);
     expect(isNumericColumn(['', ''])).toBe(false);
+    // 带单位/带文字前缀可 parseFloat 的串不算数值列（"2.43 MB"→2.43 的老坑）
+    expect(isNumericColumn(['2.43 MB (2542832 B)', '103.4 KB'])).toBe(false);
+    expect(isNumericColumn(['45.0 秒', '3分05秒'])).toBe(false);
+    expect(isNumericColumn([' 12 ', '+13.5', '-1'])).toBe(true);   // trim + 符号
+  });
+
+  /* 按显示串 parseFloat 排序的老 bug：单位倍率丢失、分钟格式截断 */
+  const mkAsset = (over: Record<string, string>): Asset =>
+    ({ key: 'K' + over.zpk, rows: [], f: { zpk: over.zpk, fileSize: '', duration: '', lat: '', lon: '', ...over },
+       albums: [], resources: [], badges: {
+         trashed: false, hidden: false, fav: false, edited: false,
+         video: false, gps: false, third: false }, searchText: '' });
+  const sortLike = (assets: Asset[], key: string, dir: 1 | -1) =>
+    sortAssetList(assets, {
+      key, dir,
+      getVal: a => sortValue(a, key),
+      numeric: key === 'sizeLabel' || key === 'durLabel' || key === 'gpsLabel',
+    });
+
+  it('大小列按字节数值排：B < KB < MB 跨单位有序', () => {
+    const assets = [
+      mkAsset({ zpk: '1', fileSize: String(3 * 1048576) }),        // 3 MB
+      mkAsset({ zpk: '2', fileSize: '512' }),                      // 512 B
+      mkAsset({ zpk: '3', fileSize: String(2.43 * 1048576) }),     // 2.43 MB
+      mkAsset({ zpk: '4', fileSize: String(103.4 * 1024) }),       // 103.4 KB
+      mkAsset({ zpk: '5', fileSize: '' }),                         // 空
+    ];
+    const vals = sortLike(assets, 'sizeLabel', 1).map(a => a.f.fileSize);
+    expect(vals).toEqual(['512', String(103.4 * 1024), String(2.43 * 1048576), String(3 * 1048576), '']);
+    // 降序反转、空值仍恒排尾
+    const valsD = sortLike(assets, 'sizeLabel', -1).map(a => a.f.fileSize);
+    expect(valsD).toEqual([String(3 * 1048576), String(2.43 * 1048576), String(103.4 * 1024), '512', '']);
+  });
+
+  it('时长列按秒排：45 秒 < 3分05秒（显示串会把 3分05秒 当 3）', () => {
+    expect(fmtDur('45')).toBe('45.0 秒');
+    expect(fmtDur('185')).toContain('3分');                       // 确认显示格式确实是分钟制
+    const assets = [mkAsset({ zpk: '1', duration: '185' }), mkAsset({ zpk: '2', duration: '45' })];
+    expect(sortLike(assets, 'durLabel', 1).map(a => a.f.duration)).toEqual(['45', '185']);
+  });
+
+  it('GPS 列按纬度数值排：9.5 < 27.2，无 GPS 恒排尾', () => {
+    const assets = [
+      mkAsset({ zpk: '1', lat: '27.28260', lon: '84.16850' }),
+      mkAsset({ zpk: '2', lat: '9.5', lon: '100.0' }),
+      mkAsset({ zpk: '3', lat: '-33.8688', lon: '151.2093' }),    // 南纬最小
+      mkAsset({ zpk: '4', lat: '', lon: '' }),
+    ];
+    expect(sortLike(assets, 'gpsLabel', 1).map(a => a.f.zpk)).toEqual(['3', '2', '1', '4']);
   });
 
   it('数值自定义列升序/降序正确且空值恒排尾', () => {

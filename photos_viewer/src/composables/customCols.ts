@@ -40,10 +40,12 @@ export function customValue(state: AggState, a: Asset, col: CustomCol): string {
   return cleanV(firstNonEmpty(a.rows, idx));
 }
 
-/** 数值列检测：非空值全部可解析为有限数值则按数值排序 */
+/** 数值列检测：非空值全部为纯数字（可带符号/小数点）才按数值排序。
+ *  不能用 parseFloat 前缀判定——"2.43 MB"会啃出 2.43 被误判成数值列 */
+const PURE_NUM = /^[+-]?(?:\d+(?:\.\d*)?|\.\d+)$/;
 export function isNumericColumn(values: string[]): boolean {
-  const nonEmpty = values.filter(v => v !== '');
-  return nonEmpty.length > 0 && nonEmpty.every(v => isFinite(parseFloat(v)));
+  const nonEmpty = values.map(v => v.trim()).filter(v => v !== '');
+  return nonEmpty.length > 0 && nonEmpty.every(v => PURE_NUM.test(v));
 }
 
 /** 空值恒排末尾（与固定列一致，升/降序均如此）；tiebreak 用 zPK 数值序保证稳定 */
