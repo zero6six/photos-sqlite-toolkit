@@ -35,6 +35,9 @@ python photos_export.py samples/Photos_ios26_synthetic.sqlite -o samples_demo
 # 真实检材（库以只读方式打开，绝不会被改动）：
 python photos_export.py Photos.sqlite -o out                # 主 CSV + 报告
 python photos_export.py Photos.sqlite -o out --all-filters  # 隐藏/最近删除/收藏/定位/调整/同步 各一份
+
+# 同目录有非空 Photos.sqlite-wal 时自动进入差分导出：
+# 新增/删除/修改 的资产会在 CSV 的 wal-diff-status 列标出（--no-wal-diff 可关）
 ```
 
 更多参数（`--profile very-basic`、`--where`、`--dump-sql` 等）与退出码语义见[子项目 README](photos_sqlite_export/README.md)。
@@ -52,7 +55,7 @@ cd photos_viewer && npm install && npm run build   # 产物 dist/photos_viewer.h
 ## 测试
 
 ```bash
-cd photos_sqlite_export && python -m unittest discover -s tests   # 24 个测试（含 10 个 iOS 版本合成库）
+cd photos_sqlite_export && python -m unittest discover -s tests   # 30 个测试（含 10 个 iOS 版本合成库 + WAL 差分）
 cd photos_viewer && npm test                                      # 44 个测试
 ```
 

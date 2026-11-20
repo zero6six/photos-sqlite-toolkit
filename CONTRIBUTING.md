@@ -8,7 +8,7 @@
 ## 测试
 
 ```bash
-# 导出器：24 个测试（含 10 个 iOS 版本合成库的构建与导出）
+# 导出器：30 个测试（10 个 iOS 版本合成库 + 6 个 WAL 差分场景）
 cd photos_sqlite_export
 python -m unittest discover -s tests
 
@@ -68,8 +68,13 @@ python tools/build_catalog.py \
 4. **过滤器不适用时跳过该 CSV 并写明原因**，绝不输出未过滤的结果冒充。
 5. **`basic` profile 一个资产可占多行**（相册/内部资源乘行，与上游查询
    语义一致）；要单行用 `--profile very-basic`。
-6. **数据库只读打开**（`mode=ro`，失败退 `immutable=1`），任何情况下不
-   产生 `-wal`/`-shm`/`-journal` 写入证据目录。
+6. **原数据库文件只读打开**（`mode=ro`，快照遍用 `immutable=1` 强制忽略
+   WAL）。WAL 差分的 checkpoint 只发生在输出目录 `_wal_work/` 里的**副本**
+   上（跑完即删）——原件不动是差分可重复执行的前提，不要改成原地
+   checkpoint。
+7. **WAL 差分按 `zAsset-zPK` 的行集合比对**（不是逐 CSV 行）：basic 一资产
+   多行，逐行比对会满屏假差异。四态 unchanged/added/removed/modified，
+   removed 行的数据取自快照遍。
 
 ## 版本与发布
 

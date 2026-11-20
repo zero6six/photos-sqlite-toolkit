@@ -9,14 +9,24 @@ output column (or become NULL with --keep-missing).  A prepare-time retry loop
 catches anything the schema check missed.  The goal is always to produce a
 CSV, never to fail on a schema the catalog does not know.
 
+When a non-empty <database>-wal sidecar is present the export automatically
+becomes a differential two-pass run: pass 1 reads the pre-checkpoint snapshot
+of the main file (immutable=1, WAL invisible), pass 2 reads a checkpointed
+COPY of db+wal (the originals are never modified, so re-running sees the same
+WAL).  Both passes are merged per asset (zAsset-zPK) into one CSV carrying an
+extra wal-diff-status column: unchanged / added / removed / modified - rows
+of surviving assets come from the full state, removed assets keep their
+snapshot rows.  --no-wal-diff restores the plain single-pass export.
+
 Usage:
     python photos_export.py <Photos.sqlite> [-o OUTDIR] [--profile basic]
         [--filter hidden trashed ...] [--all-filters] [--where "SQL"]
         [--keep-missing] [--limit N] [--dump-sql] [--list] [--catalog PATH]
-        [--version]
+        [--no-wal-diff] [--keep-wal-work] [--version]
 
-Exit codes: 0 every requested CSV was written; 1 some outputs were skipped;
-2 the file is not a usable Photos database.
+Exit codes: 0 every requested CSV was written; 1 some outputs were skipped
+    (or the WAL diff had to fall back to single-pass); 2 the file is not a
+    usable Photos database.
 """
 
 import argparse
@@ -25,11 +35,12 @@ import io
 import json
 import os
 import re
+import shutil
 import sqlite3
 import sys
 from pathlib import Path
 
-__version__ = "0.1.0"
+__version__ = "0.2.0"
 
 DEFAULT_CATALOG = os.path.join(os.path.dirname(os.path.abspath(__file__)),
                                "catalog.json")
@@ -442,13 +453,19 @@ class QueryBuilder(object):
 # Export driver
 # ---------------------------------------------------------------------------
 
-def open_readonly(path):
+def open_readonly(path, force_immutable=False):
+    """Open without writing.  force_immutable pins the pre-checkpoint
+    snapshot (WAL invisible) - used as pass 1 of the differential export;
+    the default chain prefers mode=ro and only warns on the immutable
+    fallback."""
     p = Path(path).resolve()
-    for suffix in ("?mode=ro", "?mode=ro&immutable=1"):
+    suffixes = ("?mode=ro&immutable=1",) if force_immutable else \
+        ("?mode=ro", "?mode=ro&immutable=1")
+    for suffix in suffixes:
         try:
             conn = sqlite3.connect(p.as_uri() + suffix, uri=True)
             conn.execute("SELECT count(*) FROM sqlite_master")
-            if suffix == "?mode=ro&immutable=1":
+            if suffix == "?mode=ro&immutable=1" and not force_immutable:
                 sys.stderr.write("note: opened immutable; uncheckpointed WAL "
                                  "content, if any, is not visible\n")
             return conn
@@ -478,6 +495,123 @@ def write_csv(conn, sql, path):
                 w.writerow([blob_to_text(v) for v in row])
                 n += 1
     return len(header), n
+
+
+# ---------------------------------------------------------------------------
+# WAL differential export
+# ---------------------------------------------------------------------------
+
+WAL_STATUS_COL = "wal-diff-status"
+
+
+def wal_size(path):
+    """Bytes in the <db>-wal sidecar, 0 when absent."""
+    try:
+        return os.path.getsize(str(path) + "-wal")
+    except OSError:
+        return 0
+
+
+def prepare_checkpointed_copy(db_path, workdir):
+    """Copy db + -wal (never -shm) into workdir and checkpoint the copy.
+
+    The checkpoint always happens on the disposable copy; the originals stay
+    untouched so re-running the diff sees the same WAL.  Returns the path of
+    the checkpointed copy plus the PRAGMA result row (busy, log, pages).
+    """
+    workdir = Path(workdir)
+    workdir.mkdir(parents=True, exist_ok=True)
+    db_copy = workdir / Path(db_path).name
+    wal_copy = workdir / (Path(db_path).name + "-wal")
+    shutil.copy2(db_path, db_copy)
+    shutil.copy2(str(db_path) + "-wal", wal_copy)
+    conn = sqlite3.connect(str(db_copy))
+    try:
+        result = conn.execute("PRAGMA wal_checkpoint(TRUNCATE)").fetchone()
+        conn.commit()
+    finally:
+        conn.close()
+    return db_copy, result
+
+
+def _key_index(header):
+    for i, h in enumerate(header):
+        if h.lower() == "zasset-zpk":
+            return i
+    return None
+
+
+def _proj(rows, idxs):
+    """Rows projected onto the given column indices, as hashable tuples."""
+    return [tuple(r[i] for i in idxs) for r in rows]
+
+
+def write_csv_diff(conn1, sql1, conn2, sql2, path):
+    """Dual-read merge keyed by zAsset-zPK.
+
+    Pass 1 (conn1/sql1) is the pre-checkpoint snapshot, pass 2 (conn2/sql2)
+    the full db+wal state.  Both result sets are buffered per asset key (the
+    basic profile multiplies rows per asset, so the comparison unit is the
+    per-key row multiset, not the raw row).  Output carries the union of both
+    column sets (pass-2 order first, snapshot-only columns appended; a side
+    lacking a column writes ""), plus wal-diff-status.  Rows of surviving
+    assets come from pass 2; removed assets keep their snapshot rows.
+    Returns (ncols, nrows, {status: assets}).
+    """
+    cur2 = conn2.execute(sql2)
+    header2 = [d[0] for d in cur2.description]
+    cur1 = conn1.execute(sql1)
+    header1 = [d[0] for d in cur1.description]
+    k1, k2 = _key_index(header1), _key_index(header2)
+    if k1 is None or k2 is None:
+        raise ValueError("no zAsset-zPK column in one of the passes")
+
+    rows1, rows2 = {}, {}
+    for row in cur1.fetchall():
+        nrow = [blob_to_text(v) for v in row]
+        rows1.setdefault(nrow[k1], []).append(nrow)
+    for row in cur2.fetchall():
+        nrow = [blob_to_text(v) for v in row]
+        rows2.setdefault(nrow[k2], []).append(nrow)
+
+    header = header2 + [h for h in header1 if h not in header2]
+    # union-column -> index into each side's row (None = column absent there)
+    out2 = [header2.index(h) if h in header2 else None for h in header]
+    out1 = [header1.index(h) if h in header1 else None for h in header]
+    # project both sides onto the columns they share; the modified check
+    # compares multisets of those projected rows per asset key
+    common1 = [i for i, h in enumerate(header1) if h in header2]
+    common2 = [header2.index(header1[i]) for i in common1]
+
+    counts = dict.fromkeys(("unchanged", "added", "removed", "modified"), 0)
+    n = 0
+    with io.open(path, "w", encoding="utf-8-sig", newline="") as fh:
+        w = csv.writer(fh)
+        w.writerow(header + [WAL_STATUS_COL])
+
+        def emit(vals, idxs, status):
+            w.writerow([vals[i] if i is not None else "" for i in idxs]
+                       + [status])
+
+        for key, rws in rows2.items():            # full-state order
+            if key not in rows1:
+                status = "added"
+            elif (sorted(_proj(rows1[key], common1), key=repr)
+                  == sorted(_proj(rws, common2), key=repr)):
+                status = "unchanged"
+            else:
+                status = "modified"
+            counts[status] += 1
+            for r in rws:
+                emit(r, out2, status)
+                n += 1
+        for key, rws in rows1.items():            # assets gone in pass 2
+            if key not in rows2:
+                counts["removed"] += 1
+                for r in rws:
+                    emit(r, out1, "removed")
+                    n += 1
+    return len(header) + 1, n, counts
 
 
 def pick_filter_where(builder, filt):
@@ -519,6 +653,13 @@ def main(argv=None):
                     help="extra CSV with this custom WHERE clause")
     ap.add_argument("--keep-missing", action="store_true",
                     help="keep absent columns in the CSV as NULL")
+    ap.add_argument("--no-wal-diff", action="store_true",
+                    help="with a non-empty -wal sidecar, skip the "
+                         "differential two-pass export and do a plain "
+                         "single-pass export")
+    ap.add_argument("--keep-wal-work", action="store_true",
+                    help="keep the _wal_work directory holding the "
+                         "checkpointed copy used by the differential export")
     ap.add_argument("--limit", type=int, default=None)
     ap.add_argument("--catalog", default=DEFAULT_CATALOG)
     ap.add_argument("--dump-sql", action="store_true",
@@ -544,9 +685,47 @@ def main(argv=None):
     if not os.path.exists(db):
         sys.stderr.write("file not found: %s\n" % db)
         return 2
-    conn = open_readonly(db)
+
+    outdir = args.outdir or os.path.join(
+        os.path.dirname(os.path.abspath(db)), "photos_export")
+    os.makedirs(outdir, exist_ok=True)
+    stem = os.path.splitext(os.path.basename(db))[0]
+
+    # -- WAL differential setup (before anything else touches the db) -------
+    exit_code = 0
+    wsize = wal_size(db)
+    use_wal_diff = wsize > 0 and not args.no_wal_diff
+    wal = None                     # workdir/ckpt bookkeeping for cleanup+report
+    conn = conn1 = builder1 = None  # conn1/builder1 = pass 1 (snapshot)
+    if use_wal_diff:
+        print("wal sidecar detected (%d bytes): differential export "
+              "(--no-wal-diff to disable)" % wsize)
+        workdir = os.path.join(outdir, "_wal_work")
+        try:
+            db_copy, ckpt = prepare_checkpointed_copy(db, workdir)
+            conn1 = open_readonly(db, force_immutable=True)
+            conn = open_readonly(db_copy)
+            if conn1 is None or conn is None:
+                raise sqlite3.Error(
+                    "cannot open snapshot or checkpointed copy")
+            wal = {"workdir": workdir, "ckpt": ckpt, "size": wsize}
+        except (OSError, sqlite3.Error) as ex:
+            sys.stderr.write("wal diff unavailable (%s); falling back to "
+                             "single-pass export\n" % ex)
+            exit_code = 1
+            for c in (conn, conn1):
+                if c is not None:
+                    c.close()
+            conn = conn1 = None
+            use_wal_diff = False
+            if not args.keep_wal_work:
+                shutil.rmtree(workdir, ignore_errors=True)
+    if conn is None:
+        conn = open_readonly(db)
     if conn is None:
         sys.stderr.write("cannot open as SQLite (or not a database): %s\n" % db)
+        if conn1 is not None:
+            conn1.close()
         return 2
     schema = Schema(conn)
 
@@ -557,13 +736,40 @@ def main(argv=None):
         sys.stderr.write("no ZASSET/ZGENERICASSET table - not a Photos "
                          "database: %s\n" % db)
         conn.close()
+        if conn1 is not None:
+            conn1.close()
         return 2
     builder.resolve_columns()
 
-    outdir = args.outdir or os.path.join(
-        os.path.dirname(os.path.abspath(db)), "photos_export")
-    os.makedirs(outdir, exist_ok=True)
-    stem = os.path.splitext(os.path.basename(db))[0]
+    if use_wal_diff:
+        schema1 = Schema(conn1)
+        builder1 = QueryBuilder(cat, conn1, schema1, args.profile,
+                                keep_missing=args.keep_missing)
+        builder1.resolve_joins()
+        if builder1.base is None:
+            builder.report.add(
+                "wal diff off: pre-checkpoint snapshot has no asset table; "
+                "exported the full state single-pass")
+            sys.stderr.write("wal diff off: snapshot has no asset table\n")
+            exit_code = 1
+            conn1.close()
+            conn1 = builder1 = None
+            use_wal_diff = False
+        else:
+            builder1.resolve_columns()
+            builder.report.add(
+                "wal: %d-byte sidecar; pass 1 = snapshot via immutable, "
+                "pass 2 = checkpointed copy" % wsize)
+            builder.report.add(
+                "wal: checkpoint on copy -> busy=%d log=%d pages=%d" % wal["ckpt"])
+            only1 = [c["name"] for c in builder1.columns
+                     + builder1.null_columns
+                     if c["name"] not in
+                     {c["name"] for c in builder.columns + builder.null_columns}]
+            if only1:
+                builder.report.add(
+                    "wal: columns only in the snapshot (appended): %s"
+                    % ", ".join(only1))
 
     filters = []
     for group in args.filter:              # nargs="+" yields a list per flag
@@ -587,9 +793,10 @@ def main(argv=None):
         jobs.append(("%s_%s_custom.csv" % (stem, args.profile),
                      {"name": "custom", "where": [args.where]}))
 
-    exit_code = 0
     for fname, filt in jobs:
         builder.where = None
+        if builder1 is not None:
+            builder1.where = None
         if filt is not None:
             builder.where = pick_filter_where(builder, filt)
             if builder.where is None:
@@ -599,25 +806,69 @@ def main(argv=None):
                 sys.stderr.write("skipped %s (filter not applicable)\n" % fname)
                 exit_code = 1
                 continue
+            if builder1 is not None:
+                builder1.where = pick_filter_where(builder1, filt)
+                if builder1.where is None:
+                    builder.report.add(
+                        "SKIPPED %s: filter %s has no usable condition on "
+                        "the pre-checkpoint snapshot"
+                        % (fname, filt["name"]))
+                    sys.stderr.write("skipped %s (filter not applicable on "
+                                     "the snapshot)\n" % fname)
+                    exit_code = 1
+                    continue
         builder.limit = args.limit
         sql = builder.prepare(builder.build_sql())
+        sql1 = None
+        if builder1 is not None:
+            builder1.limit = args.limit
+            sql1 = builder1.prepare(builder1.build_sql())
         if args.dump_sql:
             sys.stderr.write("=== %s ===\n%s\n\n" % (fname, sql))
+            if sql1 is not None:
+                sys.stderr.write(
+                    "=== %s (pass 1: pre-checkpoint snapshot) ===\n%s\n\n"
+                    % (fname, sql1))
         try:
-            ncols, nrows = write_csv(conn, sql, os.path.join(outdir, fname))
-        except sqlite3.Error as ex:
+            if sql1 is not None:
+                ncols, nrows, counts = write_csv_diff(
+                    conn1, sql1, conn, sql, os.path.join(outdir, fname))
+                builder.report.add(
+                    "wrote %s: %d columns x %d rows (wal diff: %d unchanged,"
+                    " %d added, %d removed, %d modified)"
+                    % (fname, ncols, nrows, counts["unchanged"],
+                       counts["added"], counts["removed"],
+                       counts["modified"]))
+                print("%s: %d columns x %d rows (wal: %d unchanged, %d added,"
+                      " %d removed, %d modified)"
+                      % (fname, ncols, nrows, counts["unchanged"],
+                         counts["added"], counts["removed"],
+                         counts["modified"]))
+            else:
+                ncols, nrows = write_csv(conn, sql, os.path.join(outdir, fname))
+                builder.report.add("wrote %s: %d columns x %d rows"
+                                   % (fname, ncols, nrows))
+                print("%s: %d columns x %d rows" % (fname, ncols, nrows))
+        except (sqlite3.Error, ValueError) as ex:
             builder.report.add("FAILED %s: %s" % (fname, ex))
             sys.stderr.write("failed %s: %s\n" % (fname, ex))
             exit_code = 1
             continue
-        builder.report.add("wrote %s: %d columns x %d rows"
-                           % (fname, ncols, nrows))
-        print("%s: %d columns x %d rows" % (fname, ncols, nrows))
 
     report_path = os.path.join(outdir, "export_report.txt")
+    conn.close()
+    if conn1 is not None:
+        conn1.close()
+    if wal is not None:
+        # after conn.close(): Windows refuses to delete files an open
+        # sqlite connection still holds
+        if args.keep_wal_work:
+            builder.report.add("wal: work copy kept at %s" % wal["workdir"])
+        else:
+            shutil.rmtree(wal["workdir"], ignore_errors=True)
+            builder.report.add("wal: work copy removed (%s)" % wal["workdir"])
     builder.report.dump(report_path)
     print("report: %s" % report_path)
-    conn.close()
     return exit_code
 
 

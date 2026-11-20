@@ -28,6 +28,26 @@ python photos_export.py Photos.sqlite -o out --where "zAsset.ZFAVORITE = 1"
 python photos_export.py Photos.sqlite -o out --dump-sql 2> final.sql
 ```
 
+## WAL 差分导出（0.2.0 起，自动）
+
+目录里存在非空的 `Photos.sqlite-wal` 时（活体提取的常见状态），导出自动变成
+两遍差分：第一遍读主库上次 checkpoint 的快照，第二遍读
+**副本**上 checkpoint 合并后的完整状态（原文件不动，重跑结果一致）。两边按
+`zAsset-zPK` 合并成一张 CSV，多出一列 `wal-diff-status`：
+
+| 值 | 含义 | 行数据取自 |
+|---|---|---|
+| `unchanged` | 两遍一致 | 完整状态 |
+| `added` | WAL 里新增的资产 | 完整状态 |
+| `modified` | WAL 里有改动（含相册隶属变化） | 完整状态 |
+| `removed` | WAL 里已删除的资产 | 快照（完整状态里已没有这行） |
+
+- 差分对 `--filter` / `--all-filters` / `--where` 的 CSV 同样生效。
+- 两侧结构可能不同（WAL 里可以有 DDL），列取并集，缺失侧补空。
+- `--no-wal-diff` 恢复普通单遍导出；`--keep-wal-work` 保留
+  `<输出目录>/_wal_work/` 里的 checkpoint 副本备查（默认删除）。
+- `-wal` 缺失或 0 字节时就是普通导出，不进差分。
+
 不加 `-o` 时输出到数据库所在目录下的 `photos_export/`。
 
 ## 输出
@@ -51,6 +71,8 @@ CSV 是 UTF-8 带 BOM，Excel 可直接打开。BLOB 列写成 `0x` 开头的十
 | `--all-filters` | 全部过滤器 |
 | `--where "SQL"` | 自定义 WHERE |
 | `--keep-missing` | 缺失的列保留表头、值为空（默认直接去掉） |
+| `--no-wal-diff` | 有非空 `-wal` 时也不做差分，普通单遍导出 |
+| `--keep-wal-work` | 保留差分用的 checkpoint 副本目录 |
 | `--limit N` | 只取前 N 行 |
 | `--dump-sql` | 打印最终 SQL |
 | `--list` | 查看目录里有哪些 profile 和过滤器 |
@@ -70,8 +92,8 @@ CSV 是 UTF-8 带 BOM，Excel 可直接打开。BLOB 列写成 `0x` 开头的十
 - **过滤器不适用时不出文件**：不会输出一份没过滤的结果冒充。
 - **`locations` 的条件是 `ZLATITUDE != -180.0`**：原仓库的 `> 0` 会漏掉南纬。
 - **`adjusted` 自动选列**：有 `ZHASADJUSTMENTS` 用它，没有（iOS 18 起）用 `ZADJUSTMENTSSTATE > 0`。
-- **数据库只读打开**：不会改动证据文件。
-- **WAL**：把 `Photos.sqlite-wal` 和 `-shm` 放在同目录。如果 stderr 出现 `opened immutable` 的提示，说明这次没有读到 WAL 里的内容。这一项没有测过。
+- **数据库只读打开**：原文件不会被改动；差分模式的 checkpoint 发生在输出目录里的副本上，跑完即删（`--keep-wal-work` 保留）。
+- **WAL 差分**：见上文专节。`-shm` 不参与差分（不复制它，快照用 `immutable=1` 强制忽略）。
 
 ## 列从哪来
 
@@ -90,7 +112,7 @@ python tools/build_catalog.py --repo <原仓库目录> --ileapp <iLEAPP 源码�
 
 - **只在合成库上跑过**，没有在真实设备数据上验证。合成库是按各版本查询反推出来的表结构，iOS 11、12、13、14、15、16、17、17.6、18、26 各一个，全部能导出。
 - **iOS 26 的结构知识来自 iLEAPP 的代码**，iLEAPP 自己列出的测试镜像最高到 iOS 18.7。
-- **测试 24 个全部通过**（`python -m unittest discover -s tests`），含三组逐值对照：与原仓库 Basic（iOS 13–17）、Very-Basic（iOS 11、12）、iLEAPP Ph002 的 iOS 26 查询在合成库上比对普通列和日期列的值。CASE 列只比形态不比文字（枚举文字用最新版本的写法）。
+- **测试 30 个全部通过**（`python -m unittest discover -s tests`），含三组逐值对照：与原仓库 Basic（iOS 13–17）、Very-Basic（iOS 11、12）、iLEAPP Ph002 的 iOS 26 查询在合成库上比对普通列和日期列的值。CASE 列只比形态不比文字（枚举文字用最新版本的写法）。WAL 差分有专门的崩溃写 WAL 夹具测试（增/删/改四分类、原件不被改动、过滤器走差分路径）。
 - 合成 iOS 26 库上导出 218 列，其余 37 列因表或列不存在被去掉，明细在报告里。
 - 没移植的查询组：Large_Reference、Albums-Only、Albums-with-Assets、iCloudLink-CMMoment、IntResou-iCldPhotos、MigrationHistory。
 - 运行测试需要把原仓库和 iLEAPP 源码放在本项目的同级目录（缺了会跳过对照测试）。
