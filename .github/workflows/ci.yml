@@ -55,7 +55,7 @@ jobs:
       - run: npm test
       - run: npm run build
       - name: Upload offline single-file viewer
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         with:
           name: photos_viewer-node${{ matrix.node }}
           path: photos_viewer/dist/photos_viewer.html
