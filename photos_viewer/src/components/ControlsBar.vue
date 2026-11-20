@@ -21,6 +21,21 @@ function toggleChip(k: string): void {
   if (view.chips.has(k)) view.chips.delete(k);
   else view.chips.add(k);
 }
+
+/* WAL 差分筛选：CSV 带 wal-diff-status 列才出现，只列有量的状态 */
+interface WalOpt { k: string; label: string }
+const WAL_OPTS: WalOpt[] = [
+  { k: 'added', label: '➕ WAL新增' },
+  { k: 'removed', label: '🗑 WAL删除' },
+  { k: 'modified', label: '✏️ WAL修改' },
+];
+const walChips = WAL_OPTS
+  .map(d => ({ ...d, n: props.state.assets.filter(a => a.f.walStatus === d.k).length }))
+  .filter(d => d.n > 0);
+
+function toggleWal(k: string): void {
+  view.walFilter = view.walFilter === k ? '' : k;
+}
 </script>
 
 <template>
@@ -31,6 +46,11 @@ function toggleChip(k: string): void {
           @click="toggleChip(c.k)">{{ c.label }}<span class="n">{{ c.n }}</span></span>
   </span>
   <span class="sep"></span>
+  <span v-if="walChips.length" id="walchips" title="WAL 差分导出（photos_sqlite_export ≥0.2.0）的状态筛选：点击只看对应状态的资产">
+    <span v-for="c in walChips" :key="c.k" class="chip" :class="{ on: view.walFilter === c.k }"
+          @click="toggleWal(c.k)">{{ c.label }}<span class="n">{{ c.n }}</span></span>
+  </span>
+  <span v-if="walChips.length" class="sep"></span>
   <label class="pick-toggle" title="勾选后进入选列模式：点击条目详情面板中的字段/分类即可将其添加为主表格列；已添加列可点表头 ✕ 移除">
     <input type="checkbox" v-model="view.pick">动态自定义列
   </label>

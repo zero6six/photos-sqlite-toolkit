@@ -9,13 +9,14 @@ export const dataState = shallowRef<AggState | null>(null);
 export interface ViewState {
   q: string;
   chips: Set<string>;
+  walFilter: string;        // WAL差分筛选：''=全部 / added|removed|modified
   sortKey: string;          // 固定列键 或 'custom:<id>'
   sortDir: 1 | -1;
   openKeys: Set<string>;
   pick: boolean;            // 「动态自定义列」选列模式
 }
 export const view = reactive<ViewState>({
-  q: '', chips: new Set(), sortKey: 'dateCreated', sortDir: 1, openKeys: new Set(), pick: false,
+  q: '', chips: new Set(), walFilter: '', sortKey: 'dateCreated', sortDir: 1, openKeys: new Set(), pick: false,
 });
 
 /** 用户动态添加的自定义列（持久化到 localStorage） */
@@ -41,6 +42,7 @@ export function showError(msg: string): void {
 export function resetView(): void {
   view.q = '';
   view.chips.clear();
+  view.walFilter = '';
   view.sortKey = 'dateCreated';
   view.sortDir = 1;
   view.openKeys.clear();

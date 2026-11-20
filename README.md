@@ -15,7 +15,7 @@ iOS 照片库（`Photos.sqlite`）取证工具链：**把任意 iOS 版本的照
 | 组件 | 说明 |
 |---|---|
 | [`photos_sqlite_export/`](photos_sqlite_export/README.md) | 导出 CLI。纯 Python 标准库，`photos_export.py` + `catalog.json` 两个文件复制即用；输出 UTF-8 带 BOM 的 CSV（Excel 直开）+ 结构探测报告 |
-| [`photos_viewer/`](photos_viewer/README.md) | 查看器。Vue 3 构建的**离线单文件 HTML**（`file://` 直开），把导出 CSV 拖进去即可：按资产聚合、语义徽章、筛选排序、动态自定义列 |
+| [`photos_viewer/`](photos_viewer/README.md) | 查看器。Vue 3 构建的**离线单文件 HTML**（`file://` 直开），把导出 CSV 拖进去即可：按资产聚合、语义徽章（含 WAL 差分标记）、筛选排序、动态自定义列 |
 
 ```
 Photos.sqlite ──► photos_export.py + catalog.json ──► CSV（UTF-8 BOM）──► photos_viewer.html
@@ -56,7 +56,7 @@ cd photos_viewer && npm install && npm run build   # 产物 dist/photos_viewer.h
 
 ```bash
 cd photos_sqlite_export && python -m unittest discover -s tests   # 30 个测试（含 10 个 iOS 版本合成库 + WAL 差分）
-cd photos_viewer && npm test                                      # 44 个测试
+cd photos_viewer && npm test                                      # 57 个测试（含与导出器 CSV 的契约测试）
 ```
 
 ## 已知边界（诚实声明）

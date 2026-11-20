@@ -1,7 +1,7 @@
 {
   "name": "photos-viewer",
   "private": true,
-  "version": "2.0.0",
+  "version": "2.1.0",
   "type": "module",
   "license": "MIT",
   "description": "iOS 相册取证导出查看器：Photos.sqlite 查询导出 CSV 的本地可视化分析（构建为离线单文件 HTML）",

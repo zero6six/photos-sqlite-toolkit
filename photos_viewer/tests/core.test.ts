@@ -7,6 +7,8 @@ import { parseCSV } from '../src/core/csv';
 import { normCol } from '../src/core/schema';
 import { aggregate } from '../src/core/aggregate';
 import { subTypeLabel, sqliteUtcPlus, tzLabel, tzOffSeconds } from '../src/core/format';
+import { dataState, view, resetView } from '../src/state';
+import { visibleAssets } from '../src/composables/useViewModel';
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const csvPath = join(HERE, '..', 'test.csv');
@@ -134,5 +136,62 @@ describe('变体CSV：版本容忍', () => {
     const SE = variant(rows[0].filter((_, i) => keep.includes(i)),
       rows.slice(1).map(r => keep.map(i => r[i])));
     expect(SE.assets.length).toBe(409);
+  });
+});
+
+describe('WAL差分状态列（exporter ≥0.2.0）', () => {
+  it('normCol 不吃掉连字符', () => expect(normCol('wal-diff-status')).toBe('wal-diff-status'));
+
+  /** test.csv + wal-diff-status 列：zPK 1/7/10 分别标 added/removed/modified */
+  const withWal = () => {
+    const zi = rows[0].indexOf('zAsset-zPK');
+    const h = [...rows[0], 'wal-diff-status'];
+    const d = rows.slice(1).map(r => {
+      const s = r[zi] === '1' ? 'added' : r[zi] === '7' ? 'removed'
+        : r[zi] === '10' ? 'modified' : 'unchanged';
+      return [...r, s];
+    });
+    return aggregate([h, ...d], h);
+  };
+
+  it('映射命中且不影响聚合', () => {
+    const SW = withWal();
+    expect(SW.m.map.walStatus).toBeDefined();
+    expect(SW.m.rawName.walStatus).toBe('wal-diff-status');
+    expect(SW.assets.length).toBe(92);
+  });
+
+  it('资产级状态正确（多行资产各行同状态，折叠后仍正确）', () => {
+    const SW = withWal();
+    expect(SW.assets.find(a => a.f.zpk === '1')!.f.walStatus).toBe('added');
+    expect(SW.assets.find(a => a.f.zpk === '7')!.f.walStatus).toBe('removed');
+    expect(SW.assets.find(a => a.f.zpk === '10')!.f.walStatus).toBe('modified');
+    expect(SW.assets.filter(a => a.f.walStatus === 'unchanged').length).toBe(89);
+  });
+
+  it('变体写法 wal-status 同样命中', () => {
+    const h = [...rows[0], 'WAL Status'];
+    const SV = aggregate([h, ...rows.slice(1).map(r => [...r, 'unchanged'])], h);
+    expect(SV.m.map.walStatus).toBeDefined();
+  });
+
+  it('旧 CSV 无该列时不映射', () => {
+    expect(S.m.map.walStatus).toBeUndefined();
+    expect(S.assets.every(a => a.f.walStatus === undefined)).toBe(true);
+  });
+
+  it('walFilter 过滤生效', () => {
+    const SW = withWal();
+    dataState.value = SW;
+    try {
+      view.walFilter = 'removed';
+      expect(visibleAssets.value.length).toBe(1);
+      expect(visibleAssets.value[0].f.zpk).toBe('7');
+      view.walFilter = '';
+      expect(visibleAssets.value.length).toBe(92);
+    } finally {
+      resetView();
+      dataState.value = null;
+    }
   });
 });

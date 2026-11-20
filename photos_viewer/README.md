@@ -4,6 +4,18 @@
 ScottKjr 仓库（iOS11~17 各版本查询）与本项目 [`photos_sqlite_export`](../photos_sqlite_export/README.md)
 （iOS11~26）——列按名称模糊匹配，互不锁定。全程本地解析，无网络请求。
 
+## WAL 差分（viewer 2.1.0 起）
+
+`photos_sqlite_export` ≥0.2.0 检出非空 `-wal` 时导出的 CSV 带
+`wal-diff-status` 列，查看器会：
+
+- 给对应资产打 **➕ WAL新增 / 🗑 WAL删除 / ✏️ WAL修改** 徽章；
+- 筛选栏出现 WAL 状态筛选（带计数，只看新增/删除/修改）；
+- **WAL删除** 的资产整行弱化、文件名加删除线（行数据来自删除前快照）；
+- 状态栏汇总三类计数。
+
+旧式 CSV（无该列）不受任何影响。
+
 ## 使用（取证现场）
 
 直接用浏览器打开 `dist/photos_viewer.html`（单文件、离线可用、file:// 直开），把查询导出的 CSV 拖进去即可。
@@ -31,7 +43,7 @@ ScottKjr 仓库（iOS11~17 各版本查询）与本项目 [`photos_sqlite_export
 ```bash
 npm install
 npm run dev        # 开发服务器
-npm run test       # vitest 回归测试（core 移植断言 + 自定义列功能测试）
+npm run test       # vitest 回归测试（core 移植断言 + 自定义列 + 导出器契约 + WAL差分）
 npm run build      # 类型检查 + 构建离线单文件 dist/photos_viewer.html
 ```
 
@@ -50,7 +62,7 @@ src/
     useCsvLoad.ts  # 载入入口（校验/聚合/重置视图），window.__loadCSVText 测试钩子
   components/      # Dropzone / StatsBar / ControlsBar / AssetTable / DetailPanel / RawColumns / TimeCell / Badges
   state.ts         # 模块级单例状态（dataState/view/customCols/toast）
-tests/             # vitest：core.test.ts（旧回归全量移植）+ customCols.test.ts（新功能）
+tests/             # vitest：core.test.ts（旧回归全量移植 + WAL差分）+ customCols.test.ts（自定义列）+ exporterCsv.test.ts（与导出器 CSV 的契约）
 ```
 
 ### 测试钩子

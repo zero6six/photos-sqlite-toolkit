@@ -49,7 +49,7 @@ function osmUrl(p: { lat: number; lon: number }): string {
     </thead>
     <tbody>
       <template v-for="a in visibleAssets" :key="a.key">
-        <tr class="asset" :class="{ open: view.openKeys.has(a.key) }" @click="toggleOpen(a.key)">
+        <tr class="asset" :class="{ open: view.openKeys.has(a.key), 'wal-removed': a.f.walStatus === 'removed' }" @click="toggleOpen(a.key)">
           <td class="mono">{{ cleanV(a.f.zpk) }}</td>
           <td class="fn" :title="cleanV(a.f.origname) ? '原始文件名: ' + cleanV(a.f.origname) : cleanV(a.f.filename)">
             <template v-if="cleanV(a.f.filename)">{{ cleanV(a.f.filename) }}</template>
@@ -67,7 +67,7 @@ function osmUrl(p: { lat: number; lon: number }): string {
           </td>
           <td>{{ fmtBytes(a.f.fileSize) }}</td>
           <td>{{ fmtDur(a.f.duration) }}</td>
-          <td><Badges :b="a.badges" /></td>
+          <td><Badges :b="a.badges" :wal="a.f.walStatus" /></td>
           <td v-for="cc in customCols" :key="colId(cc)" class="custom-cell" :title="customCell(state, a, cc).full">
             <template v-if="customCell(state, a, cc).text">{{ customCell(state, a, cc).text }}</template>
             <span v-else style="color:#cbd5e1">—</span>

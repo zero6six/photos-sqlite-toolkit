@@ -12,7 +12,7 @@
 cd photos_sqlite_export
 python -m unittest discover -s tests
 
-# 查看器：44 个 vitest 测试
+# 查看器：57 个 vitest 测试（含 WAL 差分与导出器 CSV 契约测试）
 cd photos_viewer
 npm test
 ```

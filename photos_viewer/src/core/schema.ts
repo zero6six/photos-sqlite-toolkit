@@ -29,7 +29,7 @@ export const FIELD_DEFS: FieldDef[] = [
   { k: 'directory',  label: '所在目录',        cat: 'id',    pats: ['zasset-directory'] },
   // 时间（库内为 UTC 时间戳，"当地"行按记录自带时区偏移换算）
   { k: 'dateCreated',label: '拍摄/创建时间(UTC)', cat: 'time', pats: ['zasset-date-created', 'zcldmast-creation-date', 'date-created'] },
-  { k: 'dateAdded',  label: '入库(添加)时间(UTC)', cat: 'time', pats: ['zasset-add-date', 'add-date'] },
+  { k: 'dateAdded',  label: '入库(添加)时间(UTC)', cat: 'time', pats: ['zasset-add-date', 'zasset-added-date', 'add-date', 'added-date'] },
   { k: 'dateModified',label: '修改时间(UTC)',     cat: 'time',  pats: ['zasset-modification-date', 'modification-date'] },
   { k: 'dateTrashed',label: '移入删除时间(UTC)',  cat: 'time',  pats: ['zasset-trashed-date', 'trashed-date'], nots: ['intresou'] },
   { k: 'exif',       label: 'EXIF时间串(拍摄地墙钟)', cat: 'time', pats: ['exif-string', 'exiftimestamp'] },
@@ -53,6 +53,7 @@ export const FIELD_DEFS: FieldDef[] = [
   { k: 'favorite',   label: '收藏',            cat: 'state', pats: ['zasset-favorite'] },
   { k: 'visState',   label: '可见性',          cat: 'state', pats: ['zasset-visibility-state'] },
   { k: 'dupState',   label: '重复项状态',      cat: 'state', pats: ['zasset-duplication-asset-visibility-state', 'duplicate-asset-visibility'] },
+  { k: 'walStatus',  label: 'WAL差分状态',     cat: 'state', pats: ['wal-diff-status', 'wal-status'] },
   // 位置
   { k: 'lat',        label: '纬度',            cat: 'geo',   pats: ['zasset-latitude', 'zextattr-latitude', 'latitude'] },
   { k: 'lon',        label: '经度',            cat: 'geo',   pats: ['zasset-longitude', 'zextattr-longitude', 'longitude'] },

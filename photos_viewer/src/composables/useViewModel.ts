@@ -34,6 +34,7 @@ export const visibleAssets = computed<Asset[]>(() => {
   const list = S.assets.filter(a => {
     if (q && !a.searchText.includes(q)) return false;
     for (const c of view.chips) if (!a.badges[c as keyof Badges]) return false;
+    if (view.walFilter && a.f.walStatus !== view.walFilter) return false;
     return true;
   });
   const key = view.sortKey;
