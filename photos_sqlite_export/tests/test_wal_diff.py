@@ -48,6 +48,32 @@ conn.execute("COMMIT")
 os._exit(1)
 """
 
+# the competition scenario: create, mark-as-trashed and delete an asset in
+# three SEPARATE transactions, all left in the WAL - the asset exists in no
+# state a two-pass diff would ever see (absent from both the snapshot and
+# the final state); only WAL replay surfaces it
+CRASH_CHILD_3TX = r"""
+import os, sqlite3, sys
+db = sys.argv[1]
+conn = sqlite3.connect(db, isolation_level=None)
+conn.execute("PRAGMA journal_mode=wal")
+conn.execute("PRAGMA wal_autocheckpoint=0")
+conn.execute("BEGIN IMMEDIATE")
+conn.execute("INSERT INTO ZASSET (Z_PK, Z_ENT, Z_OPT, ZUUID, ZFILENAME, "
+             "ZADDEDDATE, ZDATECREATED, ZTRASHEDSTATE, ZTRASHEDDATE) "
+             "VALUES (999, 1, 1, 'uuid-999', 'IMG_0001.PNG', 806820793.6, "
+             "806820793.6, 0, NULL)")
+conn.execute("COMMIT")
+conn.execute("BEGIN IMMEDIATE")
+conn.execute("UPDATE ZASSET SET ZTRASHEDSTATE=1, ZTRASHEDDATE=806820806.599 "
+             "WHERE Z_PK=999")
+conn.execute("COMMIT")
+conn.execute("BEGIN IMMEDIATE")
+conn.execute("DELETE FROM ZASSET WHERE Z_PK=999")
+conn.execute("COMMIT")
+os._exit(1)
+"""
+
 
 def crash_write_wal(db):
     """Commit update/delete/insert into a fresh -wal, then hard-exit."""
@@ -86,16 +112,58 @@ class TestWalDiff(Base):
         self.assertEqual(got, {"1": "unchanged", "2": "modified",
                                "3": "removed", "4": "unchanged",
                                "5": "unchanged", "999": "added"})
-        # values come from the right pass
+        # values come from the right state
         names = {(r[header.index("zAsset-zPK")], r[header.index("zAsset-Filename")],
                   r[header.index("wal-diff-status")]) for r in rows}
         self.assertIn(("2", "WALMOD_2", "modified"), names)      # post state
         self.assertIn(("3", "IMG_0003.HEIC", "removed"), names)  # snapshot
         self.assertIn(("999", "ADDED_999.HEIC", "added"), names)
+        # provenance: snapshot asset first/last = 0; WAL-inserted = 1/1
+        prov = {r[header.index("zAsset-zPK")]:
+                (r[header.index("wal-first-commit")],
+                 r[header.index("wal-last-commit")]) for r in rows}
+        self.assertEqual(prov["3"], ("0", "0"))
+        self.assertEqual(prov["999"], ("1", "1"))
+        self.assertEqual(prov["2"], ("0", "1"))
         # originals untouched: the diff stays repeatable
         self.assertEqual((sha(db), sha(db + "-wal")), (db_before, wal_before))
         # disposable work dir cleaned up
         self.assertFalse(os.path.exists(os.path.join(out, "_wal_work")))
+
+    def test_replay_surfaces_created_and_deleted_inside_wal(self):
+        # the 009 scenario: an asset created, trashed and deleted in three
+        # separate WAL commits is invisible to both the snapshot and the
+        # final state - the replay must still surface it as removed, with
+        # the values (trash markers included) of the last state that saw it
+        db = os.path.join(self.tmp, "wal3tx.sqlite")
+        synth.build(db, "26")
+        proc = subprocess.run([sys.executable, "-c", CRASH_CHILD_3TX, db])
+        self.assertEqual(proc.returncode, 1)
+        self.assertGreater(os.path.getsize(db + "-wal"), 0)
+        wal_before = sha(db + "-wal")
+        proc, out = run_tool(db)
+        self.assertEqual(proc.returncode, 0, proc.stderr)
+        header, rows = read_csv(os.path.join(out, "wal3tx_basic.csv"))
+        got = self.asset_statuses(header, rows)
+        self.assertEqual(got["999"], "removed")
+        row = next(r for r in rows if r[header.index("zAsset-zPK")] == "999")
+        ts_col = next(i for i, h in enumerate(header)
+                      if h.lower().startswith("zasset-trashed state"))
+        td_col = next(i for i, h in enumerate(header)
+                      if h.lower().startswith("zasset-trashed date"))
+        self.assertEqual(row[header.index("zAsset-Filename")], "IMG_0001.PNG")
+        self.assertIn("In Trash", row[ts_col])       # the trash marker
+        self.assertNotEqual(row[td_col].strip(), "")  # and the trash date
+        # first seen at the INSERT commit, last seen at the TRASH commit
+        self.assertEqual(row[header.index("wal-first-commit")], "1")
+        self.assertEqual(row[header.index("wal-last-commit")], "2")
+        # snapshot assets are untouched and span the full replay
+        prov = {r[header.index("zAsset-zPK")]:
+                (r[header.index("wal-first-commit")],
+                 r[header.index("wal-last-commit")]) for r in rows}
+        self.assertEqual(prov["1"], ("0", "3"))
+        # the original WAL survived the replay
+        self.assertEqual(sha(db + "-wal"), wal_before)
 
     def test_report_records_wal(self):
         db = self.wal_db()
@@ -106,7 +174,8 @@ class TestWalDiff(Base):
                      encoding="utf-8") as fh:
             report = fh.read()
         self.assertIn("wal: %d-byte sidecar" % size, report)
-        self.assertIn("wal: checkpoint on copy", report)
+        self.assertIn("commits, 0 dead frames", report)
+        self.assertIn("replayed states 0 (snapshot) .. 1 (final)", report)
         self.assertIn("wal diff: 3 unchanged, 1 added, 1 removed, 1 modified",
                       report)
         self.assertIn("wal: work copy removed", report)
@@ -116,10 +185,9 @@ class TestWalDiff(Base):
         proc, out = run_tool(db, "--keep-wal-work")
         self.assertEqual(proc.returncode, 0, proc.stderr)
         work = os.path.join(out, "_wal_work")
-        self.assertTrue(os.path.exists(os.path.join(work, "wal26.sqlite")))
-        # the copy was checkpointed: its wal is truncated to zero
-        self.assertEqual(os.path.getsize(
-            os.path.join(work, "wal26.sqlite-wal")), 0)
+        # the final state's replay copy is kept for inspection
+        final = os.path.join(work, "state_final", "wal26.sqlite")
+        self.assertTrue(os.path.exists(final))
         with io.open(os.path.join(out, "export_report.txt"),
                      encoding="utf-8") as fh:
             report = fh.read()

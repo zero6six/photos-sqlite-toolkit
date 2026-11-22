@@ -48,12 +48,24 @@ expression and label (iLEAPP) whenever a logical column appears in both.
 The Vue-based viewer contains no third-party code; its npm dependencies
 (Vue, Vite, vitest, etc.) are MIT / ISC / Apache-2.0 licensed.
 
+## WAL replay implementation note
+
+The WAL replay in `photos_export.py` is an original implementation against
+the public SQLite file format (https://www.sqlite.org/fileformat2.html#walformat).
+No code was copied; the frame-layout handling was cross-checked against the
+open-source **sqlite-forensic / sqlite4n6** project by SecurityRonin
+(https://github.com/SecurityRonin/sqlite-forensic, Apache-2.0) while this
+feature was developed. For residue beyond committed WAL history (rollback
+journal, free blocks, uncommitted frames) that tool remains the specialist.
+
 ## Credits
 
 - **Scott Koenig** (theforensicscooter.com) — the photo library SQL queries
   this toolkit is built upon, and their continued maintenance inside iLEAPP.
 - **Alexis Brignoni** — iLEAPP (MIT), which preserved and extended those
   queries.
+- **SecurityRonin** — sqlite4n6 / sqlite-forensic (Apache-2.0), whose WAL
+  timeline model informed the replay design.
 
 If you are the author of any material referenced here and have concerns about
 how it is used, please open an issue in this repository.

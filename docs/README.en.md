@@ -47,8 +47,9 @@ python photos_export.py Photos.sqlite -o out                # main CSV + report
 python photos_export.py Photos.sqlite -o out --all-filters  # hidden/trashed/favorite/locations/adjusted/syndication
 
 # A non-empty Photos.sqlite-wal next to the database switches the export into
-# differential mode: added/removed/modified assets are flagged in a
-# wal-diff-status column (--no-wal-diff disables it)
+# differential mode: every WAL commit is replayed, and assets that were
+# added/modified/deleted - including ones created and deleted entirely inside
+# the WAL - are flagged in a wal-diff-status column (--no-wal-diff disables it)
 ```
 
 See the [sub-project README](../photos_sqlite_export/README.md) (Chinese) for
@@ -70,7 +71,7 @@ them back per asset by `zAsset-zPK`.
 ## Tests
 
 ```bash
-cd photos_sqlite_export && python -m unittest discover -s tests   # 30 tests (10 synthetic iOS schemas + WAL diff)
+cd photos_sqlite_export && python -m unittest discover -s tests   # 31 tests (10 synthetic iOS schemas + WAL replay)
 cd photos_viewer && npm test                                      # 44 tests
 ```
 

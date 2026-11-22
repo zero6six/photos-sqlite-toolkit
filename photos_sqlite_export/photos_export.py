@@ -10,19 +10,26 @@ catches anything the schema check missed.  The goal is always to produce a
 CSV, never to fail on a schema the catalog does not know.
 
 When a non-empty <database>-wal sidecar is present the export automatically
-becomes a differential two-pass run: pass 1 reads the pre-checkpoint snapshot
-of the main file (immutable=1, WAL invisible), pass 2 reads a checkpointed
-COPY of db+wal (the originals are never modified, so re-running sees the same
-WAL).  Both passes are merged per asset (zAsset-zPK) into one CSV carrying an
-extra wal-diff-status column: unchanged / added / removed / modified - rows
-of surviving assets come from the full state, removed assets keep their
-snapshot rows.  --no-wal-diff restores the plain single-pass export.
+becomes a WAL replay differential: every committed transaction boundary in
+the WAL is replayed on a COPY (db + the wal truncated to that commit - the
+exact state a crash at that point would leave), including state 0 (the
+pre-WAL snapshot of the main file, via immutable=1).  All states are merged
+per asset (zAsset-zPK) into one CSV with wal-diff-status = unchanged /
+added / modified / removed plus wal-first-commit / wal-last-commit
+provenance (0 = snapshot).  Assets that only ever existed inside the WAL
+(created and later deleted before any checkpoint) come out as removed with
+the values of the last state that saw them - e.g. still carrying the trash
+markers from the deletion commit.  The originals are never modified, so
+re-running sees the same WAL.  --no-wal-diff restores the plain
+single-pass export.  Residue beyond committed WAL history (rollback
+journal, free blocks, uncommitted frames) needs a carver such as
+sqlite4n6.
 
 Usage:
     python photos_export.py <Photos.sqlite> [-o OUTDIR] [--profile basic]
         [--filter hidden trashed ...] [--all-filters] [--where "SQL"]
         [--keep-missing] [--limit N] [--dump-sql] [--list] [--catalog PATH]
-        [--no-wal-diff] [--keep-wal-work]
+        [--no-wal-diff] [--keep-wal-work] [--wal-replay-limit N]
 
 Exit codes: 0 every requested CSV was written; 1 some outputs were skipped
     (or the WAL diff had to fall back to single-pass); 2 the file is not a
@@ -37,6 +44,7 @@ import os
 import re
 import shutil
 import sqlite3
+import struct
 import sys
 from pathlib import Path
 
@@ -496,10 +504,13 @@ def write_csv(conn, sql, path):
 
 
 # ---------------------------------------------------------------------------
-# WAL differential export
+# WAL replay differential export
 # ---------------------------------------------------------------------------
 
 WAL_STATUS_COL = "wal-diff-status"
+WAL_FIRST_COL = "wal-first-commit"
+WAL_LAST_COL = "wal-last-commit"
+WAL_MAGICS = (0x377F0682, 0x377F0683)
 
 
 def wal_size(path):
@@ -510,26 +521,74 @@ def wal_size(path):
         return 0
 
 
-def prepare_checkpointed_copy(db_path, workdir):
-    """Copy db + -wal (never -shm) into workdir and checkpoint the copy.
+def wal_commits(path):
+    """Committed-transaction boundaries of a -wal file.
 
-    The checkpoint always happens on the disposable copy; the originals stay
-    untouched so re-running the diff sees the same WAL.  Returns the path of
-    the checkpointed copy plus the PRAGMA result row (busy, log, pages).
+    Returns (page_size, offsets, live_frames, dead_frames): offsets[i] is
+    the wal byte length that yields the database state right after
+    committed transaction i+1 - truncating a copy of db+wal there leaves
+    exactly what a crash at that point would, and SQLite recovers it on
+    open.  Frame layout follows the SQLite file format (32-byte header
+    with the salt generation, 24-byte frame headers; a frame with
+    db_size_after_commit != 0 ends a transaction): frames whose salts stop
+    matching the header are leftovers from an earlier checkpoint
+    generation and everything from there on is dead, just like SQLite
+    itself treats them.  Raises ValueError on a header we cannot parse.
     """
-    workdir = Path(workdir)
-    workdir.mkdir(parents=True, exist_ok=True)
-    db_copy = workdir / Path(db_path).name
-    wal_copy = workdir / (Path(db_path).name + "-wal")
-    shutil.copy2(db_path, db_copy)
-    shutil.copy2(str(db_path) + "-wal", wal_copy)
-    conn = sqlite3.connect(str(db_copy))
+    size = os.path.getsize(path)
+    with open(path, "rb") as fh:
+        hdr = fh.read(32)
+        if len(hdr) < 32:
+            raise ValueError("wal sidecar shorter than a header")
+        magic, _ver, page = struct.unpack(">III", hdr[:12])
+        if magic not in WAL_MAGICS:
+            raise ValueError("not a wal header (magic 0x%08x)" % magic)
+        if page < 512 or page > 65536 or page & (page - 1):
+            raise ValueError("wal page size %d is not a power of two" % page)
+        salt1, salt2 = struct.unpack(">II", hdr[16:24])
+        offsets, live = [], 0
+        pos, stride = 32, 24 + page
+        while pos + stride <= size:
+            fh.seek(pos)
+            pgno, dbsize, fs1, fs2 = struct.unpack(">IIII", fh.read(16))
+            if (fs1, fs2) != (salt1, salt2) or pgno == 0:
+                break                          # dead generation / garbage
+            live += 1
+            pos += stride
+            if dbsize:                         # commit frame
+                offsets.append(pos)
+        dead = (size - pos) // stride
+    return page, offsets, live, dead
+
+
+def open_wal_prefix(workdir, db_name, orig_db, orig_wal, offset, tag):
+    """Open one replay state in its OWN subdirectory of the work dir.
+
+    Copies the db plus the wal truncated to a commit boundary - exactly
+    the state a crash at that point would leave.  Every state gets fresh
+    files because a state sharing files with a still-open connection from
+    another state (or trusting its stale -shm) corrupts the wal-index and
+    fails with disk I/O errors.  mode=ro only, never the immutable
+    fallback: immutable would silently hide the truncated wal and show
+    the snapshot - the wrong state.  Returns (conn, state_dir) or
+    (None, None) when the state will not open.
+    """
+    sdir = Path(workdir) / ("state_%s" % tag)
+    shutil.rmtree(sdir, ignore_errors=True)
+    sdir.mkdir(parents=True)
+    db_copy = sdir / db_name
+    wal_copy = sdir / (db_name + "-wal")
+    shutil.copyfile(orig_db, db_copy)
+    shutil.copyfile(orig_wal, wal_copy)
+    with open(wal_copy, "r+b") as fh:
+        fh.truncate(offset)
     try:
-        result = conn.execute("PRAGMA wal_checkpoint(TRUNCATE)").fetchone()
-        conn.commit()
-    finally:
-        conn.close()
-    return db_copy, result
+        conn = sqlite3.connect(db_copy.resolve().as_uri() + "?mode=ro",
+                               uri=True)
+        conn.execute("SELECT count(*) FROM sqlite_master")
+        return conn, sdir
+    except sqlite3.Error:
+        return None, sdir
 
 
 def _key_index(header):
@@ -544,72 +603,83 @@ def _proj(rows, idxs):
     return [tuple(r[i] for i in idxs) for r in rows]
 
 
-def write_csv_diff(conn1, sql1, conn2, sql2, path):
-    """Dual-read merge keyed by zAsset-zPK.
+class ReplayFold(object):
+    """Fold one output CSV's query results across WAL replay states.
 
-    Pass 1 (conn1/sql1) is the pre-checkpoint snapshot, pass 2 (conn2/sql2)
-    the full db+wal state.  Both result sets are buffered per asset key (the
-    basic profile multiplies rows per asset, so the comparison unit is the
-    per-key row multiset, not the raw row).  Output carries the union of both
-    column sets (pass-2 order first, snapshot-only columns appended; a side
-    lacking a column writes ""), plus wal-diff-status.  Rows of surviving
-    assets come from pass 2; removed assets keep their snapshot rows.
-    Returns (ncols, nrows, {status: assets}).
+    feed() is called once per state (0 = pre-WAL snapshot, 1..K = WAL
+    commit prefixes, in order); write() merges everything.  Classification
+    per asset key: present in the final state -> unchanged / added /
+    modified (versus state 0, comparing per-key row multisets on the
+    columns both states share); absent from the final state but seen in
+    any state -> removed, keeping the rows of the LAST state that saw the
+    asset.  For a create-and-delete-inside-the-WAL case those rows carry
+    the values as of the deletion commit - e.g. already marked as trashed.
     """
-    cur2 = conn2.execute(sql2)
-    header2 = [d[0] for d in cur2.description]
-    cur1 = conn1.execute(sql1)
-    header1 = [d[0] for d in cur1.description]
-    k1, k2 = _key_index(header1), _key_index(header2)
-    if k1 is None or k2 is None:
-        raise ValueError("no zAsset-zPK column in one of the passes")
 
-    rows1, rows2 = {}, {}
-    for row in cur1.fetchall():
-        nrow = [blob_to_text(v) for v in row]
-        rows1.setdefault(nrow[k1], []).append(nrow)
-    for row in cur2.fetchall():
-        nrow = [blob_to_text(v) for v in row]
-        rows2.setdefault(nrow[k2], []).append(nrow)
+    def __init__(self):
+        self.snap = None            # (header, {key: rows}) state 0
+        self.final = None           # (header, {key: rows}) state K
+        self.final_state = 0
+        self.headers = []           # [(state, header)] in feed order
+        self.first_seen = {}        # key -> state
+        self.last_seen = {}         # key -> (state, header, rows)
 
-    header = header2 + [h for h in header1 if h not in header2]
-    # union-column -> index into each side's row (None = column absent there)
-    out2 = [header2.index(h) if h in header2 else None for h in header]
-    out1 = [header1.index(h) if h in header1 else None for h in header]
-    # project both sides onto the columns they share; the modified check
-    # compares multisets of those projected rows per asset key
-    common1 = [i for i, h in enumerate(header1) if h in header2]
-    common2 = [header2.index(header1[i]) for i in common1]
+    def feed(self, state, header, rows):
+        if state == 0:
+            self.snap = (header, rows)
+        self.final = (header, rows)
+        self.final_state = state
+        self.headers.append((state, header))
+        for key in rows:
+            self.first_seen.setdefault(key, state)
+            self.last_seen[key] = (state, header, rows[key])
 
-    counts = dict.fromkeys(("unchanged", "added", "removed", "modified"), 0)
-    n = 0
-    with io.open(path, "w", encoding="utf-8-sig", newline="") as fh:
-        w = csv.writer(fh)
-        w.writerow(header + [WAL_STATUS_COL])
+    def write(self, path):
+        hdr_f, rows_f = self.final
+        hdr_s, rows_s = self.snap
+        # union of columns: final order first, earlier states newest-first
+        header = list(hdr_f)
+        for _state, hdr in reversed(self.headers[:-1]):
+            for h in hdr:
+                if h not in header:
+                    header.append(h)
+        out_f = [hdr_f.index(h) if h in hdr_f else None for h in header]
+        common_s = [i for i, h in enumerate(hdr_s) if h in hdr_f]
+        common_f = [hdr_f.index(hdr_s[i]) for i in common_s]
 
-        def emit(vals, idxs, status):
-            w.writerow([vals[i] if i is not None else "" for i in idxs]
-                       + [status])
+        counts = dict.fromkeys(("unchanged", "added", "removed", "modified"), 0)
+        n = 0
+        with io.open(path, "w", encoding="utf-8-sig", newline="") as fh:
+            w = csv.writer(fh)
+            w.writerow(header + [WAL_STATUS_COL, WAL_FIRST_COL, WAL_LAST_COL])
 
-        for key, rws in rows2.items():            # full-state order
-            if key not in rows1:
-                status = "added"
-            elif (sorted(_proj(rows1[key], common1), key=repr)
-                  == sorted(_proj(rws, common2), key=repr)):
-                status = "unchanged"
-            else:
-                status = "modified"
-            counts[status] += 1
-            for r in rws:
-                emit(r, out2, status)
-                n += 1
-        for key, rws in rows1.items():            # assets gone in pass 2
-            if key not in rows2:
+            def emit(vals, idxs, status, first, last):
+                w.writerow([vals[i] if i is not None else "" for i in idxs]
+                           + [status, first, last])
+
+            for key, rws in rows_f.items():      # full-state order
+                if key not in rows_s:
+                    status = "added"
+                elif (sorted(_proj(rows_s[key], common_s), key=repr)
+                      == sorted(_proj(rws, common_f), key=repr)):
+                    status = "unchanged"
+                else:
+                    status = "modified"
+                counts[status] += 1
+                for r in rws:
+                    emit(r, out_f, status, self.first_seen.get(key, 0),
+                         self.final_state)
+                    n += 1
+            for key, (state, hdr_l, rws) in self.last_seen.items():
+                if key in rows_f:
+                    continue
+                out_l = [hdr_l.index(h) if h in hdr_l else None for h in header]
                 counts["removed"] += 1
                 for r in rws:
-                    emit(r, out1, "removed")
+                    emit(r, out_l, "removed", self.first_seen.get(key, 0),
+                         state)
                     n += 1
-    return len(header) + 1, n, counts
+        return len(header) + 3, n, counts
 
 
 def pick_filter_where(builder, filt):
@@ -655,7 +725,12 @@ def main(argv=None):
                          "single-pass export")
     ap.add_argument("--keep-wal-work", action="store_true",
                     help="keep the _wal_work directory holding the "
-                         "checkpointed copy used by the differential export")
+                         "replay copies used by the differential export")
+    ap.add_argument("--wal-replay-limit", type=int, default=2000,
+                    metavar="N",
+                    help="replay at most N WAL commits (safety cap for huge "
+                         "sidecars; history beyond the cap needs a carver "
+                         "such as sqlite4n6)")
     ap.add_argument("--limit", type=int, default=None)
     ap.add_argument("--catalog", default=DEFAULT_CATALOG)
     ap.add_argument("--dump-sql", action="store_true",
@@ -691,21 +766,36 @@ def main(argv=None):
     exit_code = 0
     wsize = wal_size(db)
     use_wal_diff = wsize > 0 and not args.no_wal_diff
-    wal = None                     # workdir/ckpt bookkeeping for cleanup+report
-    conn = conn1 = builder1 = None  # conn1/builder1 = pass 1 (snapshot)
+    wal = None                      # bookkeeping for the report + cleanup
+    conn = conn1 = builder1 = None  # conn1/builder1 = state 0 (snapshot)
     if use_wal_diff:
         print("wal sidecar detected (%d bytes): differential export "
               "(--no-wal-diff to disable)" % wsize)
         workdir = os.path.join(outdir, "_wal_work")
         try:
-            db_copy, ckpt = prepare_checkpointed_copy(db, workdir)
+            page, offsets, live, dead = wal_commits(str(db) + "-wal")
+            if not offsets:
+                raise ValueError("wal sidecar has no committed transactions")
+            limit_note = ""
+            if args.wal_replay_limit and \
+                    len(offsets) > args.wal_replay_limit:
+                limit_note = ("replay truncated at %d of %d commits "
+                              "(--wal-replay-limit); deeper history needs a "
+                              "carver such as sqlite4n6"
+                              % (args.wal_replay_limit, len(offsets)))
+                offsets = offsets[:args.wal_replay_limit]
+            workdir_p = Path(workdir)
+            workdir_p.mkdir(parents=True, exist_ok=True)
             conn1 = open_readonly(db, force_immutable=True)
-            conn = open_readonly(db_copy)
+            conn, _fdir = open_wal_prefix(workdir, Path(db).name, db,
+                                          str(db) + "-wal", offsets[-1],
+                                          "final")
             if conn1 is None or conn is None:
-                raise sqlite3.Error(
-                    "cannot open snapshot or checkpointed copy")
-            wal = {"workdir": workdir, "ckpt": ckpt, "size": wsize}
-        except (OSError, sqlite3.Error) as ex:
+                raise sqlite3.Error("cannot open snapshot or replayed copy")
+            wal = {"workdir": workdir, "size": wsize, "page": page,
+                   "commits": len(offsets), "live": live, "dead": dead,
+                   "limit_note": limit_note, "offsets": offsets}
+        except (OSError, ValueError, sqlite3.Error) as ex:
             sys.stderr.write("wal diff unavailable (%s); falling back to "
                              "single-pass export\n" % ex)
             exit_code = 1
@@ -744,7 +834,7 @@ def main(argv=None):
         builder1.resolve_joins()
         if builder1.base is None:
             builder.report.add(
-                "wal diff off: pre-checkpoint snapshot has no asset table; "
+                "wal diff off: pre-WAL snapshot has no asset table; "
                 "exported the full state single-pass")
             sys.stderr.write("wal diff off: snapshot has no asset table\n")
             exit_code = 1
@@ -753,19 +843,25 @@ def main(argv=None):
             use_wal_diff = False
         else:
             builder1.resolve_columns()
-            builder.report.add(
-                "wal: %d-byte sidecar; pass 1 = snapshot via immutable, "
-                "pass 2 = checkpointed copy" % wsize)
-            builder.report.add(
-                "wal: checkpoint on copy -> busy=%d log=%d pages=%d" % wal["ckpt"])
             only1 = [c["name"] for c in builder1.columns
                      + builder1.null_columns
                      if c["name"] not in
                      {c["name"] for c in builder.columns + builder.null_columns}]
             if only1:
                 builder.report.add(
-                    "wal: columns only in the snapshot (appended): %s"
+                    "wal: columns only in earlier states (appended): %s"
                     % ", ".join(only1))
+            builder.report.add(
+                "wal: %d-byte sidecar, page %d: %d live frames, %d commits,"
+                " %d dead frames" % (wsize, wal["page"], wal["live"],
+                                     wal["commits"], wal["dead"]))
+            builder.report.add(
+                "wal: replayed states 0 (snapshot) .. %d (final); the "
+                "wal-first/last-commit columns give provenance (0 = snapshot)"
+                % wal["commits"])
+            if wal["limit_note"]:
+                builder.report.add("wal: " + wal["limit_note"])
+                sys.stderr.write("wal: " + wal["limit_note"] + "\n")
 
     filters = []
     for group in args.filter:              # nargs="+" yields a list per flag
@@ -789,67 +885,150 @@ def main(argv=None):
         jobs.append(("%s_%s_custom.csv" % (stem, args.profile),
                      {"name": "custom", "where": [args.where]}))
 
-    for fname, filt in jobs:
-        builder.where = None
-        if builder1 is not None:
-            builder1.where = None
-        if filt is not None:
-            builder.where = pick_filter_where(builder, filt)
-            if builder.where is None:
-                builder.report.add(
-                    "SKIPPED %s: filter %s has no usable condition in this "
-                    "database" % (fname, filt["name"]))
-                sys.stderr.write("skipped %s (filter not applicable)\n" % fname)
-                exit_code = 1
-                continue
-            if builder1 is not None:
-                builder1.where = pick_filter_where(builder1, filt)
-                if builder1.where is None:
-                    builder.report.add(
-                        "SKIPPED %s: filter %s has no usable condition on "
-                        "the pre-checkpoint snapshot"
-                        % (fname, filt["name"]))
-                    sys.stderr.write("skipped %s (filter not applicable on "
-                                     "the snapshot)\n" % fname)
+    def report_job(fname, ncols, nrows, counts):
+        builder.report.add(
+            "wrote %s: %d columns x %d rows (wal diff: %d unchanged, %d "
+            "added, %d removed, %d modified)"
+            % (fname, ncols, nrows, counts["unchanged"], counts["added"],
+               counts["removed"], counts["modified"]))
+        print("%s: %d columns x %d rows (wal: %d unchanged, %d added, %d "
+              "removed, %d modified)"
+              % (fname, ncols, nrows, counts["unchanged"], counts["added"],
+                 counts["removed"], counts["modified"]))
+
+    if use_wal_diff:
+        # -- replay every state (0 = snapshot, 1..K = WAL commits) ----------
+        n_states = wal["commits"] + 1
+        folds = {fname: ReplayFold() for fname, _ in jobs}
+        dead_jobs = set()          # skipped entirely (red line 4)
+        mid_notes = set()
+        cur = None                 # open state connection (middle states)
+        try:
+            for state in range(n_states):
+                cur_sdir = None
+                if state == 0:
+                    sconn, sb = conn1, builder1
+                elif state == n_states - 1:
+                    sconn, sb = conn, builder
+                else:
+                    sconn, cur_sdir = open_wal_prefix(
+                        wal["workdir"], Path(db).name, db, str(db) + "-wal",
+                        wal["offsets"][state - 1], state)
+                    if sconn is None:
+                        raise sqlite3.Error(
+                            "cannot open replay state %d" % state)
+                    cur = sconn
+                    sb = QueryBuilder(cat, sconn, Schema(sconn), args.profile,
+                                      keep_missing=args.keep_missing)
+                    sb.resolve_joins()
+                    sb.resolve_columns()
+                for fname, filt in jobs:
+                    if fname in dead_jobs:
+                        continue
+                    sb.where = None
+                    if filt is not None:
+                        sb.where = pick_filter_where(sb, filt)
+                        if sb.where is None:
+                            where = "snapshot" if state == 0 else "final state"
+                            if state in (0, n_states - 1):
+                                builder.report.add(
+                                    "SKIPPED %s: filter %s has no usable "
+                                    "condition on the %s"
+                                    % (fname, filt["name"], where))
+                                sys.stderr.write("skipped %s (filter not "
+                                                 "applicable on the %s)\n"
+                                                 % (fname, where))
+                                exit_code = 1
+                                dead_jobs.add(fname)
+                            elif fname not in mid_notes:
+                                mid_notes.add(fname)
+                                builder.report.add(
+                                    "wal: filter %s unresolvable in some "
+                                    "middle states; those states are not "
+                                    "observed for %s" % (filt["name"], fname))
+                            continue
+                    sb.limit = args.limit
+                    sql = sb.prepare(sb.build_sql())
+                    if args.dump_sql and state in (0, n_states - 1):
+                        sys.stderr.write(
+                            "=== %s (state %d: %s) ===\n%s\n\n"
+                            % (fname, state,
+                               "snapshot" if state == 0 else "final", sql))
+                    try:
+                        cur = sconn.execute(sql)
+                        header = [d[0] for d in cur.description]
+                        k = _key_index(header)
+                        if k is None:
+                            raise ValueError("no zAsset-zPK column")
+                        rows = {}
+                        for row in cur.fetchall():
+                            nrow = [blob_to_text(v) for v in row]
+                            rows.setdefault(nrow[k], []).append(nrow)
+                        folds[fname].feed(state, header, rows)
+                    except (sqlite3.Error, ValueError) as ex:
+                        builder.report.add(
+                            "FAILED %s (replay state %d): %s"
+                            % (fname, state, ex))
+                        sys.stderr.write("failed %s (state %d): %s\n"
+                                         % (fname, state, ex))
+                        exit_code = 1
+                        dead_jobs.add(fname)
+                if cur is not None:
+                    # close + drop this state's copy before the next one
+                    # (Windows refuses to delete open files anyway)
+                    cur.close()
+                    cur = None
+                    if not args.keep_wal_work and cur_sdir is not None:
+                        shutil.rmtree(cur_sdir, ignore_errors=True)
+        except (OSError, sqlite3.Error) as ex:
+            sys.stderr.write("wal replay aborted (%s); falling back to "
+                             "single-pass export\n" % ex)
+            builder.report.add("wal replay aborted: %s" % ex)
+            exit_code = 1
+            use_wal_diff = False
+        finally:
+            if cur is not None:
+                cur.close()
+        if use_wal_diff:
+            for fname, _filt in jobs:
+                if fname in dead_jobs:
+                    continue
+                try:
+                    ncols, nrows, counts = folds[fname].write(
+                        os.path.join(outdir, fname))
+                except (OSError, ValueError) as ex:
+                    builder.report.add("FAILED %s: %s" % (fname, ex))
+                    sys.stderr.write("failed %s: %s\n" % (fname, ex))
                     exit_code = 1
                     continue
-        builder.limit = args.limit
-        sql = builder.prepare(builder.build_sql())
-        sql1 = None
-        if builder1 is not None:
-            builder1.limit = args.limit
-            sql1 = builder1.prepare(builder1.build_sql())
-        if args.dump_sql:
-            sys.stderr.write("=== %s ===\n%s\n\n" % (fname, sql))
-            if sql1 is not None:
-                sys.stderr.write(
-                    "=== %s (pass 1: pre-checkpoint snapshot) ===\n%s\n\n"
-                    % (fname, sql1))
-        try:
-            if sql1 is not None:
-                ncols, nrows, counts = write_csv_diff(
-                    conn1, sql1, conn, sql, os.path.join(outdir, fname))
-                builder.report.add(
-                    "wrote %s: %d columns x %d rows (wal diff: %d unchanged,"
-                    " %d added, %d removed, %d modified)"
-                    % (fname, ncols, nrows, counts["unchanged"],
-                       counts["added"], counts["removed"],
-                       counts["modified"]))
-                print("%s: %d columns x %d rows (wal: %d unchanged, %d added,"
-                      " %d removed, %d modified)"
-                      % (fname, ncols, nrows, counts["unchanged"],
-                         counts["added"], counts["removed"],
-                         counts["modified"]))
-            else:
+                report_job(fname, ncols, nrows, counts)
+
+    if not use_wal_diff:
+        for fname, filt in jobs:
+            builder.where = None
+            if filt is not None:
+                builder.where = pick_filter_where(builder, filt)
+                if builder.where is None:
+                    builder.report.add(
+                        "SKIPPED %s: filter %s has no usable condition in this "
+                        "database" % (fname, filt["name"]))
+                    sys.stderr.write("skipped %s (filter not applicable)\n" % fname)
+                    exit_code = 1
+                    continue
+            builder.limit = args.limit
+            sql = builder.prepare(builder.build_sql())
+            if args.dump_sql:
+                sys.stderr.write("=== %s ===\n%s\n\n" % (fname, sql))
+            try:
                 ncols, nrows = write_csv(conn, sql, os.path.join(outdir, fname))
-                builder.report.add("wrote %s: %d columns x %d rows"
-                                   % (fname, ncols, nrows))
-                print("%s: %d columns x %d rows" % (fname, ncols, nrows))
-        except (sqlite3.Error, ValueError) as ex:
-            builder.report.add("FAILED %s: %s" % (fname, ex))
-            sys.stderr.write("failed %s: %s\n" % (fname, ex))
-            exit_code = 1
-            continue
+            except (sqlite3.Error, ValueError) as ex:
+                builder.report.add("FAILED %s: %s" % (fname, ex))
+                sys.stderr.write("failed %s: %s\n" % (fname, ex))
+                exit_code = 1
+                continue
+            builder.report.add("wrote %s: %d columns x %d rows"
+                               % (fname, ncols, nrows))
+            print("%s: %d columns x %d rows" % (fname, ncols, nrows))
 
     report_path = os.path.join(outdir, "export_report.txt")
     conn.close()

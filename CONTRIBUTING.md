@@ -8,7 +8,7 @@
 ## 测试
 
 ```bash
-# 导出器：30 个测试（10 个 iOS 版本合成库 + 6 个 WAL 差分场景）
+# 导出器：31 个测试（10 个 iOS 版本合成库 + 7 个 WAL 回放场景）
 cd photos_sqlite_export
 python -m unittest discover -s tests
 
@@ -68,13 +68,15 @@ python tools/build_catalog.py \
 4. **过滤器不适用时跳过该 CSV 并写明原因**，绝不输出未过滤的结果冒充。
 5. **`basic` profile 一个资产可占多行**（相册/内部资源乘行，与上游查询
    语义一致）；要单行用 `--profile very-basic`。
-6. **原数据库文件只读打开**（`mode=ro`，快照遍用 `immutable=1` 强制忽略
-   WAL）。WAL 差分的 checkpoint 只发生在输出目录 `_wal_work/` 里的**副本**
-   上（跑完即删）——原件不动是差分可重复执行的前提，不要改成原地
-   checkpoint。
+6. **原数据库文件只读打开**（`mode=ro`，快照态用 `immutable=1` 强制忽略
+   WAL）。WAL 回放只发生在输出目录 `_wal_work/` 各状态子目录的**副本**上
+   （用完即删）——原件不动是差分可重复执行的前提；回放态连接**只许
+   `mode=ro`**，绝不许退到 immutable（会静默显示错误的状态）。
 7. **WAL 差分按 `zAsset-zPK` 的行集合比对**（不是逐 CSV 行）：basic 一资产
    多行，逐行比对会满屏假差异。四态 unchanged/added/removed/modified，
-   removed 行的数据取自快照遍。
+   removed 行的数据取自**最后一次被看见的状态**（不只是快照）。
+8. **回放状态之间不得共享文件**：每个中间状态用独立子目录的 db+截断 wal
+   副本，共享文件会踩活跃连接的 wal-index（disk I/O error）。
 
 ## 版本与发布
 
