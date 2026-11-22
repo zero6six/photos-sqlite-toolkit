@@ -570,8 +570,11 @@ def open_wal_prefix(workdir, db_name, orig_db, orig_wal, offset, tag):
     another state (or trusting its stale -shm) corrupts the wal-index and
     fails with disk I/O errors.  mode=ro only, never the immutable
     fallback: immutable would silently hide the truncated wal and show
-    the snapshot - the wrong state.  Returns (conn, state_dir) or
-    (None, None) when the state will not open.
+    the snapshot - the wrong state.  Returns (conn, state_dir, reason):
+    reason is None on success, else the sqlite error text (the caller
+    decides whether an unreadable state is fatal - on a partially
+    checkpointed database every state older than the checkpoint frontier
+    is unreadable by construction and is simply skipped).
     """
     sdir = Path(workdir) / ("state_%s" % tag)
     shutil.rmtree(sdir, ignore_errors=True)
@@ -586,9 +589,50 @@ def open_wal_prefix(workdir, db_name, orig_db, orig_wal, offset, tag):
         conn = sqlite3.connect(db_copy.resolve().as_uri() + "?mode=ro",
                                uri=True)
         conn.execute("SELECT count(*) FROM sqlite_master")
-        return conn, sdir
-    except sqlite3.Error:
-        return None, sdir
+        return conn, sdir, None
+    except sqlite3.Error as ex:
+        return None, sdir, str(ex)
+
+
+def wal_probe_sql(builder):
+    """ZASSET-only presence probe for middle replay states.
+
+    On a partially checkpointed database every prefix older than the
+    checkpoint frontier mixes page eras across tables; the full join query
+    then fails with 'database disk image is malformed' even though the
+    asset table's own pages are self-consistent.  This probe reads just
+    the base table, reusing the catalog's stable column names so the
+    merged CSV aligns (Core Data dates converted the same way); columns
+    missing from this state's schema are skipped.  Returns None when the
+    state has no usable base table.
+    """
+    if builder.base is None:
+        return None
+    spec = [
+        ("zAsset-zPK", "Z_PK", False),
+        ("zAsset-Filename", "ZFILENAME", False),
+        ("zAsset-Date Created", "ZDATECREATED", True),
+        ("zAsset-Added Date", "ZADDEDDATE", True),
+        ("zAsset-Trashed Date", "ZTRASHEDDATE", True),
+        ("zAsset-Trashed State", "ZTRASHEDSTATE", False),
+        ("zAsset-Favorite", "ZFAVORITE", False),
+        ("zAsset-Hidden", "ZHIDDEN", False),
+    ]
+    items = []
+    for name, col, as_date in spec:
+        real = builder.schema.real_column(builder.base, col)
+        if real is None:
+            continue
+        expr = '"zAsset"."%s"' % real
+        if as_date:
+            items.append("datetime(%s + 978307200, 'unixepoch') AS '%s'"
+                         % (expr, name))
+        else:
+            items.append("%s AS '%s'" % (expr, name))
+    if not items:
+        return None
+    return 'SELECT %s\nFROM "%s" AS "zAsset"' % (",\n  ".join(items),
+                                                 builder.base)
 
 
 def _key_index(header):
@@ -787,11 +831,13 @@ def main(argv=None):
             workdir_p = Path(workdir)
             workdir_p.mkdir(parents=True, exist_ok=True)
             conn1 = open_readonly(db, force_immutable=True)
-            conn, _fdir = open_wal_prefix(workdir, Path(db).name, db,
-                                          str(db) + "-wal", offsets[-1],
-                                          "final")
+            conn, _fdir, why = open_wal_prefix(
+                workdir, Path(db).name, db, str(db) + "-wal", offsets[-1],
+                "final")
             if conn1 is None or conn is None:
-                raise sqlite3.Error("cannot open snapshot or replayed copy")
+                raise sqlite3.Error(
+                    "cannot open snapshot or replayed copy (%s)"
+                    % (why or "unknown error"))
             wal = {"workdir": workdir, "size": wsize, "page": page,
                    "commits": len(offsets), "live": live, "dead": dead,
                    "limit_note": limit_note, "offsets": offsets}
@@ -902,6 +948,7 @@ def main(argv=None):
         folds = {fname: ReplayFold() for fname, _ in jobs}
         dead_jobs = set()          # skipped entirely (red line 4)
         mid_notes = set()
+        skipped_states = []        # (state, reason): unreadable prefixes
         cur = None                 # open state connection (middle states)
         try:
             for state in range(n_states):
@@ -911,12 +958,19 @@ def main(argv=None):
                 elif state == n_states - 1:
                     sconn, sb = conn, builder
                 else:
-                    sconn, cur_sdir = open_wal_prefix(
+                    sconn, cur_sdir, why = open_wal_prefix(
                         wal["workdir"], Path(db).name, db, str(db) + "-wal",
                         wal["offsets"][state - 1], state)
                     if sconn is None:
-                        raise sqlite3.Error(
-                            "cannot open replay state %d" % state)
+                        # an unreadable EARLY prefix is expected on a
+                        # partially checkpointed database: the main file
+                        # already carries pages newer than this state, so
+                        # the mix reads as corruption.  That history was
+                        # folded into the main file - skip and continue.
+                        skipped_states.append((state, why))
+                        if not args.keep_wal_work and cur_sdir is not None:
+                            shutil.rmtree(cur_sdir, ignore_errors=True)
+                        continue
                     cur = sconn
                     sb = QueryBuilder(cat, sconn, Schema(sconn), args.profile,
                                       keep_missing=args.keep_missing)
@@ -966,13 +1020,45 @@ def main(argv=None):
                             rows.setdefault(nrow[k], []).append(nrow)
                         folds[fname].feed(state, header, rows)
                     except (sqlite3.Error, ValueError) as ex:
-                        builder.report.add(
-                            "FAILED %s (replay state %d): %s"
-                            % (fname, state, ex))
-                        sys.stderr.write("failed %s (state %d): %s\n"
-                                         % (fname, state, ex))
-                        exit_code = 1
-                        dead_jobs.add(fname)
+                        if state in (0, n_states - 1):
+                            builder.report.add(
+                                "FAILED %s (replay state %d): %s"
+                                % (fname, state, ex))
+                            sys.stderr.write("failed %s (state %d): %s\n"
+                                             % (fname, state, ex))
+                            exit_code = 1
+                            dead_jobs.add(fname)
+                        else:
+                            # a middle state whose full query fails (mixed
+                            # page eras on partially checkpointed evidence)
+                            # is still probed on the asset table alone for
+                            # the unfiltered job - that is where deletions
+                            # hide; filtered jobs just stay unobserved
+                            if fname not in mid_notes:
+                                mid_notes.add(fname)
+                                builder.report.add(
+                                    "wal: %s unreadable in some middle "
+                                    "states (%s at state %d); using a "
+                                    "ZASSET-only probe there"
+                                    % (fname, ex, state))
+                            if filt is None:
+                                probe = wal_probe_sql(sb)
+                                if probe:
+                                    try:
+                                        cur = sconn.execute(probe)
+                                        header = [d[0] for d in cur.description]
+                                        k = _key_index(header)
+                                        if k is not None:
+                                            rows = {}
+                                            for row in cur.fetchall():
+                                                nrow = [blob_to_text(v)
+                                                        for v in row]
+                                                rows.setdefault(
+                                                    nrow[k], []).append(nrow)
+                                            folds[fname].feed(state, header,
+                                                              rows)
+                                    except sqlite3.Error:
+                                        pass               # unobserved state
                 if cur is not None:
                     # close + drop this state's copy before the next one
                     # (Windows refuses to delete open files anyway)
@@ -989,6 +1075,16 @@ def main(argv=None):
         finally:
             if cur is not None:
                 cur.close()
+        if skipped_states:
+            first = skipped_states[0][0]
+            last = skipped_states[-1][0]
+            builder.report.add(
+                "wal: states %d-%d unreadable (the main file was "
+                "checkpointed past them - expected on a live device); "
+                "replay starts later, that history is already in the "
+                "main file" % (first, last))
+            sys.stderr.write("wal: %d early state(s) skipped "
+                             "(checkpointed past)\n" % len(skipped_states))
         if use_wal_diff:
             for fname, _filt in jobs:
                 if fname in dead_jobs:

@@ -55,6 +55,9 @@ python photos_export.py Photos.sqlite -o out --dump-sql 2> final.sql
 - `--wal-replay-limit N`（默认 2000）：提交数超过 N 时截断回放并在报告
   注明；更深的恢复（回滚日志、空闲块、未提交帧）请用专用 carve 工具
   （如 sqlite4n6）。
+- **活体检材的主库通常已被 checkpoint 到中段**：早于该点的状态不可读属
+  预期（跳过并注明，那段历史已在主库里）；中间态完整查询失败时，主 CSV
+  自动降级为 ZASSET 单表探针（列名与目录对齐），删除类证据依然可恢复。
 - `-wal` 缺失或 0 字节时就是普通导出，不进差分。
 
 不加 `-o` 时输出到数据库所在目录下的 `photos_export/`。
@@ -121,7 +124,7 @@ python tools/build_catalog.py --repo <原仓库目录> --ileapp <iLEAPP 源码�
 
 - **只在合成库上跑过**，没有在真实设备数据上验证。合成库是按各版本查询反推出来的表结构，iOS 11、12、13、14、15、16、17、17.6、18、26 各一个，全部能导出。
 - **iOS 26 的结构知识来自 iLEAPP 的代码**，iLEAPP 自己列出的测试镜像最高到 iOS 18.7。
-- **测试 31 个全部通过**（`python -m unittest discover -s tests`），含三组逐值对照：与原仓库 Basic（iOS 13–17）、Very-Basic（iOS 11、12）、iLEAPP Ph002 的 iOS 26 查询在合成库上比对普通列和日期列的值。CASE 列只比形态不比文字（枚举文字用最新版本的写法）。WAL 回放有专门的崩溃写 WAL 夹具测试（单事务四分类、三事务"创建→标记删除→删除"的恢复、原件不被改动、过滤器走差分路径）。
+- **测试 33 个全部通过**（`python -m unittest discover -s tests`），含三组逐值对照：与原仓库 Basic（iOS 13–17）、Very-Basic（iOS 11、12）、iLEAPP Ph002 的 iOS 26 查询在合成库上比对普通列和日期列的值。CASE 列只比形态不比文字（枚举文字用最新版本的写法）。WAL 回放有专门的崩溃写 WAL 夹具测试（单事务四分类、三事务"创建→标记删除→删除"的恢复、部分 checkpoint 场景、探针降级、原件不被改动、过滤器走差分路径）。
 - 合成 iOS 26 库上导出 218 列，其余 37 列因表或列不存在被去掉，明细在报告里。
 - 没移植的查询组：Large_Reference、Albums-Only、Albums-with-Assets、iCloudLink-CMMoment、IntResou-iCldPhotos、MigrationHistory。
 - 运行测试需要把原仓库和 iLEAPP 源码放在本项目的同级目录（缺了会跳过对照测试）。

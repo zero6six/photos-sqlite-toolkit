@@ -71,7 +71,7 @@ them back per asset by `zAsset-zPK`.
 ## Tests
 
 ```bash
-cd photos_sqlite_export && python -m unittest discover -s tests   # 31 tests (10 synthetic iOS schemas + WAL replay)
+cd photos_sqlite_export && python -m unittest discover -s tests   # 33 tests (10 synthetic iOS schemas + WAL replay)
 cd photos_viewer && npm test                                      # 44 tests
 ```
 

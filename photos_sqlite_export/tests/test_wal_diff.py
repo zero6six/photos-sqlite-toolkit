@@ -30,6 +30,7 @@ sys.path.insert(0, ROOT)
 sys.path.insert(0, HERE)
 
 import make_synthetic_db as synth          # noqa: E402
+import photos_export as px                 # noqa: E402
 from test_export import Base, run_tool, read_csv, col  # noqa: E402
 
 CRASH_CHILD = r"""
@@ -227,6 +228,86 @@ class TestWalDiff(Base):
         # asset 1 was favorite all along; the WAL-inserted 999 arrives as
         # favorite too
         self.assertEqual(got, {"1": "unchanged", "999": "added"})
+
+
+# partial checkpoint: history folded into the main file mid-generation,
+# exactly like a live phone (SQLite checkpoints passively while the WAL
+# keeps its frames).  The main file is then a mid-history state, not the
+# pre-WAL state.
+CRASH_CHILD_PC = r"""
+import os, sqlite3, sys
+db = sys.argv[1]
+conn = sqlite3.connect(db, isolation_level=None)
+conn.execute("PRAGMA journal_mode=wal")
+conn.execute("PRAGMA wal_autocheckpoint=0")
+conn.execute("BEGIN IMMEDIATE")
+conn.execute("INSERT INTO ZASSET (Z_PK, Z_ENT, Z_OPT, ZUUID, ZFILENAME, "
+             "ZADDEDDATE, ZDATECREATED, ZTRASHEDSTATE, ZTRASHEDDATE) "
+             "VALUES (800, 1, 1, 'uuid-800', 'IMG_0800.PNG', 806820793.6, "
+             "806820793.6, 0, NULL)")
+conn.execute("COMMIT")
+conn.execute("BEGIN IMMEDIATE")
+conn.execute("UPDATE ZASSET SET ZTRASHEDSTATE=1, ZTRASHEDDATE=806820806.599 "
+             "WHERE Z_PK=800")
+conn.execute("COMMIT")
+# fold what exists so far into the main file; the WAL keeps its frames
+conn.execute("PRAGMA wal_checkpoint(PASSIVE)")
+conn.execute("BEGIN IMMEDIATE")
+conn.execute("DELETE FROM ZASSET WHERE Z_PK=800")
+conn.execute("COMMIT")
+os._exit(1)
+"""
+
+
+class TestWalPartialCheckpoint(Base):
+    def test_asset_deleted_after_partial_checkpoint(self):
+        db = os.path.join(self.tmp, "walpc.sqlite")
+        synth.build(db, "26")
+        proc = subprocess.run([sys.executable, "-c", CRASH_CHILD_PC, db])
+        self.assertEqual(proc.returncode, 1)
+        self.assertGreater(os.path.getsize(db + "-wal"), 0)
+        wal_before = sha(db + "-wal")
+        proc, out = run_tool(db)
+        self.assertEqual(proc.returncode, 0, proc.stderr)
+        header, rows = read_csv(os.path.join(out, "walpc_basic.csv"))
+        got = {}
+        for r in rows:
+            got.setdefault(r[header.index("zAsset-zPK")],
+                           set()).add(r[header.index("wal-diff-status")])
+        self.assertEqual(got.get("800"), {"removed"})
+        row = next(r for r in rows if r[header.index("zAsset-zPK")] == "800")
+        self.assertEqual(row[header.index("zAsset-Filename")], "IMG_0800.PNG")
+        # the recovered row carries the trash markers from the checkpointed
+        # era (state 0 = the partially checkpointed main file)
+        td_idx = next(i for i, h in enumerate(header)
+                      if h.lower().startswith("zasset-trashed date"))
+        self.assertIn("04:53:26", row[td_idx])
+        self.assertEqual(sha(db + "-wal"), wal_before)
+
+    def test_probe_sql_skips_missing_columns(self):
+        # unit level: the ZASSET-only probe used on mixed-era middle states
+        import json
+        with io.open(os.path.join(ROOT, "catalog.json"),
+                     encoding="utf-8") as fh:
+            cat = json.load(fh)
+        db = self.db("26")
+        conn = px.open_readonly(db)
+        b = px.QueryBuilder(cat, conn, px.Schema(conn), "basic")
+        b.resolve_joins()
+        sql = px.wal_probe_sql(b)
+        self.assertIn("'zAsset-zPK'", sql)
+        self.assertIn("'zAsset-Trashed Date'", sql)
+        cur = conn.execute(sql)
+        self.assertEqual(len(cur.fetchall()), synth.N_ASSETS)
+        conn.close()
+        # a schema without ZTRASHEDDATE drops that column from the probe
+        db2 = os.path.join(self.tmp, "walprobe.sqlite")
+        synth.build(db2, "26", drop_columns=[("ZASSET", "ZTRASHEDDATE")])
+        conn2 = px.open_readonly(db2)
+        b2 = px.QueryBuilder(cat, conn2, px.Schema(conn2), "basic")
+        b2.resolve_joins()
+        self.assertNotIn("'zAsset-Trashed Date'", px.wal_probe_sql(b2))
+        conn2.close()
 
 
 if __name__ == "__main__":

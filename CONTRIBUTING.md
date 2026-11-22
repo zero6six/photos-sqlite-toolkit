@@ -8,7 +8,7 @@
 ## 测试
 
 ```bash
-# 导出器：31 个测试（10 个 iOS 版本合成库 + 7 个 WAL 回放场景）
+# 导出器：33 个测试（10 个 iOS 版本合成库 + 9 个 WAL 回放场景）
 cd photos_sqlite_export
 python -m unittest discover -s tests
 
@@ -77,6 +77,10 @@ python tools/build_catalog.py \
    removed 行的数据取自**最后一次被看见的状态**（不只是快照）。
 8. **回放状态之间不得共享文件**：每个中间状态用独立子目录的 db+截断 wal
    副本，共享文件会踩活跃连接的 wal-index（disk I/O error）。
+9. **部分 checkpoint 的库，早于前沿的状态不可读是预期**：跳过并在报告注明，
+   不要当成致命错误重试或中止。中间态完整查询失败时**只有主 CSV** 降级为
+   ZASSET 单表探针；filter/`--where` 的 CSV 不降级（红线 4：不冒充过滤
+   结果）。
 
 ## 版本与发布
 

@@ -56,7 +56,7 @@ cd photos_viewer && npm install && npm run build   # 产物 dist/photos_viewer.h
 ## 测试
 
 ```bash
-cd photos_sqlite_export && python -m unittest discover -s tests   # 31 个测试（含 10 个 iOS 版本合成库 + WAL 回放）
+cd photos_sqlite_export && python -m unittest discover -s tests   # 33 个测试（含 10 个 iOS 版本合成库 + WAL 回放）
 cd photos_viewer && npm test                                      # 57 个测试（含与导出器 CSV 的契约测试）
 ```
 
